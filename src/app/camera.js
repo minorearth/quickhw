@@ -22,28 +22,27 @@ function getImageDimensions(file) {
   });
 }
 
-const sendRoller = async (imageSrc) => {
+const sendRoller = async (imageSrc, session) => {
   const preBlob = await fetch(imageSrc);
   const blob = await preBlob.blob();
   const file = new File([blob], "image.jpg", { type: blob.type });
-  await UploadFileToTask({ file });
+  await UploadFileToTask({ file, folder: session });
 };
 
 const Camera = ({ orientation, session }) => {
-  console.log(session);
+  console.log("session", session);
   const webcamRef = useRef(null);
   const [url, setUrl] = useState("");
   const [roller, setRoller] = useState("");
 
   const sendRollerClick = React.useCallback(() => {
-    sendRoller(roller);
+    sendRoller(roller, session);
   }, [roller]);
 
   const capturePhoto = React.useCallback(async () => {
     const imageSrc = webcamRef.current.getScreenshot();
     if (roller != "") {
       var rDim = await getImageDimensions(roller);
-      console.log(rDim);
       var sDim = await getImageDimensions(imageSrc);
       mergeImages(
         [

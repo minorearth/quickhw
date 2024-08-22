@@ -6,6 +6,7 @@ import {
   deleteObject,
   getBlob,
   getBytes,
+  listAll,
 } from "firebase/storage";
 //   import { v4 as uuidv4 } from "uuid";
 //   import { ExtractFileExtension } from "../utils/utilsFS";
@@ -30,13 +31,12 @@ const storage = getStorage(app);
 //   };
 
 export const UploadFileToTask = async (
-  { file },
+  { file, folder },
   fieldType,
   fieldName,
   TaskId
 ) => {
-  console.log("sfsdf", file);
-  const filedb = await uploadFileToDB(file, "/imagess");
+  const filedb = await uploadFileToDB(file, `/capture/${folder}`);
   // const fullPath = await getURLbyRelativePath(filedb.ref.fullPath);
   // const relpath = filedb.ref.fullPath;
   // return { fullPath, relpath };
@@ -68,4 +68,11 @@ export const getFileBytes = async (relativePath) => {
 export const deleteFileFromDB = (relativePath) => {
   const Ref = ref(storage, relativePath);
   return deleteObject(Ref);
+};
+
+export const getAllFiles = async (relativePath) => {
+  console.log("relativePath", relativePath);
+  const Ref = ref(storage, `/capture/${relativePath}`);
+  const res = await listAll(Ref);
+  return res;
 };

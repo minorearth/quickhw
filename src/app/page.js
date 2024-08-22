@@ -4,6 +4,7 @@ import styles from "./page.module.css";
 import { UploadFilesDialog } from "./fileupload.js";
 import Camera from "./camera";
 import { useEffect, useState } from "react";
+import Manager from "./manager/page";
 
 export default function Home() {
   const [orientation, setOrientation] = useState("");
@@ -17,5 +18,5 @@ export default function Home() {
       window.removeEventListener("orientationchange", updateOrientation);
     };
   }, [orientation]);
-  return <Camera orientation={orientation} />;
+  return <Manager />;
 }
