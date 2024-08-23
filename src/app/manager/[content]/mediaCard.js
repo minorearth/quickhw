@@ -3,9 +3,7 @@ import Image from "next/image";
 import { Box } from "@mui/material";
 // import { BlankElement } from "./blankCard";
 
-export const MediaCard = ({
-  path = "https://png.pngtree.com/thumb_back/fw800/background/20230612/pngtree-images-of-winter-and-white-background-wallpapers-free-download-image_2935697.jpg",
-}) => {
+export const MediaCard = ({ path }) => {
   //   const img = "https://images.unsplash.com/photo-1525097487452-6278ff080c31";
   // return path != "" ? (
 
@@ -28,12 +26,12 @@ export const MediaCard = ({
 
         style={{
           // objectFit: "contain",
-          width: "40%",
+          width: "90%",
           height: "auto",
         }}
         sizes="(max-width: 768px) 100vw, 33vw"
         //   src={`${img}?w=248&fit=crop&auto=format`}
-        alt="rfhnbyrj"
+        alt="imagehw"
         //   loading="lazy"
       />
     </Box>

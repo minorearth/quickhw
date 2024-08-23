@@ -52,15 +52,9 @@ export default function Manager() {
     // { field: "timestamp", headerName: "Дата и время", width: 130 },
   ];
 
-  //   const makeEmptyRowData = (columns) => {
-  //     return columns
-  //       .filter((item) => item.field != "id")
-  //       .reduce((acc, item) => ({ ...acc, [item.field]: "Не указано" }), {});
-  //   };
-
   const addrow = () => {
     const data = { title: "Новый опрос" };
-    addDocInCollection("survey", { data }).then((doc) => {
+    addDocInCollection("surveys", { ...data }).then((doc) => {
       setRows((oldRows) => [{ id: doc.id, ...data }, ...oldRows]);
     });
   };

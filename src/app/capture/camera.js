@@ -1,15 +1,19 @@
 import React, { useEffect, useRef } from "react";
 import Webcam from "react-webcam";
-import { UploadFileToTask } from "../storagedb";
+import { UploadFileToTask } from "../../storagedb";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Image from "next/image";
 import mergeImages from "merge-images";
 import { useState } from "react";
-
+import IconButton from "@mui/material/IconButton";
+import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
+import IosShareIcon from "@mui/icons-material/IosShare";
+import SettingsIcon from "@mui/icons-material/Settings";
+import { useRouter } from "next/navigation";
 const videoConstraints = {
-  //   facingMode: { exact: "environment" },
-  facingMode: "user",
+  facingMode: { exact: "environment" },
+  // facingMode: "user",
 };
 
 function getImageDimensions(file) {
@@ -22,18 +26,28 @@ function getImageDimensions(file) {
   });
 }
 
+const getUserName = () => {
+  return localStorage.getItem("name");
+};
+
 const sendRoller = async (imageSrc, session) => {
   const preBlob = await fetch(imageSrc);
   const blob = await preBlob.blob();
-  const file = new File([blob], "image.jpg", { type: blob.type });
+  const filename = getUserName();
+  const file = new File([blob], `${filename}.jpg`, { type: blob.type });
   await UploadFileToTask({ file, folder: session });
 };
 
 const Camera = ({ orientation, session }) => {
-  console.log("session", session);
+  const router = useRouter();
+
   const webcamRef = useRef(null);
   const [url, setUrl] = useState("");
   const [roller, setRoller] = useState("");
+
+  const handleSettingsClick = () => {
+    router.push(`/profile`);
+  };
 
   const sendRollerClick = React.useCallback(() => {
     sendRoller(roller, session);
@@ -84,8 +98,24 @@ const Camera = ({ orientation, session }) => {
           padding: "10px",
         }}
       >
-        <Button onClick={capturePhoto}>Сфоткать</Button>
-        <Button onClick={sendRollerClick}>Отправить</Button>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+            width: "100%",
+          }}
+        >
+          <IconButton aria-label="delete" size="small" onClick={capturePhoto}>
+            <AddAPhotoIcon sx={{ fontSize: 100 }} />
+          </IconButton>
+          <IconButton aria-label="delete" onClick={sendRollerClick}>
+            <IosShareIcon sx={{ fontSize: 100 }} />
+          </IconButton>
+          <IconButton aria-label="delete" onClick={handleSettingsClick}>
+            <SettingsIcon sx={{ fontSize: 100 }} />
+          </IconButton>
+        </Box>
         <Box sx={{ width: "90%" }}>
           <Webcam
             ref={webcamRef}

@@ -2,7 +2,7 @@
 import Image from "next/image";
 import styles from "./page.module.css";
 import { UploadFilesDialog } from "./fileupload.js";
-import Camera from "./camera";
+import Camera from "./capture/camera";
 import { useEffect, useState } from "react";
 import Manager from "./manager/page";
 
