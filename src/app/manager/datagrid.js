@@ -2,11 +2,19 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import { DataGrid, GridActionsCellItem, useGridApiRef } from "@mui/x-data-grid";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
 import IconButton from "@mui/material/IconButton";
 import { updateDocFieldsInCollectionById } from "../datamodel";
+import { useEffect } from "react";
+
+// const autosizeOptions = {
+//   includeOutliers: true,
+//   includeHeaders: true,
+//   outliersFactor: 1,
+//   expand: true,
+// };
 
 export default function AutoHeightGrid({
   rows,
@@ -14,8 +22,14 @@ export default function AutoHeightGrid({
   addrow,
   setEditProfile,
 }) {
+  const apiRef = useGridApiRef();
+
+  useEffect(() => {
+    // apiRef.current.autosizeColumns(autosizeOptions);
+  }, []);
+
   const handleSettingsClick = () => {
-    // router.push(`/profile`);
+    // apiRef.current.autosizeColumns(autosizeOptions);
     setEditProfile(true);
   };
 
@@ -24,6 +38,8 @@ export default function AutoHeightGrid({
     updateDocFieldsInCollectionById("surveys", newRow.id, {
       title: newRow.title,
     });
+    rows.filter((row) => row.id == newRow.id)[0].title = newRow.title;
+
     return newRow;
   };
 
@@ -37,6 +53,14 @@ export default function AutoHeightGrid({
       </IconButton>
 
       <DataGrid
+        // apiRef={apiRef}
+        // autosizeOptions={autosizeOptions}
+        initialState={{
+          sorting: {
+            sortModel: [{ field: "datetime", sort: "desc" }],
+          },
+        }}
+        // autosizeOnMount={true}
         autoHeight
         rows={rows}
         columns={columns}

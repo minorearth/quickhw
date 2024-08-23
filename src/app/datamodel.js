@@ -70,6 +70,12 @@ export const getMultipleDocsFromCollection = async (collectionName, ids) => {
   return DBDocsToObject(await getDocs(q));
 };
 
+export const getDocsKeyValue = async (collectionName, key, value) => {
+  const q = query(collection(db, collectionName), where(key, "==", value));
+  const docs = await getDocs(q);
+  return DBDocsToObject(docs);
+};
+
 const getDocsExtFiltered = async (collectionName, dependentFilter) => {
   if (dependentFilter.length == 0) {
     return [];

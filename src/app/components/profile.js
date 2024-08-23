@@ -47,7 +47,7 @@ export default function Profile({ setuser, setEditProfile, usertype }) {
         size="large"
         onClick={() => saveToLocalStorage()}
       >
-        Сохранить
+        Сохранить и вернуться
       </Button>
     </Box>
   );

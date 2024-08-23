@@ -11,6 +11,10 @@ import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import IosShareIcon from "@mui/icons-material/IosShare";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useRouter } from "next/navigation";
+
+import Snackbar from "@mui/material/Snackbar";
+import Slide from "@mui/material/Slide";
+
 const videoConstraints = {
   facingMode: { exact: "environment" },
   // facingMode: "user",
@@ -47,8 +51,9 @@ const Camera = ({ orientation, session, setEditProfile }) => {
     setEditProfile(true);
   };
 
-  const sendRollerClick = React.useCallback(() => {
-    sendRoller(roller, session);
+  const sendRollerClick = React.useCallback(async () => {
+    await sendRoller(roller, session);
+    handleClick();
   }, [roller]);
 
   const capturePhoto = React.useCallback(async () => {
@@ -78,6 +83,29 @@ const Camera = ({ orientation, session, setEditProfile }) => {
     console.log(e);
   };
 
+  const [state, setState] = React.useState({
+    open: false,
+    Transition: SlideTransition,
+  });
+
+  function SlideTransition(props) {
+    return <Slide {...props} direction="up" />;
+  }
+
+  const handleClick = () => {
+    setState({
+      open: true,
+      Transition: SlideTransition,
+    });
+  };
+
+  const handleClose = () => {
+    setState({
+      ...state,
+      open: false,
+    });
+  };
+
   return (
     <Box
       sx={{
@@ -88,6 +116,15 @@ const Camera = ({ orientation, session, setEditProfile }) => {
         padding: "10px",
       }}
     >
+      {/* <Button onClick={handleClick()}>Slide Transition</Button> */}
+      <Snackbar
+        open={state.open}
+        onClose={handleClose}
+        TransitionComponent={state.Transition}
+        message="Отправлено, все OK! Молодец!"
+        key={state.Transition.name}
+        autoHideDuration={1200}
+      />
       <Box
         sx={{
           display: "flex",

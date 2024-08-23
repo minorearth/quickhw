@@ -37,7 +37,7 @@ export default function Home() {
         />
       );
     case manager != "none" && manager != "loading" && editProfile != true:
-      return <Manager manager={manager} setEditProfile={setEditProfile} />;
+      return <Manager user={manager} setEditProfile={setEditProfile} />;
     default:
   }
 }

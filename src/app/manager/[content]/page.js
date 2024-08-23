@@ -24,7 +24,7 @@ export default function Content({ params }) {
 
   const columns = [
     // { field: "id", headerName: "id", width: 130 },
-    { field: "name", headerName: "Файл", width: 130 },
+    { field: "name", headerName: "Файл", flex: 1, minwidth: 230 },
     // { field: "path", headerName: "Путь", width: 130 },
     {
       field: "actions",
@@ -33,12 +33,12 @@ export default function Content({ params }) {
         // eslint-disable-next-line react/jsx-key
         <GridActionsCellItem
           label="View"
-          icon={<PreviewIcon />}
+          icon={<PreviewIcon sx={{ fontSize: 40 }} />}
           onClick={() => handleViewClick(params.row.path)}
         />,
       ],
     },
-    { field: "updated", headerName: "Дата изменения", width: 230 },
+    { field: "updated", headerName: "Дата изменения", width: 200 },
 
     // { field: "timestamp", headerName: "Датаx и время", width: 130 },
   ];

@@ -2,7 +2,11 @@
 
 import Grid from "./datagrid";
 import { useState, useEffect } from "react";
-import { getDocsDataExtFiltered, addDocInCollection } from "../datamodel";
+import {
+  getDocsDataExtFiltered,
+  addDocInCollection,
+  getDocsKeyValue,
+} from "../datamodel";
 import PreviewIcon from "@mui/icons-material/Preview";
 import QrCodeIcon from "@mui/icons-material/QrCode";
 import { GridActionsCellItem } from "@mui/x-data-grid";
@@ -10,15 +14,31 @@ import { useRouter } from "next/navigation";
 import { getAllFiles } from "../../storagedb";
 import Button from "@mui/material/Button";
 
-export default function Manager({ manager, setEditProfile }) {
+export default function Manager({ user, setEditProfile }) {
   getAllFiles();
   const router = useRouter();
 
   const [rows, setRows] = useState([]);
-  const getGridData = () => {
-    getDocsDataExtFiltered("surveys", "none").then((docs) => {
-      setRows(docs);
+
+  const ETL = (docs) => {
+    const docsFormatted = docs.map((doc) => {
+      const date = new Date(doc.datetime.seconds * 1000);
+      !!doc.datetime && console.log(doc.datetime.nanoseconds);
+      return { id: doc.id, title: doc.title, datetime: date, user: doc.user };
     });
+
+    return docsFormatted;
+    // return docs;
+  };
+
+  const getGridData = () => {
+    getDocsKeyValue("surveys", "user", user).then((docs) => {
+      setRows(ETL(docs));
+    });
+
+    // getDocsDataExtFiltered("surveys", "none").then((docs) => {
+    //   setRows(ETL(docs));
+    // });
   };
 
   const handleQrClick = (id) => {
@@ -31,7 +51,14 @@ export default function Manager({ manager, setEditProfile }) {
 
   const columns = [
     // { field: "id", headerName: "id", width: 130 },
-    { field: "title", headerName: "Имя", width: 130, editable: true },
+    {
+      field: "title",
+      headerName: "Имя",
+      flex: 1,
+      minwidth: 230,
+      editable: true,
+    },
+    // { field: "user", headerName: "ПОльзователь", width: 130 },
     {
       field: "actions",
       type: "actions",
@@ -39,23 +66,29 @@ export default function Manager({ manager, setEditProfile }) {
         // eslint-disable-next-line react/jsx-key
         <GridActionsCellItem
           label="QR"
-          icon={<QrCodeIcon />}
+          icon={<QrCodeIcon sx={{ fontSize: 40 }} />}
           //   onClick={() => {allactions.tasks.handleEditClick(params.id)}}
           onClick={() => handleQrClick(params.id)}
         />,
         // eslint-disable-next-line react/jsx-key
         <GridActionsCellItem
           label="View"
-          icon={<PreviewIcon />}
+          icon={<PreviewIcon sx={{ fontSize: 40 }} />}
           onClick={() => handleViewClick(params.id)}
         />,
       ],
     },
-    // { field: "timestamp", headerName: "Дата и время", width: 130 },
+    {
+      field: "datetime",
+      headerName: "Дата и время",
+      width: 200,
+      type: "dateTime",
+    },
   ];
 
   const addrow = () => {
-    const data = { title: "Новый опрос" };
+    var today = new Date();
+    const data = { title: "Новый опрос", datetime: today, user };
     addDocInCollection("surveys", { ...data }).then((doc) => {
       setRows((oldRows) => [{ id: doc.id, ...data }, ...oldRows]);
     });
