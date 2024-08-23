@@ -197,6 +197,7 @@ export const updateMultipleDocInCollectionById = async (
     updateDoc(doc(db, collectionName, item.id), data);
   });
 };
+
 export const FullUpdateDocInCollectionById = async (
   collectionName,
   id,

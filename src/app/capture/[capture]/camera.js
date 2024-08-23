@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import Webcam from "react-webcam";
-import { UploadFileToTask } from "../../storagedb";
+import { UploadFileToTask } from "../../../storagedb";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Image from "next/image";
@@ -15,6 +15,7 @@ const videoConstraints = {
   facingMode: { exact: "environment" },
   // facingMode: "user",
 };
+import { getUserName } from "../../localstorage";
 
 function getImageDimensions(file) {
   return new Promise(function (resolved, rejected) {
@@ -26,10 +27,6 @@ function getImageDimensions(file) {
   });
 }
 
-const getUserName = () => {
-  return localStorage.getItem("name");
-};
-
 const sendRoller = async (imageSrc, session) => {
   const preBlob = await fetch(imageSrc);
   const blob = await preBlob.blob();
@@ -38,7 +35,7 @@ const sendRoller = async (imageSrc, session) => {
   await UploadFileToTask({ file, folder: session });
 };
 
-const Camera = ({ orientation, session }) => {
+const Camera = ({ orientation, session, setEditProfile }) => {
   const router = useRouter();
 
   const webcamRef = useRef(null);
@@ -46,7 +43,8 @@ const Camera = ({ orientation, session }) => {
   const [roller, setRoller] = useState("");
 
   const handleSettingsClick = () => {
-    router.push(`/profile`);
+    // router.push(`/profile`);
+    setEditProfile(true);
   };
 
   const sendRollerClick = React.useCallback(() => {

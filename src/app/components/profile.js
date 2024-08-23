@@ -6,33 +6,47 @@ import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import { useState, useEffect } from "react";
 
-export default function Profile({ rows, columns, addrow }) {
+export default function Profile({ setuser, setEditProfile, usertype }) {
   const [name, setName] = useState("");
+  const [properVal, setProperVal] = useState(false);
+  const [label, setLabel] = useState(false);
 
   useEffect(() => {
+    setLabel(
+      usertype == "manager" ? "Введите e-mail" : "Укажите Фамилию и имя"
+    );
     const userName = localStorage.getItem("name");
-    setName(userName);
+
+    userName != null ? setProperVal(true) : setProperVal(false);
+    userName != null ? setName(userName) : setName("");
   }, []);
 
   const saveToLocalStorage = () => {
     localStorage.setItem("name", name);
+    setuser(name);
+    setEditProfile(false);
   };
 
   const changeName = (e) => {
     setName(e.target.value);
+    e.target.value != "" ? setProperVal(true) : setProperVal(false);
   };
 
   return (
     <Box sx={{ width: "100%", display: "flex", flexDirection: "column" }}>
       <TextField
         id="outlined-basic"
-        label="Укажите Фамилию и имя"
+        label={label}
         variant="outlined"
         sx={{ margin: "10px" }}
         onChange={(e) => changeName(e)}
         value={name}
       />
-      <Button size="large" onClick={() => saveToLocalStorage()}>
+      <Button
+        disabled={!properVal}
+        size="large"
+        onClick={() => saveToLocalStorage()}
+      >
         Сохранить
       </Button>
     </Box>

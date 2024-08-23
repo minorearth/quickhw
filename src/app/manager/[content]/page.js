@@ -1,6 +1,6 @@
 "use client";
 
-import Grid from "../../datagrid";
+import Grid from "../datagrid";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import PreviewIcon from "@mui/icons-material/Preview";
 import Link from "@mui/material/Link";
@@ -43,10 +43,18 @@ export default function Content({ params }) {
     // { field: "timestamp", headerName: "Датаx и время", width: 130 },
   ];
 
+  const formatDate = (unformatted) => {
+    let date2 = new Date(unformatted);
+    const localUnformatted = date2.toLocaleString();
+    const regex =
+      /(?<day>\d{2})\/(?<month>\d{2})\/(?<age>\d{2})(?<year>\d{2}), (?<hour>\d{2}):(?<minute>\d{2}):(?<second>\d{2})/;
+    const found = localUnformatted.match(regex).groups;
+    const { year, month, day, hour, minute, second } = found;
+    return `${day}.${month}.${year} ${hour}:${minute}:${second} `;
+  };
+
   useEffect(() => {
     getAllFiles(params.content).then((res) => {
-      console.log("filesToRows", res);
-
       Promise.all(
         res.items.map(async (file) => {
           const filePath = await getDownloadURL(file);
@@ -55,7 +63,7 @@ export default function Content({ params }) {
             name: file.name,
             id: file.name,
             path: filePath,
-            updated: fileMeta.updated,
+            updated: formatDate(fileMeta.updated),
           };
         })
       ).then((filesToRows) => {

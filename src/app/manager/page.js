@@ -1,6 +1,6 @@
 "use client";
 
-import Grid from "../datagrid";
+import Grid from "./datagrid";
 import { useState, useEffect } from "react";
 import { getDocsDataExtFiltered, addDocInCollection } from "../datamodel";
 import PreviewIcon from "@mui/icons-material/Preview";
@@ -8,7 +8,9 @@ import QrCodeIcon from "@mui/icons-material/QrCode";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import { useRouter } from "next/navigation";
 import { getAllFiles } from "../../storagedb";
-export default function Manager() {
+import Button from "@mui/material/Button";
+
+export default function Manager({ manager, setEditProfile }) {
   getAllFiles();
   const router = useRouter();
 
@@ -28,8 +30,8 @@ export default function Manager() {
   };
 
   const columns = [
-    { field: "id", headerName: "id", width: 130 },
-    { field: "title", headerName: "Имя", width: 130 },
+    // { field: "id", headerName: "id", width: 130 },
+    { field: "title", headerName: "Имя", width: 130, editable: true },
     {
       field: "actions",
       type: "actions",
@@ -62,5 +64,14 @@ export default function Manager() {
   useEffect(() => {
     getGridData();
   }, []);
-  return <Grid rows={rows} addrow={addrow} columns={columns} />;
+  return (
+    <>
+      <Grid
+        rows={rows}
+        addrow={addrow}
+        columns={columns}
+        setEditProfile={setEditProfile}
+      />
+    </>
+  );
 }

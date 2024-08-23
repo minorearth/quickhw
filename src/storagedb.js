@@ -71,7 +71,6 @@ export const deleteFileFromDB = (relativePath) => {
 };
 
 export const getAllFiles = async (relativePath) => {
-  console.log("relativePath", relativePath);
   const Ref = ref(storage, `/capture/${relativePath}`);
   const res = await listAll(Ref);
   return res;
