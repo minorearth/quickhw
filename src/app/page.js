@@ -9,23 +9,13 @@ import { getUserName } from "./localstorage";
 import Profile from "./components/profile";
 
 export default function Home() {
-  const [orientation, setOrientation] = useState("");
   const [manager, setManager] = useState("loading");
   const [editProfile, setEditProfile] = useState(false);
 
   useEffect(() => {
     const userName = getUserName();
     userName != null ? setManager(userName) : setManager("none");
-
-    function updateOrientation() {
-      setOrientation(window.screen.orientation.type);
-    }
-    updateOrientation();
-    window.addEventListener("orientationchange", updateOrientation);
-    return () => {
-      window.removeEventListener("orientationchange", updateOrientation);
-    };
-  }, [orientation]);
+  }, []);
 
   switch (true) {
     case manager == "none" || editProfile == true:

@@ -16,8 +16,8 @@ import Snackbar from "@mui/material/Snackbar";
 import Slide from "@mui/material/Slide";
 
 const videoConstraints = {
-  facingMode: { exact: "environment" },
-  // facingMode: "user",
+  // facingMode: { exact: "environment" },
+  facingMode: "user",
 };
 import { getUserName } from "../../localstorage";
 
@@ -39,15 +39,28 @@ const sendRoller = async (imageSrc, session) => {
   await UploadFileToTask({ file, folder: session });
 };
 
-const Camera = ({ orientation, session, setEditProfile }) => {
+const Camera = ({ session, setEditProfile }) => {
   const router = useRouter();
+  const [orientation, setOrientation] = useState("");
+
+  useEffect(() => {
+    function updateOrientation() {
+      const regex = /(\S+)-/;
+      const orient = window.screen.orientation.type.match(regex);
+      setOrientation(orient[1]);
+    }
+    updateOrientation();
+    window.addEventListener("orientationchange", updateOrientation);
+    return () => {
+      window.removeEventListener("orientationchange", updateOrientation);
+    };
+  }, [orientation]);
 
   const webcamRef = useRef(null);
   const [url, setUrl] = useState("");
   const [roller, setRoller] = useState("");
 
   const handleSettingsClick = () => {
-    // router.push(`/profile`);
     setEditProfile(true);
   };
 
@@ -68,6 +81,7 @@ const Camera = ({ orientation, session, setEditProfile }) => {
         ],
         {
           height: rDim.h + sDim.h,
+          width: Math.max(rDim.w, sDim.w),
         }
       ).then((b64) => {
         setRoller(b64);
@@ -116,7 +130,7 @@ const Camera = ({ orientation, session, setEditProfile }) => {
         padding: "10px",
       }}
     >
-      {/* <Button onClick={handleClick()}>Slide Transition</Button> */}
+      {/* <Button onClick={() => {}}>{orientation}</Button> */}
       <Snackbar
         open={state.open}
         onClose={handleClose}
@@ -128,17 +142,44 @@ const Camera = ({ orientation, session, setEditProfile }) => {
       <Box
         sx={{
           display: "flex",
-          flexDirection: "column",
+          flexDirection: orientation == "portrait" ? "column" : "row",
           alignItems: "center",
           padding: "10px",
+          width: "100%",
+          height: "100%",
+          minHeight: "100%",
         }}
       >
         <Box
           sx={{
+            width: orientation != "portrait" ? "auto" : "100%",
+            flex: 4,
+            height: orientation == "portrait" ? "auto" : "100%",
+            // maxheight: "100%",
+            // backgroundColor: "red",
+          }}
+        >
+          <Webcam
+            ref={webcamRef}
+            // height={72}
+            width="100%"
+            audio={false}
+            height="100%"
+            screenshotFormat="image/jpeg"
+            forceScreenshotSourceSize
+            videoConstraints={videoConstraints}
+            onUserMedia={onUserMedia}
+          />
+        </Box>
+        <Box
+          sx={{
             display: "flex",
-            flexDirection: "row",
+            flex: 1,
+            flexDirection: orientation != "portrait" ? "column" : "row",
             justifyContent: "space-evenly",
             width: "100%",
+            // backgroundColor: "yellow",
+            alignItems: orientation == "portrait" ? "center" : "start",
           }}
         >
           <IconButton aria-label="delete" size="small" onClick={capturePhoto}>
@@ -151,25 +192,10 @@ const Camera = ({ orientation, session, setEditProfile }) => {
             <SettingsIcon sx={{ fontSize: 100 }} />
           </IconButton>
         </Box>
-        <Box sx={{ width: "90%" }}>
-          <Webcam
-            ref={webcamRef}
-            // height={72}
-            width="100%"
-            audio={false}
-            screenshotFormat="image/jpeg"
-            forceScreenshotSourceSize
-            videoConstraints={videoConstraints}
-            onUserMedia={onUserMedia}
-          />
-        </Box>
       </Box>
-      {/* <button onClick={capturePhoto}>Capture</button> */}
-      {/* <button onClick={() => setUrl(null)}>Refresh</button> */}
       <Box
         sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
       >
-        {/* <img src={url} alt="Screenshot" /> */}
         {roller != "" && (
           <Image
             src={url}
