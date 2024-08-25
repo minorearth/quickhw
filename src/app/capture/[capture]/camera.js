@@ -36,9 +36,11 @@ const Camera = ({ session, setEditProfile }) => {
   const [wid, setWid] = useState(0);
 
   const isMobile = useClientMediaQuery("(max-width: 600px)");
+
   const videoConstraints = {
     facingMode: isMobile ? { exact: "environment" } : "user",
   };
+  console.log(videoConstraints);
 
   useEffect(() => {
     function updateOrientation() {
