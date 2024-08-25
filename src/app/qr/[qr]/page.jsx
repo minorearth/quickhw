@@ -19,7 +19,7 @@ export default function Home({ params }) {
           maxWidth: "100%",
           width: "100%",
         }}
-        value={`https://bestdr.vercel.app/capture/${params.qr}`}
+        value={`${process.env.DOMAIN}/capture/${params.qr}`}
       />
     </div>
   );
