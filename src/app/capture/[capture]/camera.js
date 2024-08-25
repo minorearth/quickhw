@@ -14,15 +14,12 @@ import { useRouter } from "next/navigation";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import { getImageDimensions, resize } from "../utils/imageUtils";
+import { useClientMediaQuery } from "../utils/ClientMediaQuery";
 
 import Snackbar from "@mui/material/Snackbar";
 import Slide from "@mui/material/Slide";
 import "jimp";
 
-const videoConstraints = {
-  // facingMode: { exact: "environment" },
-  facingMode: "user",
-};
 import { getUserName } from "../../localstorage";
 
 const sendRoller = async (imageSrc, session) => {
@@ -37,6 +34,11 @@ const Camera = ({ session, setEditProfile }) => {
   const router = useRouter();
   const [orientation, setOrientation] = useState("");
   const [wid, setWid] = useState(0);
+
+  const isMobile = useClientMediaQuery("(max-width: 600px)");
+  const videoConstraints = {
+    facingMode: isMobile ? { exact: "environment" } : "user",
+  };
 
   useEffect(() => {
     function updateOrientation() {
