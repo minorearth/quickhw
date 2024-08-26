@@ -2,20 +2,14 @@
 
 import Grid from "./datagrid";
 import { useState, useEffect } from "react";
-import {
-  getDocsDataExtFiltered,
-  addDocInCollection,
-  getDocsKeyValue,
-} from "../datamodel";
+import { addDocInCollection, getDocsKeyValue } from "../../datamodel";
 import PreviewIcon from "@mui/icons-material/Preview";
 import QrCodeIcon from "@mui/icons-material/QrCode";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import { useRouter } from "next/navigation";
 import { getAllFiles } from "../../storagedb";
-import Button from "@mui/material/Button";
 
 export default function Manager({ user, setEditProfile }) {
-  getAllFiles();
   const router = useRouter();
 
   const [rows, setRows] = useState([]);
@@ -28,17 +22,12 @@ export default function Manager({ user, setEditProfile }) {
     });
 
     return docsFormatted;
-    // return docs;
   };
 
   const getGridData = () => {
     getDocsKeyValue("surveys", "user", user).then((docs) => {
       setRows(ETL(docs));
     });
-
-    // getDocsDataExtFiltered("surveys", "none").then((docs) => {
-    //   setRows(ETL(docs));
-    // });
   };
 
   const handleQrClick = (id) => {
@@ -89,8 +78,8 @@ export default function Manager({ user, setEditProfile }) {
   const addrow = () => {
     var today = new Date();
     const data = { title: "Новый опрос", datetime: today, user };
-    addDocInCollection("surveys", { ...data }).then((doc) => {
-      setRows((oldRows) => [{ id: doc.id, ...data }, ...oldRows]);
+    addDocInCollection("surveys", { ...data }).then((id) => {
+      setRows((oldRows) => [{ id, ...data }, ...oldRows]);
     });
   };
 

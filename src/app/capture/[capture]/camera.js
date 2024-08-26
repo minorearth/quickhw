@@ -15,7 +15,6 @@ import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import FlipCameraIosIcon from "@mui/icons-material/FlipCameraIos";
 import { getImageDimensions, resize } from "../utils/imageUtils";
-import { useClientMediaQuery } from "../utils/ClientMediaQuery";
 import { Snack } from "../../components/snackbar";
 
 import "jimp";
@@ -198,12 +197,6 @@ const Camera = ({ session, setEditProfile }) => {
                 alt="rfhnbyrj"
                 //   loading="lazy"
               />
-              {/* <img
-                srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
-                alt={item.title}
-                loading="lazy"
-              /> */}
             </ImageListItem>
           ))}
         </ImageList>
