@@ -30,9 +30,20 @@ const uploadFileToDB = async (file, folder) => {
   return res;
 };
 
-export const deleteFileFromDB = (relativePath) => {
+export const deleteFileFromDB = async (relativePath) => {
+  console.log();
   const Ref = ref(storage, relativePath);
-  return deleteObject(Ref);
+  deleteObject(Ref)
+    .then((res) => {})
+    .catch((e) => {});
+};
+
+export const deleteAllFileFromDir = async (relativePath) => {
+  const Ref = ref(storage, relativePath);
+  const listResults = await listAll(Ref);
+  listResults.items.map((item) => {
+    deleteObject(item);
+  });
 };
 
 export const getAllFiles = async (relativePath) => {

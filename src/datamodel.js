@@ -1,4 +1,4 @@
-"use server";
+"use client";
 import {
   collection,
   getDocs,
@@ -16,6 +16,8 @@ import {
   getAll,
   initializeFirestore,
 } from "firebase/firestore";
+
+import { deleteAllFileFromDir } from "./storagedb";
 
 // import { checkIfUniqueExistAndReturnDocDM } from "./dm";
 
@@ -60,6 +62,29 @@ export const getDocsKeyValue = async (collectionName, key, value) => {
 export const addDocInCollection = async (collectionName, data) => {
   const doc = await addDoc(collection(db, collectionName), data);
   return doc.id;
+};
+
+export const deleteAllDocsInCollection = async (collectionName) => {
+  var thresold = new Date();
+  thresold.setDate(thresold.getDate() + 1);
+  const col = collection(db, collectionName);
+  const q = query(col, where("datetime", "<=", thresold - 1));
+  const docs = await getDocs(q);
+  docs.forEach(async (docS) => {
+    deleteAllFileFromDir(`/capture/${docS.id}`);
+    deleteDoc(doc(db, collectionName, docS.id));
+
+    // const item = doc.data();
+    // const date = new Date(item.datetime.seconds * 1000);
+  });
+};
+
+export const updateDocFieldsInCollectionById = async (
+  collectionName,
+  id,
+  data
+) => {
+  await updateDoc(doc(db, collectionName, id), data);
 };
 
 // const DBDocsToIds = (docs) => {
@@ -220,12 +245,4 @@ export const addDocInCollection = async (collectionName, data) => {
 //   request
 // ) => {
 //   return await checkIfUniqueExistAndReturnDocDM(collectionName, request);
-// };
-
-// export const updateDocFieldsInCollectionById = async (
-//   collectionName,
-//   id,
-//   data
-// ) => {
-//   await updateDoc(doc(db, collectionName, id), data);
 // };
