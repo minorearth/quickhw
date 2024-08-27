@@ -16,6 +16,6 @@ export const revalidate = 0; //revalidate api every 1 second
 import { deleteAllDocsInCollection } from "../../datamodelSSR";
 
 export async function GET() {
-  const res = await deleteAllDocsInCollection("surveys", -10);
+  const res = await deleteAllDocsInCollection("surveys", 3);
   return NextResponse.json(res);
 }
