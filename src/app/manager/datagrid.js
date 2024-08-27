@@ -6,10 +6,8 @@ import { DataGrid, GridActionsCellItem, useGridApiRef } from "@mui/x-data-grid";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
 import IconButton from "@mui/material/IconButton";
-import {
-  updateDocFieldsInCollectionById,
-  deleteAllDocsInCollection,
-} from "../../datamodel";
+import { updateDocFieldsInCollectionById } from "../../datamodel";
+import { deleteAllDocsInCollection } from "../../datamodelSSR";
 import { useEffect } from "react";
 
 // const autosizeOptions = {
@@ -32,8 +30,8 @@ export default function AutoHeightGrid({
   }, []);
 
   const handleSettingsClick = () => {
-    deleteAllDocsInCollection("surveys");
-    // setEditProfile(true);
+    // deleteAllDocsInCollection("surveys", -1);
+    setEditProfile(true);
   };
 
   const processEdit = (newRow) => {

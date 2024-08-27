@@ -64,11 +64,11 @@ export const addDocInCollection = async (collectionName, data) => {
   return doc.id;
 };
 
-export const deleteAllDocsInCollection = async (collectionName) => {
+export const deleteAllDocsInCollection = async (collectionName, timeLag) => {
   var thresold = new Date();
   thresold.setDate(thresold.getDate() + 1);
   const col = collection(db, collectionName);
-  const q = query(col, where("datetime", "<=", thresold - 1));
+  const q = query(col, where("datetime", "<=", thresold - timeLag));
   const docs = await getDocs(q);
   docs.forEach(async (docS) => {
     deleteAllFileFromDir(`/capture/${docS.id}`);
