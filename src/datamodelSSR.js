@@ -46,12 +46,15 @@ export const deleteAllDocsInCollection = async (collectionName, timeLag) => {
   const col = collection(db, collectionName);
   const q = query(col, where("datetime", "<=", thresold));
   const docs = await getDocs(q);
+  let log = { len: docs.docs.length, date: thresold.toString(), vers: "1" };
   docs.forEach(async (docS) => {
     // deleteAllFileFromDir(`/capture/${docS.id}`);
+    log = { ...log, [docS.id]: docS.id };
+
     deleteDoc(doc(db, collectionName, docS.id));
 
     // const item = doc.data();
     // const date = new Date(item.datetime.seconds * 1000);
   });
-  return { len: docs.docs.length, date: thresold.toString(), vers: "1" };
+  return log;
 };
