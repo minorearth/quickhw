@@ -34,6 +34,10 @@ const firebaseConfig = {
 import { initializeApp } from "firebase/app";
 
 const app = initializeApp(firebaseConfig);
+const db = initializeFirestore(app, {
+  experimentalForceLongPolling: true,
+  useFetchStreams: false,
+});
 
 // const auth = getAuth(app);
 
@@ -47,11 +51,6 @@ const DBDocsToObject = (docs) => {
   });
   return ret;
 };
-
-const db = initializeFirestore(app, {
-  experimentalForceLongPolling: true,
-  useFetchStreams: false,
-});
 
 export const getDocsKeyValue = async (collectionName, key, value) => {
   const q = query(collection(db, collectionName), where(key, "==", value));

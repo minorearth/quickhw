@@ -1,4 +1,4 @@
-"use server";
+"use client";
 import {
   collection,
   getDocs,
@@ -38,5 +38,26 @@ const app = initializeApp(firebaseConfig);
 
 const db = initializeFirestore(app, {
   experimentalForceLongPolling: true,
-  useFetchStreams: true,
+  useFetchStreams: false,
 });
+
+export const deleteAllDocsInCollection = async (collectionName, timeLag) => {
+  let th = new Date(2024, 8, 30, 12, 1, 2);
+  th.setDate(th.getDate() - timeLag);
+  const thresold = Timestamp.fromDate(th);
+  const col = collection(db, collectionName);
+  // const q = query(col, where("datetime", "<=", thresold));
+  // const docs = await getDocs(q);
+  const docs = await getDocs(col);
+  let log = { len: docs.docs.length, date: th.toString(), vers: "4" };
+  console.log("log", log);
+  console.log(docs);
+  await Promise.all(
+    docs.docs.map(async (docS) => {
+      // deleteAllFileFromDir(`/capture/${docS.id}`);
+      log = { ...log, [docS.id]: docS.id };
+      deleteDoc(doc(db, collectionName, docS.id));
+    })
+  );
+  return log;
+};
