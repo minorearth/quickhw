@@ -45,7 +45,7 @@ export const deleteAllDocsInCollection = async (collectionName, timeLag) => {
     docs.docs.map(async (docS) => {
       // deleteAllFileFromDir(`/capture/${docS.id}`);
       log = { ...log, [docS.id]: docS.id };
-      deleteDoc(doc(db, collectionName, docS.id));
+      await deleteDoc(doc(db, collectionName, docS.id));
     })
   );
   return log;
