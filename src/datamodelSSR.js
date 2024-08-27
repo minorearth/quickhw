@@ -1,4 +1,7 @@
 "use server";
+
+import { deleteAllFileFromDir } from "./storagedb";
+
 import {
   collection,
   getDocs,
@@ -17,10 +20,6 @@ import {
   initializeFirestore,
   Timestamp,
 } from "firebase/firestore";
-
-import { deleteAllFileFromDir } from "./storagedb";
-
-// import { checkIfUniqueExistAndReturnDocDM } from "./dm";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBwMnO7HaGuHu6LrzsTj6y6J9BojyC1ei0",
@@ -51,7 +50,7 @@ export const deleteAllDocsInCollection = async (collectionName, timeLag) => {
   let log = { len: docs.docs.length, date: th.toString(), vers: "4" };
   await Promise.all(
     docs.docs.map(async (docS) => {
-      // deleteAllFileFromDir(`/capture/${docS.id}`);
+      deleteAllFileFromDir(`/capture/${docS.id}`);
       log = { ...log, [docS.id]: docS.id };
       await deleteDoc(doc(db, collectionName, docS.id));
     })
