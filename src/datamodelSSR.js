@@ -38,7 +38,7 @@ const app = initializeApp(firebaseConfig);
 
 const db = initializeFirestore(app, {
   experimentalForceLongPolling: true,
-  useFetchStreams: false,
+  useFetchStreams: true,
 });
 
 export const deleteAllDocsInCollection = async (collectionName, timeLag) => {
