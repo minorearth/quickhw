@@ -15,6 +15,7 @@ import {
   writeBatch,
   getAll,
   initializeFirestore,
+  Timestamp,
 } from "firebase/firestore";
 
 import { deleteAllFileFromDir } from "./storagedb";
@@ -41,12 +42,13 @@ const db = initializeFirestore(app, {
 });
 
 export const deleteAllDocsInCollection = async (collectionName, timeLag) => {
-  let thresold = new Date(2024, 8, 30, 12, 1, 2);
-  thresold.setDate(thresold.getDate() - timeLag);
+  let th = new Date(2024, 8, 30, 12, 1, 2);
+  th.setDate(th.getDate() - timeLag);
+  const thresold = Timestamp.fromDate(th);
   const col = collection(db, collectionName);
   const q = query(col, where("datetime", "<=", thresold));
   const docs = await getDocs(q);
-  let log = { len: docs.docs.length, date: thresold.toString(), vers: "1" };
+  let log = { len: docs.docs.length, date: th.toString(), vers: "2" };
   docs.forEach(async (docS) => {
     // deleteAllFileFromDir(`/capture/${docS.id}`);
     log = { ...log, [docS.id]: docS.id };
