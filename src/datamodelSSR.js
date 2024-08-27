@@ -41,7 +41,7 @@ const db = initializeFirestore(app, {
 });
 
 export const deleteAllDocsInCollection = async (collectionName, timeLag) => {
-  var thresold = new Date();
+  var thresold = new Date(2024, 8, 30, 12, 1, 2);
   thresold.setDate(thresold.getDate() - timeLag);
   const col = collection(db, collectionName);
   const q = query(col, where("datetime", "<=", thresold));
