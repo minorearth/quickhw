@@ -3,7 +3,7 @@
 import Camera from "./camera.js";
 import { useEffect, useState } from "react";
 import Profile from "../../components/profile.js";
-import { getUserName } from "../../localstorage.js";
+import { getUserName, getImgCnt, IncCnt } from "../../localstorage.js";
 
 export default function Home({ params }) {
   const [manager, setManager] = useState("loading");

@@ -16,6 +16,7 @@ import ImageListItem from "@mui/material/ImageListItem";
 import FlipCameraIosIcon from "@mui/icons-material/FlipCameraIos";
 import { getImageDimensions, resize } from "../utils/imageUtils";
 import { Snack } from "../../components/snackbar";
+import { getImgCnt } from "../../localstorage";
 
 import "jimp";
 
@@ -25,7 +26,10 @@ const sendRoller = async (imageSrc, session) => {
   const preBlob = await fetch(imageSrc);
   const blob = await preBlob.blob();
   const filename = getUserName();
-  const file = new File([blob], `${filename}.jpg`, { type: blob.type });
+  const fileid = getImgCnt();
+  const file = new File([blob], `${filename}${fileid}.jpg`, {
+    type: blob.type,
+  });
   await UploadFileToTask({ file, folder: session });
 };
 
