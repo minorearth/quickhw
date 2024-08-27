@@ -24,6 +24,7 @@ const firebaseConfig = {
 };
 
 import { initializeApp } from "firebase/app";
+import { deleteAllDocsInCollection } from "../../datamodelSSR";
 
 const app = initializeApp(firebaseConfig);
 
@@ -32,29 +33,26 @@ const db = initializeFirestore(app, {
   useFetchStreams: false,
 });
 
-export const deleteAllDocsInCollection = async (collectionName, timeLag) => {
-  let th = new Date(2024, 8, 30, 12, 1, 2);
-  th.setDate(th.getDate() - timeLag);
-  const thresold = Timestamp.fromDate(th);
-  const col = collection(db, collectionName);
-  // const q = query(col, where("datetime", "<=", thresold));
-  // const docs = await getDocs(q);
-  const docs = await getDocs(col);
-  let log = { len: docs.docs.length, date: th.toString(), vers: "4" };
-  await Promise.all(
-    docs.docs.map(async (docS) => {
-      // deleteAllFileFromDir(`/capture/${docS.id}`);
-      log = { ...log, [docS.id]: docS.id };
-      await deleteDoc(doc(db, collectionName, docS.id));
-    })
-  );
-  return log;
-};
+// export const deleteAllDocsInCollection = async (collectionName, timeLag) => {
+//   let th = new Date();
+//   th.setDate(th.getDate() - timeLag);
+//   const thresold = Timestamp.fromDate(th);
+//   const col = collection(db, collectionName);
+//   const q = query(col, where("datetime", "<=", thresold));
+//   const docs = await getDocs(q);
+//   // const docs = await getDocs(col);
+//   let log = { len: docs.docs.length, date: th.toString(), vers: "4" };
+//   await Promise.all(
+//     docs.docs.map(async (docS) => {
+//       deleteAllFileFromDir(`/capture/${docS.id}`);
+//       log = { ...log, [docS.id]: docS.id };
+//       await deleteDoc(doc(db, collectionName, docS.id));
+//     })
+//   );
+//   return log;
+// };
 
 export async function GET() {
-  // const today = new Date(2011, 10, 30, 12, 1, 2);
-  // const data = { title: "Новый опрос16", datetime: today, user: "Попкин3" };
-  // addDocInCollection("surveys", { ...data });
   const res = await deleteAllDocsInCollection("surveys", -10);
   return NextResponse.json(res);
 }
