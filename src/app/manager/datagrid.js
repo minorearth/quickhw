@@ -30,8 +30,8 @@ export default function AutoHeightGrid({
   }, []);
 
   const handleSettingsClick = () => {
-    // deleteAllDocsInCollection("surveys", -1);
-    setEditProfile(true);
+    deleteAllDocsInCollection("surveys", -1);
+    // setEditProfile(true);
   };
 
   const processEdit = (newRow) => {

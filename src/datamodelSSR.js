@@ -41,17 +41,17 @@ const db = initializeFirestore(app, {
 });
 
 export const deleteAllDocsInCollection = async (collectionName, timeLag) => {
-  var thresold = new Date(2024, 8, 30, 12, 1, 2);
+  let thresold = new Date(2024, 8, 30, 12, 1, 2);
   thresold.setDate(thresold.getDate() - timeLag);
   const col = collection(db, collectionName);
   const q = query(col, where("datetime", "<=", thresold));
   const docs = await getDocs(q);
-  console.log(docs);
-  docs.forEach(async (docS) => {
-    deleteAllFileFromDir(`/capture/${docS.id}`);
-    deleteDoc(doc(db, collectionName, docS.id));
+  return { len: docs.docs.length, date: thresold.toString() };
+  // docs.forEach(async (docS) => {
+  //   deleteAllFileFromDir(`/capture/${docS.id}`);
+  //   deleteDoc(doc(db, collectionName, docS.id));
 
-    // const item = doc.data();
-    // const date = new Date(item.datetime.seconds * 1000);
-  });
+  //   // const item = doc.data();
+  //   // const date = new Date(item.datetime.seconds * 1000);
+  // });
 };
