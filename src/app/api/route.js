@@ -3,6 +3,8 @@ import { addDocInCollection } from "../../datamodel";
 import { deleteAllDocsInCollection } from "../../datamodelSSR";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 1; //revalidate api every 1 second
+
 // https://stackoverflow.com/questions/76356803/data-not-updating-when-deployed-nextjs13-app-on-vercel-despite-using-cache-no
 
 export async function GET() {
