@@ -24,7 +24,7 @@ export const revalidate = 0; //revalidate api every 1 second
 // };
 
 // import { initializeApp } from "firebase/app";
-// import { deleteAllDocsInCollection } from "../../datamodelSSR";
+import { deleteAllDocsInCollection } from "../../datamodelSSR";
 
 // const app = initializeApp(firebaseConfig);
 
