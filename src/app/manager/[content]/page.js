@@ -55,15 +55,21 @@ export default function Content({ params }) {
 
   useEffect(() => {
     getAllFiles(params.content).then((res) => {
+      console.log("res.items", res.items);
+
       Promise.all(
         res.items.map(async (file) => {
           const filePath = await getDownloadURL(file);
+          console.log("filePath", filePath);
           const fileMeta = await getMetadata(file);
+          console.log("fileMeta", fileMeta);
+          const dateFormatted = formatDate(fileMeta.updated);
+          console.log("dateFormatted", dateFormatted);
           return {
             name: file.name,
             id: file.name,
             path: filePath,
-            updated: formatDate(fileMeta.updated),
+            updated: dateFormatted,
           };
         })
       ).then((filesToRows) => {
