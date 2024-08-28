@@ -46,6 +46,7 @@ export default function Content({ params }) {
   const formatDate = (unformatted) => {
     let date2 = new Date(unformatted);
     const localUnformatted = date2.toLocaleString();
+    console.log("localUnformatted", localUnformatted);
     const regex =
       /(?<day>\d{2})\/(?<month>\d{2})\/(?<age>\d{2})(?<year>\d{2}), (?<hour>\d{2}):(?<minute>\d{2}):(?<second>\d{2})/;
     const found = localUnformatted.match(regex).groups;
