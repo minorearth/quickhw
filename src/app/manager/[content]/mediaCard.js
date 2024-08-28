@@ -2,8 +2,9 @@ import * as React from "react";
 import Image from "next/image";
 import { Box } from "@mui/material";
 // import { BlankElement } from "./blankCard";
+import Drawer from "./drawer";
 
-export const MediaCard = ({ path }) => {
+export const MediaCard = ({ row, session }) => {
   //   const img = "https://images.unsplash.com/photo-1525097487452-6278ff080c31";
   // return path != "" ? (
 
@@ -17,7 +18,8 @@ export const MediaCard = ({ path }) => {
         alignItems: "center",
       }}
     >
-      <Image
+      {!!row && <Drawer row={row} session={session} />}
+      {/* <Image
         src={path}
         width={5}
         height={5}
@@ -33,7 +35,7 @@ export const MediaCard = ({ path }) => {
         //   src={`${img}?w=248&fit=crop&auto=format`}
         alt="imagehw"
         //   loading="lazy"
-      />
+      /> */}
     </Box>
   );
   // )

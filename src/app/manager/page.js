@@ -17,7 +17,6 @@ export default function Manager({ user, setEditProfile }) {
   const ETL = (docs) => {
     const docsFormatted = docs.map((doc) => {
       const date = new Date(doc.datetime.seconds * 1000);
-      !!doc.datetime && console.log(doc.datetime.nanoseconds);
       return { id: doc.id, title: doc.title, datetime: date, user: doc.user };
     });
 

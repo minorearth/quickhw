@@ -31,7 +31,6 @@ const uploadFileToDB = async (file, folder) => {
 };
 
 export const deleteFileFromDB = async (relativePath) => {
-  console.log();
   const Ref = ref(storage, relativePath);
   deleteObject(Ref)
     .then((res) => {})

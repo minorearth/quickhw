@@ -14,12 +14,9 @@ import { getDownloadURL, getMetadata } from "firebase/storage";
 
 export default function Content({ params }) {
   const [rows, setRowsx] = useState([]);
-  const [imgUrl, setImgUrl] = useState(
-    "https://png.pngtree.com/thumb_back/fw800/background/20230612/pngtree-images-of-winter-and-white-background-wallpapers-free-download-image_2935697.jpg"
-  );
-
-  const handleViewClick = (path) => {
-    setImgUrl(path);
+  const [currRow, setCurrRow] = useState();
+  const handleViewClick = (row) => {
+    setCurrRow(row);
   };
 
   const columns = [
@@ -34,7 +31,7 @@ export default function Content({ params }) {
         <GridActionsCellItem
           label="View"
           icon={<PreviewIcon sx={{ fontSize: 40 }} />}
-          onClick={() => handleViewClick(params.row.path)}
+          onClick={() => handleViewClick(params.row)}
         />,
       ],
     },
@@ -46,7 +43,6 @@ export default function Content({ params }) {
   const formatDate = (unformatted) => {
     let date2 = new Date(unformatted);
     const localUnformatted = date2.toLocaleString();
-    // console.log("localUnformatted", localUnformatted);
     // const regex =
     //   /(?<day>\d{2})\/(?<month>\d{2})\/(?<age>\d{2})(?<year>\d{2}), (?<hour>\d{2}):(?<minute>\d{2}):(?<second>\d{2})/;
     // // const found = localUnformatted.match(regex).groups;
@@ -57,16 +53,11 @@ export default function Content({ params }) {
 
   useEffect(() => {
     getAllFiles(params.content).then((res) => {
-      console.log("res.items", res.items);
-
       Promise.all(
         res.items.map(async (file) => {
           const filePath = await getDownloadURL(file);
-          console.log("filePath", filePath);
           const fileMeta = await getMetadata(file);
-          console.log("fileMeta", fileMeta);
           const dateFormatted = formatDate(fileMeta.updated);
-          console.log("dateFormatted", dateFormatted);
           return {
             name: file.name,
             id: file.name,
@@ -83,8 +74,7 @@ export default function Content({ params }) {
   return (
     <>
       <DataGrid autoHeight rows={rows} columns={columns} />
-
-      <MediaCard path={imgUrl} />
+      <MediaCard row={currRow} session={params.content} />
     </>
   );
 }

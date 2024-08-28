@@ -35,7 +35,6 @@ export default function AutoHeightGrid({
   };
 
   const processEdit = (newRow) => {
-    console.log("newRow", newRow);
     updateDocFieldsInCollectionById("surveys", newRow.id, {
       title: newRow.title,
     });
