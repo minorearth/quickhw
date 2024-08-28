@@ -12,8 +12,9 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import NavigationIcon from "@mui/icons-material/Navigation";
 import Box from "@mui/material/Box";
 import { useEffect } from "react";
+import { getDownloadURL } from "firebase/storage";
 
-const Drawer = ({ row, session }) => {
+const Drawer = ({ row, session, setRowsx }) => {
   const [tool, setTool] = React.useState("pen");
   const [lines, setLines] = React.useState([]);
   const isDrawing = React.useRef(false);
@@ -60,7 +61,12 @@ const Drawer = ({ row, session }) => {
     const file = new File([blob], `${row.name}`, {
       type: blob.type,
     });
-    await UploadFileToTask({ file, folder: session });
+    const doc = await UploadFileToTask({ file, folder: session });
+    const path = await getDownloadURL(doc.ref);
+    setRowsx((rows) => {
+      rows.filter((srcrow) => srcrow.name == row.name)[0].path = path;
+      return rows;
+    });
   };
 
   return (
@@ -94,8 +100,6 @@ const Drawer = ({ row, session }) => {
       >
         <Layer>
           <LionImage />
-
-          <Text text="Just start drawing" x={5} y={30} />
           {lines.map((line, i) => (
             <Line
               key={i}

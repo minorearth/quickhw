@@ -22,6 +22,7 @@ const storage = getStorage(app);
 
 export const UploadFileToTask = async ({ file, folder }) => {
   const filedb = await uploadFileToDB(file, `/capture/${folder}`);
+  return filedb;
 };
 
 const uploadFileToDB = async (file, folder) => {

@@ -74,7 +74,7 @@ export default function Content({ params }) {
   return (
     <>
       <DataGrid autoHeight rows={rows} columns={columns} />
-      <MediaCard row={currRow} session={params.content} />
+      <MediaCard row={currRow} session={params.content} setRowsx={setRowsx} />
     </>
   );
 }

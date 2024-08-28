@@ -4,7 +4,7 @@ import { Box } from "@mui/material";
 // import { BlankElement } from "./blankCard";
 import Drawer from "./drawer";
 
-export const MediaCard = ({ row, session }) => {
+export const MediaCard = ({ row, session, setRowsx }) => {
   //   const img = "https://images.unsplash.com/photo-1525097487452-6278ff080c31";
   // return path != "" ? (
 
@@ -18,7 +18,7 @@ export const MediaCard = ({ row, session }) => {
         alignItems: "center",
       }}
     >
-      {!!row && <Drawer row={row} session={session} />}
+      {!!row && <Drawer row={row} session={session} setRowsx={setRowsx} />}
       {/* <Image
         src={path}
         width={5}
