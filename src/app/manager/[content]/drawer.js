@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 // import { createRoot } from 'react-dom/client';
 import { Stage, Layer, Line, Text, Image } from "react-konva";
 import useImage from "use-image";
@@ -13,22 +13,30 @@ import NavigationIcon from "@mui/icons-material/Navigation";
 import Box from "@mui/material/Box";
 import { useEffect } from "react";
 import { getDownloadURL } from "firebase/storage";
+import { getImageDimensions } from "../../capture/utils/imageUtils";
 
 const Drawer = ({ row, session, setRowsx }) => {
   const [tool, setTool] = React.useState("pen");
   const [lines, setLines] = React.useState([]);
+  const [drawerDim, setDrawerDim] = useState({ w: 0, h: 0 });
   const isDrawing = React.useRef(false);
   const stageRef = React.useRef(null);
-
-  useEffect(() => {
-    setLines([]);
-  }, [row]);
 
   const [image] = useImage(row.path, "Anonymous");
 
   const LionImage = useCallback(() => {
     return <Image image={image} />;
   }, [image]);
+
+  useEffect(() => {
+    getImageDimensions(row.path).then((sDim) => {
+      console.log(row.path);
+      console.log("sDim", sDim);
+      setDrawerDim(sDim);
+    });
+
+    setLines([]);
+  }, [row]);
 
   const handleMouseDown = (e) => {
     isDrawing.current = true;
@@ -88,8 +96,10 @@ const Drawer = ({ row, session, setRowsx }) => {
       </Fab>
       <Stage
         ref={stageRef}
-        width={window.innerWidth}
-        height={window.innerHeight}
+        // width={window.innerWidth}
+        // height={window.innerHeight}
+        width={drawerDim.w}
+        height={drawerDim.h}
         onMouseDown={handleMouseDown}
         onDblTap={handleMouseDown}
         onMousemove={handleMouseMove}
