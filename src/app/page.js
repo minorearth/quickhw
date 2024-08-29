@@ -2,32 +2,25 @@
 import Image from "next/image";
 import styles from "./page.module.css";
 import { UploadFilesDialog } from "./fileupload.js";
-import Camera from "./capture/[capture]/camera";
+import Camera from "./capture/[camera]/сamera/camera";
 import { useEffect, useState } from "react";
 import Manager from "./manager/page";
 import { getUserName } from "./localstorage";
 import Profile from "./components/profile";
+import { useCredentials } from "./useCredentials";
 
 export default function Home() {
-  const [manager, setManager] = useState("loading");
-  const [editProfile, setEditProfile] = useState(false);
+  const { auth, setAuth, setEditProfile, editProfile, user } = useCredentials();
 
-  useEffect(() => {
-    const userName = getUserName();
-    userName != null ? setManager(userName) : setManager("none");
-  }, []);
-
-  switch (true) {
-    case manager == "none" || editProfile == true:
-      return (
-        <Profile
-          setuser={setManager}
-          setEditProfile={setEditProfile}
-          usertype="manager"
-        />
-      );
-    case manager != "none" && manager != "loading" && editProfile != true:
-      return <Manager user={manager} setEditProfile={setEditProfile} />;
-    default:
-  }
+  return auth == 1 || editProfile ? (
+    <Profile
+      setAuth={setAuth}
+      usertype="manager"
+      setEditProfile={setEditProfile}
+    />
+  ) : auth == 2 ? (
+    <Manager user={user} setEditProfile={setEditProfile} />
+  ) : (
+    <p></p>
+  );
 }

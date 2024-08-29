@@ -9,6 +9,7 @@ import { GridActionsCellItem } from "@mui/x-data-grid";
 import { useRouter } from "next/navigation";
 import { getAllFiles } from "../../storagedb";
 import Splash from "../components/splash/splash.js";
+import { getUserName } from "../localstorage";
 
 export default function Manager({ user, setEditProfile }) {
   const router = useRouter();
@@ -26,6 +27,7 @@ export default function Manager({ user, setEditProfile }) {
   };
 
   const getGridData = () => {
+    console.log(user);
     getDocsKeyValue("surveys", "user", user).then((docs) => {
       setRows(ETL(docs));
     });
@@ -83,14 +85,13 @@ export default function Manager({ user, setEditProfile }) {
       setRows((oldRows) => [{ id, ...data }, ...oldRows]);
     });
   };
-
   useEffect(() => {
     getGridData();
   }, []);
   return (
     <>
       {!closeSplash && (
-        <Splash setCloseSplash={setCloseSplash} duration={2000} />
+        <Splash setCloseSplash={setCloseSplash} duration={200} />
       )}
       {closeSplash && (
         <Grid

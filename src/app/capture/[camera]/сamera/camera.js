@@ -1,47 +1,41 @@
 import React, { useEffect, useRef } from "react";
 import Webcam from "react-webcam";
-import { UploadFileToTask } from "../../../storagedb";
+import { UploadFileToTask } from "../../../../storagedb";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Image from "next/image";
-import mergeImages from "merge-images";
 import { useState } from "react";
 import IconButton from "@mui/material/IconButton";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import IosShareIcon from "@mui/icons-material/IosShare";
 import SettingsIcon from "@mui/icons-material/Settings";
-import { useRouter } from "next/navigation";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import FlipCameraIosIcon from "@mui/icons-material/FlipCameraIos";
-import { getImageDimensions, resize } from "../utils/imageUtils";
-import { Snack } from "../../components/snackbar";
-import { getImgCnt } from "../../localstorage";
+import { Snack } from "../../../components/snackbar";
+import { useOrientation } from "../../../useOrientaton";
+import {
+  prepareAndMergeImagesTob46URI,
+  b64URItoFile,
+} from "../../../capture/utils/imageUtils";
 
-import "jimp";
+import { getUserName, getImgCnt } from "../../../localstorage";
+import { capturePhoto } from "./camUtils";
+import Progress from "@/app/components/backdrop";
 
-import { getUserName } from "../../localstorage";
-
-const sendRoller = async (imageSrc, session) => {
-  const preBlob = await fetch(imageSrc);
-  const blob = await preBlob.blob();
-  const filename = getUserName();
+const sendRoller = async (b64URI, session) => {
+  const username = getUserName();
   const fileid = getImgCnt();
-  const file = new File([blob], `${filename}${fileid}.jpg`, {
-    type: blob.type,
-  });
+  const filename = `${username}${fileid}.jpg`;
+  const file = await b64URItoFile(b64URI, filename);
   await UploadFileToTask({ file, folder: session });
 };
 
 const Camera = ({ session, setEditProfile }) => {
-  const router = useRouter();
-  const [orientation, setOrientation] = useState("");
-  const [wid, setWid] = useState(0);
   const [front, setFront] = useState(false);
   const [videoConstraints, setVideoConstraints] = useState();
   const [photos, setPhotos] = useState([]);
   const [snackopen, setSnackopen] = useState({ open: false, text: "" });
-
+  const [showProgress, setShowProgress] = useState(false);
   const webcamRef = useRef(null);
 
   useEffect(() => {
@@ -50,40 +44,14 @@ const Camera = ({ session, setEditProfile }) => {
     );
   }, [front]);
 
-  useEffect(() => {
-    function updateOrientation() {
-      const regex = /(\S+)-/;
-      const orient = window.screen.orientation.type.match(regex);
-      setOrientation(orient[1]);
-    }
-    updateOrientation();
-    window.addEventListener("orientationchange", updateOrientation);
-    return () => {
-      window.removeEventListener("orientationchange", updateOrientation);
-    };
-  }, [orientation]);
+  const { orientation } = useOrientation();
 
-  const prepareImages = (photos) => {
-    let pos = 0;
-    let maxW = 0;
-    const allimg = photos.map((img) => {
-      const res = { src: img.src, x: 0, y: pos };
-      pos += img.h;
-      maxW = Math.max(img.w, maxW);
-      return res;
-    });
-
-    return { images: allimg, totalH: pos, maxW };
-  };
-
-  const sendRollerClick = async () => {
-    const images = prepareImages(photos);
-    if (images.images.length != 0) {
-      const b64 = await mergeImages(images.images, {
-        height: images.totalH,
-        width: images.maxW,
-      });
-      await sendRoller(b64, session);
+  const handleSendRollerClick = async () => {
+    if (photos.length != 0) {
+      const b64URI = await prepareAndMergeImagesTob46URI(photos);
+      setShowProgress(true);
+      await sendRoller(b64URI, session);
+      setShowProgress(false);
       showSnack("Все OK! Молодец");
     } else {
       showSnack("Ты хоть сфоткай что-нибудь :(");
@@ -94,14 +62,10 @@ const Camera = ({ session, setEditProfile }) => {
     setEditProfile(true);
   };
 
-  const capturePhoto2 = async () => {
-    const screen = await webcamRef.current.getScreenshot();
-    var sDim = await getImageDimensions(screen, orientation);
-    const file = await resize(screen, orientation, sDim.w, sDim.h);
+  const handleCapturePhoto = async () => {
+    const file = await capturePhoto(webcamRef, orientation);
     setPhotos((state) => [...state, file]);
   };
-
-  const onUserMedia = (e) => {};
 
   const showSnack = (text) => {
     setSnackopen({ open: true, text });
@@ -117,9 +81,8 @@ const Camera = ({ session, setEditProfile }) => {
         padding: "10px",
       }}
     >
-      {/* <Button onClick={() => {}}>{isMobile}</Button> */}
       <Snack snackopen={snackopen} setSnackopen={setSnackopen} />
-
+      <Progress open={showProgress} />
       <Box
         sx={{
           display: "flex",
@@ -136,7 +99,6 @@ const Camera = ({ session, setEditProfile }) => {
             width: orientation != "portrait" ? "auto" : "100%",
             flex: 4,
             height: orientation == "portrait" ? "auto" : "100%",
-            // maxheight: "100%",
           }}
         >
           <Webcam
@@ -147,7 +109,7 @@ const Camera = ({ session, setEditProfile }) => {
             screenshotFormat="image/jpeg"
             forceScreenshotSourceSize
             videoConstraints={videoConstraints}
-            onUserMedia={onUserMedia}
+            onUserMedia={(e) => {}}
           />
         </Box>
         <Box
@@ -157,7 +119,6 @@ const Camera = ({ session, setEditProfile }) => {
             flexDirection: orientation != "portrait" ? "column" : "row",
             justifyContent: "space-evenly",
             width: "100%",
-            // backgroundColor: "yellow",
             alignItems: orientation == "portrait" ? "center" : "start",
           }}
         >
@@ -167,11 +128,14 @@ const Camera = ({ session, setEditProfile }) => {
           >
             <FlipCameraIosIcon sx={{ fontSize: 80 }} />
           </IconButton>
-
-          <IconButton aria-label="delete" size="small" onClick={capturePhoto2}>
+          <IconButton
+            aria-label="delete"
+            size="small"
+            onClick={handleCapturePhoto}
+          >
             <AddAPhotoIcon sx={{ fontSize: 80 }} />
           </IconButton>
-          <IconButton aria-label="delete" onClick={sendRollerClick}>
+          <IconButton aria-label="delete" onClick={handleSendRollerClick}>
             <IosShareIcon sx={{ fontSize: 80 }} />
           </IconButton>
           <IconButton aria-label="delete" onClick={handleSettingsClick}>

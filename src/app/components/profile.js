@@ -6,7 +6,7 @@ import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import { useState, useEffect } from "react";
 
-export default function Profile({ setuser, setEditProfile, usertype }) {
+export default function Profile({ setAuth, setEditProfile, usertype }) {
   const [name, setName] = useState("");
   const [properVal, setProperVal] = useState(false);
   const [label, setLabel] = useState(false);
@@ -23,7 +23,7 @@ export default function Profile({ setuser, setEditProfile, usertype }) {
 
   const saveToLocalStorage = () => {
     localStorage.setItem("name", name);
-    setuser(name);
+    setAuth(2);
     setEditProfile(false);
   };
 
