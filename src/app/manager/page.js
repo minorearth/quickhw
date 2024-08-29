@@ -8,11 +8,13 @@ import QrCodeIcon from "@mui/icons-material/QrCode";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import { useRouter } from "next/navigation";
 import { getAllFiles } from "../../storagedb";
+import Splash from "../components/splash/splash.js";
 
 export default function Manager({ user, setEditProfile }) {
   const router = useRouter();
 
   const [rows, setRows] = useState([]);
+  const [closeSplash, setCloseSplash] = useState(false);
 
   const ETL = (docs) => {
     const docsFormatted = docs.map((doc) => {
@@ -87,12 +89,17 @@ export default function Manager({ user, setEditProfile }) {
   }, []);
   return (
     <>
-      <Grid
-        rows={rows}
-        addrow={addrow}
-        columns={columns}
-        setEditProfile={setEditProfile}
-      />
+      {!closeSplash && (
+        <Splash setCloseSplash={setCloseSplash} duration={2000} />
+      )}
+      {closeSplash && (
+        <Grid
+          rows={rows}
+          addrow={addrow}
+          columns={columns}
+          setEditProfile={setEditProfile}
+        />
+      )}
     </>
   );
 }

@@ -30,11 +30,8 @@ const Drawer = ({ row, session, setRowsx }) => {
 
   useEffect(() => {
     getImageDimensions(row.path).then((sDim) => {
-      console.log(row.path);
-      console.log("sDim", sDim);
       setDrawerDim(sDim);
     });
-
     setLines([]);
   }, [row]);
 
