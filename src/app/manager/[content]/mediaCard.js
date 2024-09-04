@@ -12,7 +12,9 @@ export const MediaCard = ({ row, session, setRowsx }) => {
     <Box
       sx={{
         backgroundColor: "white",
-        flexGrow: 1,
+        minWidth: "30%",
+        height: "100%",
+        flex: 1,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",

@@ -2,38 +2,43 @@ import React, { useCallback, useState } from "react";
 // import { createRoot } from 'react-dom/client';
 import { Stage, Layer, Line, Text, Image } from "react-konva";
 import useImage from "use-image";
-import SettingsIcon from "@mui/icons-material/Settings";
-import IconButton from "@mui/material/IconButton";
 import { UploadFile } from "../../../storagedb";
 import Fab from "@mui/material/Fab";
-import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import NavigationIcon from "@mui/icons-material/Navigation";
 import Box from "@mui/material/Box";
 import { useEffect } from "react";
 import { getDownloadURL } from "firebase/storage";
 import { getImageDimensions } from "../../capture/utils/imageUtils";
+import useMeasure from "react-use-measure";
 
 const Drawer = ({ row, session, setRowsx }) => {
   const [tool, setTool] = React.useState("pen");
   const [lines, setLines] = React.useState([]);
-  const [drawerDim, setDrawerDim] = useState({ w: 0, h: 0 });
+  const [imgDim, setImgDim] = useState({ w: 0, h: 0 });
   const isDrawing = React.useRef(false);
   const stageRef = React.useRef(null);
+  const { contSize, setContSize } = useState();
 
   const [image] = useImage(row.path, "Anonymous");
-
-  const LionImage = useCallback(() => {
-    return <Image image={image} />;
-  }, [image]);
+  const [ref, bounds] = useMeasure();
+  console.log("bounds.width", bounds.width, imgDim.w);
 
   useEffect(() => {
     getImageDimensions(row.path).then((sDim) => {
-      setDrawerDim(sDim);
+      setImgDim(sDim);
     });
     setLines([]);
   }, [row]);
+
+  const LionImage = useCallback(() => {
+    return (
+      <Image
+        image={image}
+        scaleX={bounds.width / imgDim.w}
+        scaleY={bounds.width / imgDim.w}
+      />
+    );
+  }, [image, bounds, imgDim]);
 
   const handleMouseDown = (e) => {
     isDrawing.current = true;
@@ -75,7 +80,17 @@ const Drawer = ({ row, session, setRowsx }) => {
   };
 
   return (
-    <Box sx={{ "& > :not(style)": { m: 1 } }}>
+    // <Box sx={{ "& > :not(style)": { m: 1 } }}>
+    <Box
+      ref={ref}
+      // sx={{ width: "100%", height: drawerDim.h, backgroundColor: "green" }}
+      sx={{
+        width: "100%",
+        height: "100%",
+        overflow: "auto",
+      }}
+      id="signInButton"
+    >
       {/* <IconButton
         aria-label="delete"
         size="small"
@@ -95,8 +110,10 @@ const Drawer = ({ row, session, setRowsx }) => {
         ref={stageRef}
         // width={window.innerWidth}
         // height={window.innerHeight}
-        width={drawerDim.w}
-        height={drawerDim.h}
+        // width={drawerDim.w}
+        height={imgDim.h * (bounds.width / imgDim.w)}
+        width={bounds.width}
+        // height={bounds.height}
         onMouseDown={handleMouseDown}
         onDblTap={handleMouseDown}
         onMousemove={handleMouseMove}

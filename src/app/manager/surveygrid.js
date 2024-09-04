@@ -6,7 +6,7 @@ import { DataGrid, GridActionsCellItem, useGridApiRef } from "@mui/x-data-grid";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
 import IconButton from "@mui/material/IconButton";
-import { updateDocFieldsInCollectionById } from "../../datamodel";
+import { updateDocFieldsInCollectionById } from "../../datamodelSSR";
 import { deleteAllDocsInCollection } from "../../datamodelSSR";
 import { useEffect } from "react";
 

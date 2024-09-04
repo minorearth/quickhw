@@ -2,7 +2,7 @@
 
 import SurveyGrid from "./surveygrid";
 import { useState, useEffect } from "react";
-import { addDocInCollection, getDocsKeyValue } from "../../datamodel";
+import { addDocInCollection, getDocsKeyValue } from "../../datamodelSSR";
 import PreviewIcon from "@mui/icons-material/Preview";
 import QrCodeIcon from "@mui/icons-material/QrCode";
 import { GridActionsCellItem } from "@mui/x-data-grid";
