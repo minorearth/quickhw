@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import Webcam from "react-webcam";
-import { UploadFileToTask } from "../../../../storagedb";
+import { UploadFile } from "../../../../storagedb";
 import Box from "@mui/material/Box";
 import Image from "next/image";
 import { useState } from "react";
@@ -17,6 +17,7 @@ import {
   prepareAndMergeImagesTob46URI,
   b64URItoFile,
 } from "../../../capture/utils/imageUtils";
+import { UploadFileAndRefreshcollection } from "../../../domain/utils";
 
 import { getUserName, getImgCnt } from "../../../localstorage";
 import { capturePhoto } from "./camUtils";
@@ -24,10 +25,11 @@ import Progress from "@/app/components/backdrop";
 
 const sendRoller = async (b64URI, session) => {
   const username = getUserName();
-  const fileid = getImgCnt();
-  const filename = `${username}${fileid}.jpg`;
+  // const fileid = getImgCnt();
+  // const filename = `${username}${fileid}.jpg`;
+  const filename = `${username}.jpg`;
   const file = await b64URItoFile(b64URI, filename);
-  await UploadFileToTask({ file, folder: session });
+  UploadFileAndRefreshcollection(file, session, username);
 };
 
 const Camera = ({ session, setEditProfile }) => {
@@ -71,6 +73,14 @@ const Camera = ({ session, setEditProfile }) => {
     setSnackopen({ open: true, text });
   };
 
+  const onUserMediaError = () => {
+    console.log("ERROR in Camera!");
+  };
+
+  const onUserMedia = () => {
+    console.log("onUserMedia: Camera loaded!");
+  };
+
   return (
     <Box
       sx={{
@@ -108,8 +118,9 @@ const Camera = ({ session, setEditProfile }) => {
             height="100%"
             screenshotFormat="image/jpeg"
             forceScreenshotSourceSize
+            onUserMediaError={onUserMediaError}
+            onUserMedia={onUserMedia}
             videoConstraints={videoConstraints}
-            onUserMedia={(e) => {}}
           />
         </Box>
         <Box

@@ -4,7 +4,7 @@ import { Stage, Layer, Line, Text, Image } from "react-konva";
 import useImage from "use-image";
 import SettingsIcon from "@mui/icons-material/Settings";
 import IconButton from "@mui/material/IconButton";
-import { UploadFileToTask } from "../../../storagedb";
+import { UploadFile } from "../../../storagedb";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
@@ -66,7 +66,7 @@ const Drawer = ({ row, session, setRowsx }) => {
     const file = new File([blob], `${row.name}`, {
       type: blob.type,
     });
-    const doc = await UploadFileToTask({ file, folder: session });
+    const doc = await UploadFile({ file, folder: session });
     const path = await getDownloadURL(doc.ref);
     setRowsx((rows) => {
       rows.filter((srcrow) => srcrow.name == row.name)[0].path = path;

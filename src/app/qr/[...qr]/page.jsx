@@ -19,7 +19,7 @@ export default function Home({ params }) {
           maxWidth: "100%",
           width: "100%",
         }}
-        value={`${process.env.NEXT_PUBLIC_DOMAIN}/capture/${params.qr}`}
+        value={`${process.env.NEXT_PUBLIC_DOMAIN}/${params.qr[0]}/${params.qr[1]}`}
       />
     </div>
   );

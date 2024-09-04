@@ -20,7 +20,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
 
-export const UploadFileToTask = async ({ file, folder }) => {
+export const UploadFile = async ({ file, folder }) => {
   const filedb = await uploadFileToDB(file, `/capture/${folder}`);
   return filedb;
 };

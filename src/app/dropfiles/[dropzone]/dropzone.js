@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { UploadFileToTask } from "../../../storagedb";
+import { UploadFile } from "../../../storagedb";
 import Box from "@mui/material/Box";
 import { useState } from "react";
 import IconButton from "@mui/material/IconButton";
@@ -8,36 +8,45 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import { Snack } from "../../components/snackbar";
 import { getImgCnt, getUserName } from "../../localstorage";
 import { useOrientation } from "../../useOrientaton";
+import JSZip from "jszip";
 
 import Progress from "@/app/components/backdrop";
 import Drop from "./drop";
 import { extractFileExtension } from "../utils";
-
-const sendFile = async (file, session) => {
-  const username = getUserName();
-  const fileid = getImgCnt();
-  const ext = extractFileExtension(file.name);
-  const filename = `${username}${fileid}.${ext}`;
-  console.log("filename", session);
-  const myFile = new File([file], filename);
-  // const file = await b64URItoFile(b64URI, filename);
-  await UploadFileToTask({ file: myFile, folder: session });
-};
+import { UploadFileAndRefreshcollection } from "../../domain/utils";
 
 const DropZone = ({ session, setEditProfile }) => {
   const [files, setFiles] = useState([]);
   const [snackopen, setSnackopen] = useState({ open: false, text: "" });
   const [showProgress, setShowProgress] = useState(false);
-  console.log("session", session);
   useEffect(() => {}, []);
 
   const { orientation } = useOrientation();
 
+  const compressFiles = async (files, filename) => {
+    var zip = new JSZip();
+    files.forEach((file) => zip.file(file.name, file));
+    const fileZIPpedBlob = await zip.generateAsync({ type: "blob" });
+    const fileZIPped = new File([fileZIPpedBlob], filename, {
+      type: fileZIPpedBlob.type,
+    });
+    return fileZIPped;
+  };
+
+  const getFileName = (username) => {
+    const fileid = getImgCnt();
+    // const filename = `${username}${fileid}.${ext}`;
+    const filename = username;
+    return filename;
+  };
+
   const handleSendFilesClick = async () => {
     if (files.length != 0) {
       setShowProgress(true);
-      console.log(files);
-      files.forEach((file) => sendFile(file, session));
+      const username = getUserName();
+      const fileName = getFileName(username);
+      const fileZIP = await compressFiles(files, `${fileName}.zip`);
+      UploadFileAndRefreshcollection(fileZIP, session, username);
       setShowProgress(false);
       showSnack("Все OK! Молодец");
     } else {
@@ -84,7 +93,7 @@ const DropZone = ({ session, setEditProfile }) => {
             height: orientation == "portrait" ? "auto" : "100%",
           }}
         >
-          <Drop setFiles={setFiles} />
+          <Drop files={files} setFiles={setFiles} />
         </Box>
         <Box
           sx={{

@@ -1,6 +1,13 @@
 import React from "react";
 import { useDropzone } from "react-dropzone";
 import { useMemo } from "react";
+import { Box } from "@mui/material";
+import Typography from "@mui/material/Typography";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
 
 const baseStyle = {
   display: "flex",
@@ -31,7 +38,7 @@ const rejectStyle = {
   borderColor: "#ff1744",
 };
 
-const Drop = ({ setFiles }) => {
+const Drop = ({ setFiles, files }) => {
   const {
     acceptedFiles,
     getRootProps,
@@ -41,7 +48,7 @@ const Drop = ({ setFiles }) => {
     isDragReject,
   } = useDropzone({
     onDrop: (acceptedFiles) => {
-      setFiles(acceptedFiles);
+      setFiles((files) => [...files, ...acceptedFiles]);
     },
   });
 
@@ -55,23 +62,29 @@ const Drop = ({ setFiles }) => {
     [isFocused, isDragAccept, isDragReject]
   );
 
-  const files = [
-    <h4>Загружаемые файлы:</h4>,
-    ...acceptedFiles.map((file) => (
-      <li key={file.path}>
-        {file.path} - {file.size} bytes
-      </li>
-    )),
-  ];
-
   return (
-    <div {...getRootProps({ style })}>
+    <Box {...getRootProps({ style })}>
       <input {...getInputProps()} />
-      <p style={{ textAlign: "center" }}>
+
+      <Typography
+        variant="body1"
+        gutterBottom
+        style={{ textAlign: "center", fontSize: "large" }}
+      >
         Перетащите сюда файлы или нажмите на область для загрузки вручную
-      </p>
-      <aside>{files.length != 0 && <ul>{files}</ul>}</aside>
-    </div>
+      </Typography>
+      <List dense={true}>
+        {files.map((file, id) => (
+          <ListItem key={id}>
+            <ListItemIcon>
+              <UploadFileIcon />
+            </ListItemIcon>
+            <ListItemText primary={`${file.path} - ${file.size} bytes`} />
+          </ListItem>
+        ))}
+      </List>
+      {/* <aside>{files.length != 0 && <ul>{files}</ul>}</aside> */}
+    </Box>
   );
 };
 export default Drop;

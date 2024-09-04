@@ -17,12 +17,7 @@ import { useEffect } from "react";
 //   expand: true,
 // };
 
-export default function AutoHeightGrid({
-  rows,
-  columns,
-  addrow,
-  setEditProfile,
-}) {
+export default function SurveyGrid({ rows, columns, addrow, setEditProfile }) {
   const apiRef = useGridApiRef();
 
   useEffect(() => {

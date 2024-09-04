@@ -68,7 +68,12 @@ export const updateDocFieldsInCollectionById = async (
   id,
   data
 ) => {
+  console.log(collectionName, id, data);
   await updateDoc(doc(db, collectionName, id), data);
+};
+
+export const updateDocFieldsInCollectionById2 = async (path, data) => {
+  await updateDoc(doc(db, path), data);
 };
 
 // const DBDocsToIds = (docs) => {

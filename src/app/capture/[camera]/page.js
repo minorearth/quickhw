@@ -16,7 +16,7 @@ export default function Home({ params }) {
       setEditProfile={setEditProfile}
     />
   ) : auth == 2 ? (
-    <Camera session={params.capture} setEditProfile={setEditProfile} />
+    <Camera session={params.camera} setEditProfile={setEditProfile} />
   ) : (
     <p></p>
   );

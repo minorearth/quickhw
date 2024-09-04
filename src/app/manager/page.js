@@ -1,6 +1,6 @@
 "use client";
 
-import Grid from "./datagrid";
+import SurveyGrid from "./surveygrid";
 import { useState, useEffect } from "react";
 import { addDocInCollection, getDocsKeyValue } from "../../datamodel";
 import PreviewIcon from "@mui/icons-material/Preview";
@@ -10,6 +10,8 @@ import { useRouter } from "next/navigation";
 import { getAllFiles } from "../../storagedb";
 import Splash from "../components/splash/splash.js";
 import { getUserName } from "../localstorage";
+import CameraEnhanceIcon from "@mui/icons-material/CameraEnhance";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
 
 export default function Manager({ user, setEditProfile }) {
   const router = useRouter();
@@ -33,8 +35,12 @@ export default function Manager({ user, setEditProfile }) {
     });
   };
 
-  const handleQrClick = (id) => {
-    router.push(`/qr/${id}`);
+  const handlePhotoReportClick = (id) => {
+    router.push(`/qr/capture/${id}`);
+  };
+
+  const handleFilesReportClick = (id) => {
+    router.push(`/qr/dropfiles/${id}`);
   };
 
   const handleViewClick = (id) => {
@@ -44,6 +50,20 @@ export default function Manager({ user, setEditProfile }) {
   const columns = [
     // { field: "id", headerName: "id", width: 130 },
     {
+      field: "details",
+      type: "actions",
+      width: 60,
+      getActions: (params) => [
+        <GridActionsCellItem
+          key="PreviewIcon"
+          label="View"
+          icon={<PreviewIcon sx={{ fontSize: 40 }} />}
+          onClick={() => handleViewClick(params.id)}
+        />,
+      ],
+    },
+
+    {
       field: "title",
       headerName: "Имя",
       flex: 1,
@@ -51,22 +71,26 @@ export default function Manager({ user, setEditProfile }) {
       editable: true,
     },
     // { field: "user", headerName: "ПОльзователь", width: 130 },
+
     {
       field: "actions",
       type: "actions",
+      width: 120,
       getActions: (params) => [
         // eslint-disable-next-line react/jsx-key
         <GridActionsCellItem
+          key="CameraEnhanceIcon"
           label="QR"
-          icon={<QrCodeIcon sx={{ fontSize: 40 }} />}
-          //   onClick={() => {allactions.tasks.handleEditClick(params.id)}}
-          onClick={() => handleQrClick(params.id)}
+          icon={<CameraEnhanceIcon sx={{ fontSize: 40 }} />}
+          CameraEnhanceIcon
+          onClick={() => handlePhotoReportClick(params.id)}
         />,
-        // eslint-disable-next-line react/jsx-key
+
         <GridActionsCellItem
+          key="UploadFileIcon"
           label="View"
-          icon={<PreviewIcon sx={{ fontSize: 40 }} />}
-          onClick={() => handleViewClick(params.id)}
+          icon={<UploadFileIcon sx={{ fontSize: 40 }} />}
+          onClick={() => handleFilesReportClick(params.id)}
         />,
       ],
     },
@@ -85,16 +109,18 @@ export default function Manager({ user, setEditProfile }) {
       setRows((oldRows) => [{ id, ...data }, ...oldRows]);
     });
   };
+
   useEffect(() => {
     getGridData();
   }, []);
+
   return (
     <>
       {!closeSplash && (
         <Splash setCloseSplash={setCloseSplash} duration={200} />
       )}
       {closeSplash && (
-        <Grid
+        <SurveyGrid
           rows={rows}
           addrow={addrow}
           columns={columns}

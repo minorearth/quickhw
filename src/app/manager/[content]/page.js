@@ -1,6 +1,6 @@
 "use client";
 
-import Grid from "../datagrid";
+import Grid from "../surveygrid";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import PreviewIcon from "@mui/icons-material/Preview";
 import Link from "@mui/material/Link";
@@ -14,12 +14,34 @@ import { getDownloadURL, getMetadata } from "firebase/storage";
 
 export default function Content({ params }) {
   const [rows, setRowsx] = useState([]);
+  const [rows2, setRowsx2] = useState([]);
   const [currRow, setCurrRow] = useState();
   const handleViewClick = (row) => {
     setCurrRow(row);
   };
 
   const columns = [
+    // { field: "id", headerName: "id", width: 130 },
+    { field: "name", headerName: "Файл", flex: 1, minwidth: 230 },
+    // { field: "path", headerName: "Путь", width: 130 },
+    {
+      field: "actions",
+      type: "actions",
+      getActions: (params) => [
+        // eslint-disable-next-line react/jsx-key
+        <GridActionsCellItem
+          label="View"
+          icon={<PreviewIcon sx={{ fontSize: 40 }} />}
+          onClick={() => handleViewClick(params.row)}
+        />,
+      ],
+    },
+    { field: "updated", headerName: "Дата изменения", width: 200 },
+
+    // { field: "timestamp", headerName: "Датаx и время", width: 130 },
+  ];
+
+  const columns2 = [
     // { field: "id", headerName: "id", width: 130 },
     { field: "name", headerName: "Файл", flex: 1, minwidth: 230 },
     // { field: "path", headerName: "Путь", width: 130 },
@@ -69,11 +91,30 @@ export default function Content({ params }) {
         setRowsx(filesToRows);
       });
     });
+
+    getAllFiles(params.content).then((res) => {
+      Promise.all(
+        res.items.map(async (file) => {
+          const filePath = await getDownloadURL(file);
+          const fileMeta = await getMetadata(file);
+          const dateFormatted = formatDate(fileMeta.updated);
+          return {
+            name: file.name,
+            id: file.name,
+            path: filePath,
+            updated: dateFormatted,
+          };
+        })
+      ).then((filesToRows) => {
+        setRowsx(filesToRows);
+      });
+    });
   }, []);
 
   return (
     <>
       <DataGrid autoHeight rows={rows} columns={columns} />
+      <DataGrid autoHeight rows={rows2} columns={columns2} />
       <MediaCard row={currRow} session={params.content} setRowsx={setRowsx} />
     </>
   );
