@@ -21,7 +21,6 @@ const Drawer = ({ row, session, setRowsx }) => {
 
   const [image] = useImage(row.path, "Anonymous");
   const [ref, bounds] = useMeasure();
-  console.log("bounds.width", bounds.width, imgDim.w);
 
   useEffect(() => {
     getImageDimensions(row.path).then((sDim) => {

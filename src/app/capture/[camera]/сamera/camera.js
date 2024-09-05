@@ -23,8 +23,7 @@ import { getUserName, getImgCnt } from "../../../localstorage";
 import { capturePhoto } from "./camUtils";
 import Progress from "@/app/components/backdrop";
 
-const sendRoller = async (b64URI, session) => {
-  const username = getUserName();
+const sendBase64URI = async (b64URI, session, username) => {
   // const fileid = getImgCnt();
   // const filename = `${username}${fileid}.jpg`;
   const filename = `${username}.jpg`;
@@ -52,7 +51,8 @@ const Camera = ({ session, setEditProfile }) => {
     if (photos.length != 0) {
       const b64URI = await prepareAndMergeImagesTob46URI(photos);
       setShowProgress(true);
-      await sendRoller(b64URI, session);
+      const username = getUserName();
+      await sendBase64URI(b64URI, session, username);
       setShowProgress(false);
       showSnack("Все OK! Молодец");
     } else {

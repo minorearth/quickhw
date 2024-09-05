@@ -8,6 +8,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 const baseStyle = {
   display: "flex",
@@ -38,7 +39,7 @@ const rejectStyle = {
   borderColor: "#ff1744",
 };
 
-const Drop = ({ setFiles, files }) => {
+const Drop = ({ setFiles, files, type, accept }) => {
   const {
     acceptedFiles,
     getRootProps,
@@ -47,6 +48,8 @@ const Drop = ({ setFiles, files }) => {
     isDragAccept,
     isDragReject,
   } = useDropzone({
+    accept,
+    maxSize: 10 * 1024 * 1024,
     onDrop: (acceptedFiles) => {
       setFiles((files) => [...files, ...acceptedFiles]);
     },
@@ -65,13 +68,24 @@ const Drop = ({ setFiles, files }) => {
   return (
     <Box {...getRootProps({ style })}>
       <input {...getInputProps()} />
+      <CloudUploadIcon sx={{ fontSize: 60 }} />
 
       <Typography
         variant="body1"
         gutterBottom
         style={{ textAlign: "center", fontSize: "large" }}
       >
-        Перетащите сюда файлы или нажмите на область для загрузки вручную
+        {`Перетащите сюда ${
+          type == "img" ? "изображения(bmp,jpeg,gif,png)" : "файлы"
+        } или нажмите на область для загрузки вручную`}
+      </Typography>
+      <Typography
+        variant="body1"
+        gutterBottom
+        style={{ textAlign: "center", fontSize: "medium" }}
+      >
+        Максимальный размер файла 10 мегабайт, файл не появится в списке на
+        загрузку, если он больше 10 мегабайт
       </Typography>
       <List dense={true}>
         {files.map((file, id) => (

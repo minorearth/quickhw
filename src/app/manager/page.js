@@ -29,7 +29,6 @@ export default function Manager({ user, setEditProfile }) {
   };
 
   const getGridData = () => {
-    console.log(user);
     getDocsKeyValue("surveys", "user", user).then((docs) => {
       setRows(ETL(docs));
     });
@@ -72,28 +71,28 @@ export default function Manager({ user, setEditProfile }) {
     },
     // { field: "user", headerName: "ПОльзователь", width: 130 },
 
-    {
-      field: "actions",
-      type: "actions",
-      width: 120,
-      getActions: (params) => [
-        // eslint-disable-next-line react/jsx-key
-        <GridActionsCellItem
-          key="CameraEnhanceIcon"
-          label="QR"
-          icon={<CameraEnhanceIcon sx={{ fontSize: 40 }} />}
-          CameraEnhanceIcon
-          onClick={() => handlePhotoReportClick(params.id)}
-        />,
+    // {
+    //   field: "actions",
+    //   type: "actions",
+    //   width: 120,
+    //   getActions: (params) => [
+    //     // eslint-disable-next-line react/jsx-key
+    //     <GridActionsCellItem
+    //       key="CameraEnhanceIcon"
+    //       label="QR"
+    //       icon={<CameraEnhanceIcon sx={{ fontSize: 40 }} />}
+    //       CameraEnhanceIcon
+    //       onClick={() => handlePhotoReportClick(params.id)}
+    //     />,
 
-        <GridActionsCellItem
-          key="UploadFileIcon"
-          label="View"
-          icon={<UploadFileIcon sx={{ fontSize: 40 }} />}
-          onClick={() => handleFilesReportClick(params.id)}
-        />,
-      ],
-    },
+    //     <GridActionsCellItem
+    //       key="UploadFileIcon"
+    //       label="View"
+    //       icon={<UploadFileIcon sx={{ fontSize: 40 }} />}
+    //       onClick={() => handleFilesReportClick(params.id)}
+    //     />,
+    //   ],
+    // },
     {
       field: "datetime",
       headerName: "Дата и время",

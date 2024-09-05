@@ -14,12 +14,30 @@ import Progress from "@/app/components/backdrop";
 import Drop from "./drop";
 import { extractFileExtension } from "../utils";
 import { UploadFileAndRefreshcollection } from "../../domain/utils";
+import {
+  getImageDimensions,
+  resizeWebCamImg,
+  resizeImg,
+  scaleToBase,
+  blobToBase64,
+  prepareAndMergeImagesTob46URI,
+  b64URItoFile,
+  mergeAllImages,
+} from "../../capture/utils/imageUtils";
 
-const DropZone = ({ session, setEditProfile }) => {
+const DropZone = ({ session, setEditProfile, type }) => {
   const [files, setFiles] = useState([]);
   const [snackopen, setSnackopen] = useState({ open: false, text: "" });
   const [showProgress, setShowProgress] = useState(false);
-  useEffect(() => {}, []);
+  const [acceptFiles, setAcceptFiles] = useState();
+
+  useEffect(() => {
+    type == "img"
+      ? setAcceptFiles({
+          "image/png": [".png", ".jpg", ".jpeg", ".bmp", ".gif"],
+        })
+      : {};
+  }, []);
 
   const { orientation } = useOrientation();
 
@@ -45,8 +63,13 @@ const DropZone = ({ session, setEditProfile }) => {
       setShowProgress(true);
       const username = getUserName();
       const fileName = getFileName(username);
-      const fileZIP = await compressFiles(files, `${fileName}.zip`);
-      UploadFileAndRefreshcollection(fileZIP, session, username);
+      if (type == "img") {
+        const file = await mergeAllImages(files, username);
+        UploadFileAndRefreshcollection(file, session, username);
+      } else {
+        const fileZIP = await compressFiles(files, `${fileName}.zip`);
+        UploadFileAndRefreshcollection(fileZIP, session, username);
+      }
       setShowProgress(false);
       showSnack("Все OK! Молодец");
     } else {
@@ -93,7 +116,12 @@ const DropZone = ({ session, setEditProfile }) => {
             height: orientation == "portrait" ? "auto" : "100%",
           }}
         >
-          <Drop files={files} setFiles={setFiles} />
+          <Drop
+            files={files}
+            setFiles={setFiles}
+            type={type}
+            accept={acceptFiles}
+          />
         </Box>
         <Box
           sx={{
