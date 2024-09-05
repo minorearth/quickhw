@@ -80,7 +80,7 @@ export function blobToBase64(blob) {
   });
 }
 
-export const mergeAllImages = async (files, username) => {
+export const mergeAllImages = async (files, username, setMessage) => {
   const photos = await Promise.all(
     files.map(async (file) => {
       const base64Str = await blobToBase64(file);
@@ -88,16 +88,24 @@ export const mergeAllImages = async (files, username) => {
       return { src: base64Str, w: sDim.w, h: sDim.h };
     })
   );
-
+  setMessage(20);
   const b64URI = await prepareAndMergeImagesTob46URI(photos);
+  setMessage(30);
   const sDim = await getImageDimensions(b64URI);
+  setMessage(35);
+
   const sDimResized = scaleToBase(640, sDim);
+  setMessage(40);
+
   const base64StrResized = await resizeImg(
     b64URI,
     sDimResized.w,
     sDimResized.h
   );
+  setMessage(45);
+
   const filename = `${username}.jpg`;
   const file = await b64URItoFile(base64StrResized.src, filename);
+  setMessage(50);
   return file;
 };

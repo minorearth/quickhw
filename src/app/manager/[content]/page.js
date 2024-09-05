@@ -9,18 +9,12 @@ import QRCode from "react-qr-code";
 import { Box } from "@mui/material";
 import Fab from "@mui/material/Fab";
 import QrCodeIcon from "@mui/icons-material/QrCode";
+import { Qr } from "./qr";
 
 export default function Content({ params }) {
   const [currRow, setCurrRow] = useState();
   const [rows, setRowsx] = useState([]);
-  const [qrLink, setQrLink] = useState([]);
   const [qrVisible, setQrVisible] = useState(false);
-
-  useEffect(() => {
-    setQrLink(
-      `${process.env.NEXT_PUBLIC_DOMAIN}/dropfiles/img/${params.content}`
-    );
-  }, []);
 
   return (
     <Box
@@ -42,18 +36,7 @@ export default function Content({ params }) {
       />
       <MediaCard row={currRow} session={params.content} setRowsx={setRowsx} />
 
-      {qrVisible && (
-        <QRCode
-          style={{
-            flex: 1,
-            height: "auto",
-            maxHeight: "100%",
-            maxWidth: "100%",
-            width: "100%",
-          }}
-          value={qrLink}
-        />
-      )}
+      {qrVisible && <Qr session={params.content} />}
     </Box>
   );
 }

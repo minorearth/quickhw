@@ -10,6 +10,7 @@ import { getDownloadURL, getMetadata } from "firebase/storage";
 import { getDocFromCollectionByIdRealtime } from "../../../datamodel";
 import { onSnapshot } from "firebase/firestore";
 import { Box } from "@mui/material";
+import Link from "@mui/material/Link";
 
 export default function SurvFilesGrid2({
   setCurrRow,
@@ -19,18 +20,28 @@ export default function SurvFilesGrid2({
 }) {
   const handleViewClick = (row) => {
     setCurrRow(row);
+    row.type == "zip";
   };
 
   const columns = [
     // { field: "id", headerName: "id", width: 130 },
-    { field: "name", headerName: "Файл", flex: 1, minwidth: 230 },
-    // { field: "path", headerName: "Путь", width: 130 },
+    // { field: "name", headerName: "Файл", flex: 1, minwidth: 230 },
+    // { field: "type", headerName: "Type", flex: 1, minwidth: 230 },
+    {
+      field: "zip",
+      headerName: "zip",
+      width: 200,
+      renderCell: (params) => (
+        <Link href={params.row.path}>{params.row.name}</Link>
+      ),
+    },
     {
       field: "actions",
       type: "actions",
       getActions: (params) => [
         // eslint-disable-next-line react/jsx-key
         <GridActionsCellItem
+          sx={{ display: params.row.type != "img" ? "none" : "inherit" }}
           label="View"
           icon={<PreviewIcon sx={{ fontSize: 40 }} />}
           onClick={() => handleViewClick(params.row)}
@@ -58,6 +69,7 @@ export default function SurvFilesGrid2({
       name: obj[key].name,
       id: key,
       path: obj[key].path,
+      type: obj[key].type,
     }));
   };
 

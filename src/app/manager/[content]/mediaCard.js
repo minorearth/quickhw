@@ -21,23 +21,6 @@ export const MediaCard = ({ row, session, setRowsx }) => {
       }}
     >
       {!!row && <Drawer row={row} session={session} setRowsx={setRowsx} />}
-      {/* <Image
-        src={path}
-        width={5}
-        height={5}
-        // fill
-        // width='auto'
-
-        style={{
-          // objectFit: "contain",
-          width: "90%",
-          height: "auto",
-        }}
-        sizes="(max-width: 768px) 100vw, 33vw"
-        //   src={`${img}?w=248&fit=crop&auto=format`}
-        alt="imagehw"
-        //   loading="lazy"
-      /> */}
     </Box>
   );
   // )

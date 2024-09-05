@@ -98,7 +98,7 @@ const Drawer = ({ row, session, setRowsx }) => {
         <SettingsIcon sx={{ fontSize: 60 }} />
       </IconButton> */}
       <Fab
-        sx={{ position: "absolute", bottom: 16, right: 16 }}
+        sx={{ position: "absolute", bottom: 16, left: 16 }}
         variant="extended"
         onClick={() => handleSaveImage()}
       >
