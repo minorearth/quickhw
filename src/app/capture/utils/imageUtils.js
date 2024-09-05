@@ -56,11 +56,11 @@ const prepareImages = (photos) => {
 
 export const prepareAndMergeImagesTob46URI = async (photos) => {
   const images = prepareImages(photos);
-  const b64 = await mergeImages(images.images, {
+  const b64URI = await mergeImages(images.images, {
     height: images.totalH,
     width: images.maxW,
   });
-  return b64;
+  return { b64URI, h: images.totalH, w: images.maxW };
 };
 
 export const b64URItoFile = async (b64URI, filename) => {
@@ -84,21 +84,23 @@ export const mergeAllImages = async (files, username, setMessage) => {
   const photos = await Promise.all(
     files.map(async (file) => {
       const base64Str = await blobToBase64(file);
-      const sDim = await getImageDimensions(base64Str);
+      console.log(base64Str);
+      const sDim = await getImageDimensions(base64Str, setMessage);
       return { src: base64Str, w: sDim.w, h: sDim.h };
     })
   );
   setMessage(20);
-  const b64URI = await prepareAndMergeImagesTob46URI(photos);
+  const imageMerged = await prepareAndMergeImagesTob46URI(photos);
   setMessage(30);
-  const sDim = await getImageDimensions(b64URI);
+  // console.log(b64URI);
+  const sDim = { w: imageMerged.w, h: imageMerged.h };
   setMessage(35);
 
   const sDimResized = scaleToBase(640, sDim);
   setMessage(40);
 
   const base64StrResized = await resizeImg(
-    b64URI,
+    imageMerged.b64URI,
     sDimResized.w,
     sDimResized.h
   );
