@@ -18,7 +18,7 @@ const DropZone = ({ session, setEditProfile, type }) => {
   const [snackopen, setSnackopen] = useState({ open: false, text: "" });
   const [showProgress, setShowProgress] = useState(false);
   const [acceptFiles, setAcceptFiles] = useState();
-  const [perc, setMessage] = useState("hello");
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     type == "img"
@@ -49,18 +49,12 @@ const DropZone = ({ session, setEditProfile, type }) => {
 
   const handleSendFilesClick = async () => {
     if (files.length != 0) {
-      setShowProgress(1);
+      setShowProgress(true);
       const username = getUserName();
-      setMessage(2);
       const fileName = getFileName(username);
-      setMessage(5);
-
       if (type == "img") {
-        setMessage(10);
-        const file = await mergeAllImages(files, username, setMessage);
-        setMessage(85);
+        const file = await mergeAllImages(files, username, setProgress);
         UploadFileAndRefreshcollection(file, session, username, "img");
-        setMessage(99);
       } else {
         const fileZIP = await compressFiles(files, `${fileName}.zip`);
         UploadFileAndRefreshcollection(fileZIP, session, username, "zip");
@@ -91,7 +85,7 @@ const DropZone = ({ session, setEditProfile, type }) => {
       }}
     >
       <Snack snackopen={snackopen} setSnackopen={setSnackopen} />
-      <Progress open={showProgress} perc={perc} />
+      <Progress open={showProgress} perc={progress} />
       <Box
         sx={{
           display: "flex",

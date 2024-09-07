@@ -50,3 +50,12 @@ export const getDocFromCollectionByIdRealtime = async (
   const data = docSnap.data();
   return { id: docSnap.id, ...data };
 };
+
+// export const addDocInCollection = async (collectionName, data) => {
+//   const doc = await addDoc(collection(db, collectionName), data);
+//   return doc.id;
+// };
+
+export const log = async (data) => {
+  await updateDoc(doc(db, "logs", "1"), data);
+};

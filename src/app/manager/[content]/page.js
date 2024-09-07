@@ -1,20 +1,18 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { MediaCard } from "./mediaCard";
-import { DataGrid } from "@mui/x-data-grid";
-import SurvFilesGrid from "./survFilesGrid";
-import SurvFilesGrid2 from "./survFilesGrid2";
-import QRCode from "react-qr-code";
+import { MediaCard } from "./components/mediacard/mediaCard";
+import SurvFilesGrid2 from "./components/survFilesGrid";
 import { Box } from "@mui/material";
 import Fab from "@mui/material/Fab";
 import QrCodeIcon from "@mui/icons-material/QrCode";
-import { Qr } from "./qr";
+import { Qr } from "./components/qr";
 
 export default function Content({ params }) {
   const [currRow, setCurrRow] = useState();
   const [rows, setRowsx] = useState([]);
   const [qrVisible, setQrVisible] = useState(false);
+  const [mediacardVisible, setMediacardVisible] = useState(false);
 
   return (
     <Box
@@ -33,8 +31,11 @@ export default function Content({ params }) {
         rows={rows}
         setRowsx={setRowsx}
         session={params.content}
+        setMediacardVisible={setMediacardVisible}
       />
-      <MediaCard row={currRow} session={params.content} setRowsx={setRowsx} />
+      {mediacardVisible && (
+        <MediaCard row={currRow} session={params.content} setRowsx={setRowsx} />
+      )}
 
       {qrVisible && <Qr session={params.content} />}
     </Box>

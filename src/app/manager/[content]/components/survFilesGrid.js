@@ -4,11 +4,8 @@ import { GridActionsCellItem } from "@mui/x-data-grid";
 import PreviewIcon from "@mui/icons-material/Preview";
 
 import { useState, useEffect } from "react";
-import { getAllFiles } from "../../../storagedb";
 import { DataGrid } from "@mui/x-data-grid";
-import { getDownloadURL, getMetadata } from "firebase/storage";
-import { getDocFromCollectionByIdRealtime } from "../../../datamodel";
-import { onSnapshot } from "firebase/firestore";
+import { getDocFromCollectionByIdRealtime } from "../../../../datamodel";
 import { Box } from "@mui/material";
 import Link from "@mui/material/Link";
 
@@ -17,10 +14,12 @@ export default function SurvFilesGrid2({
   session,
   rows,
   setRowsx,
+  setMediacardVisible,
 }) {
   const handleViewClick = (row) => {
+    setMediacardVisible(true);
     setCurrRow(row);
-    row.type == "zip";
+    // row.type == "zip";
   };
 
   const columns = [
@@ -29,7 +28,7 @@ export default function SurvFilesGrid2({
     // { field: "type", headerName: "Type", flex: 1, minwidth: 230 },
     {
       field: "zip",
-      headerName: "zip",
+      headerName: "Файл",
       width: 200,
       renderCell: (params) => (
         <Link href={params.row.path}>{params.row.name}</Link>
@@ -48,29 +47,27 @@ export default function SurvFilesGrid2({
         />,
       ],
     },
-    { field: "updated", headerName: "Дата изменения", width: 200 },
-
-    // { field: "timestamp", headerName: "Датаx и время", width: 130 },
+    {
+      field: "datetime",
+      headerName: "Дата изменения",
+      width: 200,
+      type: "dateTime",
+    },
   ];
 
-  const formatDate = (unformatted) => {
-    let date2 = new Date(unformatted);
-    const localUnformatted = date2.toLocaleString();
-    // const regex =
-    //   /(?<day>\d{2})\/(?<month>\d{2})\/(?<age>\d{2})(?<year>\d{2}), (?<hour>\d{2}):(?<minute>\d{2}):(?<second>\d{2})/;
-    // // const found = localUnformatted.match(regex).groups;
-    // const { year, month, day, hour, minute, second } = found;
-    return localUnformatted;
-    // return `${date2.getDay()}.${date2.getMonth()}.${date2.get()} ${date2.getHours()}:${date2.getMinutes()}:${date2.getSeconds()} `;
-  };
-
   const ObjtoArr = (obj) => {
-    return Object.keys(obj).map((key) => ({
-      name: obj[key].name,
-      id: key,
-      path: obj[key].path,
-      type: obj[key].type,
-    }));
+    return !obj
+      ? []
+      : Object.keys(obj).map((key) => {
+          const datetime = new Date(obj[key]?.datetime?.seconds * 1000);
+          return {
+            name: obj[key].name,
+            id: key,
+            path: obj[key].path,
+            type: obj[key].type,
+            datetime: datetime,
+          };
+        });
   };
 
   const Refresh = (freshdata) => {
@@ -81,16 +78,27 @@ export default function SurvFilesGrid2({
     getDocFromCollectionByIdRealtime("surveys", session, Refresh).then(
       (docData) => {
         // const fileMeta = await getMetadata(file);
-        // const dateFormatted = formatDate(fileMeta.updated);
-        const files = docData.files;
-        setRowsx(ObjtoArr(files));
+        setRowsx(ObjtoArr(docData?.files));
       }
     );
   }, []);
 
   return (
-    <Box sx={{ width: "30%", height: "100%" }}>
-      <DataGrid autoHeight rows={rows} columns={columns} />
+    <Box sx={{ minWidth: "30%", width: "100%", height: "100%", flex: 1 }}>
+      <DataGrid
+        autoHeight
+        rows={rows}
+        columns={columns}
+        initialState={{
+          sorting: {
+            sortModel: [{ field: "datetime", sort: "desc" }],
+          },
+        }}
+        onRowSelectionModelChange={(newRowSelectionModel) => {
+          console.log("zuu");
+          setMediacardVisible(false);
+        }}
+      />
     </Box>
   );
 }
