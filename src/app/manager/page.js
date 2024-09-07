@@ -116,7 +116,7 @@ export default function Manager({ user, setEditProfile }) {
   return (
     <>
       {!closeSplash && (
-        <Splash setCloseSplash={setCloseSplash} duration={200} />
+        <Splash setCloseSplash={setCloseSplash} duration={2000} />
       )}
       {closeSplash && (
         <SurveyGrid
