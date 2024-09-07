@@ -4,6 +4,8 @@ import { Box } from "@mui/material";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import Fab from "@mui/material/Fab";
+import LinkIcon from "@mui/icons-material/Link";
 
 export const Qr = ({ session }) => {
   const [qrLink, setQrLink] = useState([]);
@@ -33,6 +35,15 @@ export const Qr = ({ session }) => {
         alignItems: "center",
       }}
     >
+      <Fab
+        sx={{ position: "absolute", top: 16, right: 88 }}
+        color="primary"
+        onClick={() => {
+          navigator.clipboard.writeText(qrLink);
+        }}
+      >
+        <LinkIcon />
+      </Fab>
       <QRCode
         style={{
           flex: 1,

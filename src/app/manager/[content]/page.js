@@ -20,12 +20,12 @@ export default function Content({ params }) {
     >
       <Fab
         sx={{ position: "absolute", top: 16, right: 16 }}
-        variant="extended"
+        color="primary"
         onClick={() => setQrVisible((state) => !state)}
       >
-        <QrCodeIcon sx={{ mr: 1 }} />
-        Показать QR-код
+        <QrCodeIcon />
       </Fab>
+
       <SurvFilesGrid2
         setCurrRow={setCurrRow}
         rows={rows}
