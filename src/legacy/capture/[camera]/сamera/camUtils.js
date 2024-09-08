@@ -1,4 +1,7 @@
-import { getImageDimensions, resizeWebCamImg } from "../../utils/imageUtils";
+import {
+  getImageDimensions,
+  resizeWebCamImg,
+} from "../../../../app/utils/imageUtils";
 
 export const capturePhoto = async (webcamRef, orientation) => {
   const base64Str = await webcamRef.current.getScreenshot();

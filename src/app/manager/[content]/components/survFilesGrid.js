@@ -2,10 +2,11 @@
 
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import PreviewIcon from "@mui/icons-material/Preview";
+import { PiImageSquareBold } from "react-icons/pi";
 
 import { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { getDocFromCollectionByIdRealtime } from "../../../../datamodel";
+import { getDocFromCollectionByIdRealtime } from "../../../db/datamodel";
 import { Box } from "@mui/material";
 import Link from "@mui/material/Link";
 
@@ -42,7 +43,7 @@ export default function SurvFilesGrid2({
         <GridActionsCellItem
           sx={{ display: params.row.type != "img" ? "none" : "inherit" }}
           label="View"
-          icon={<PreviewIcon sx={{ fontSize: 40 }} />}
+          icon={<PiImageSquareBold style={{ fontSize: 40 }} />}
           onClick={() => handleViewClick(params.row)}
         />,
       ],

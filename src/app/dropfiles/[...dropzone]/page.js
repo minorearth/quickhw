@@ -1,7 +1,7 @@
 "use client";
 import DropZone from "./dropzone";
 import Profile from "../../components/profile.js";
-import { useCredentials } from "../../useCredentials.js";
+import { useCredentials } from "../../hooks/useCredentials";
 
 export default function Home({ params }) {
   const { auth, setAuth, setEditProfile, editProfile } = useCredentials();

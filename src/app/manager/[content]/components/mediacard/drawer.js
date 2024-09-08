@@ -1,13 +1,13 @@
 import React, { useCallback, useState } from "react";
 import { Stage, Layer, Line, Text, Image } from "react-konva";
 import useImage from "use-image";
-import { UploadFile } from "../../../../../storagedb";
+import { UploadFile } from "../../../../db/storagedb";
 import Fab from "@mui/material/Fab";
 import NavigationIcon from "@mui/icons-material/Navigation";
 import Box from "@mui/material/Box";
 import { useEffect } from "react";
 import { getDownloadURL } from "firebase/storage";
-import { getImageDimensions } from "../../../../capture/utils/imageUtils";
+import { getImageDimensions } from "../../../../utils/imageUtils";
 import useMeasure from "react-use-measure";
 
 const Drawer = ({ row, session, setRowsx }) => {

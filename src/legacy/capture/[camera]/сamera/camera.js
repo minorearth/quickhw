@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import Webcam from "react-webcam";
-import { UploadFile } from "../../../../storagedb";
+import { UploadFile } from "../../../../app/db/storagedb";
 import Box from "@mui/material/Box";
 import Image from "next/image";
 import { useState } from "react";
@@ -11,15 +11,15 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import FlipCameraIosIcon from "@mui/icons-material/FlipCameraIos";
-import { Snack } from "../../../components/snackbar";
-import { useOrientation } from "../../../useOrientaton";
+import { Snack } from "../../../../app/components/snackbar";
+import { useOrientation } from "../../../../app/hooks/useOrientaton";
 import {
   prepareAndMergeImagesTob46URI,
   b64URItoFile,
-} from "../../../capture/utils/imageUtils";
-import { UploadFileAndRefreshcollection } from "../../../domain/utils";
+} from "../../../../app/utils/imageUtils";
+import { UploadFileAndRefreshcollection } from "../../../../app/domain/utils";
 
-import { getUserName, getImgCnt } from "../../../localstorage";
+import { getUserName, getImgCnt } from "../../../../app/localstorage";
 import { capturePhoto } from "./camUtils";
 import Progress from "@/app/components/backdrop";
 

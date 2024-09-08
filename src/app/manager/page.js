@@ -2,15 +2,14 @@
 
 import SurveyGrid from "./surveygrid";
 import { useState, useEffect } from "react";
-import { addDocInCollection, getDocsKeyValue } from "../../datamodelSSR";
+import { addDocInCollection, getDocsKeyValue } from "../db/datamodelSSR";
 import PreviewIcon from "@mui/icons-material/Preview";
 import QrCodeIcon from "@mui/icons-material/QrCode";
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import { useRouter } from "next/navigation";
-import { getAllFiles } from "../../storagedb";
+import { getAllFiles } from "../db/storagedb";
 import Splash from "../components/splash/splash.js";
 import { getUserName } from "../localstorage";
-import CameraEnhanceIcon from "@mui/icons-material/CameraEnhance";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 
 export default function Manager({ user, setEditProfile }) {
@@ -32,14 +31,6 @@ export default function Manager({ user, setEditProfile }) {
     getDocsKeyValue("surveys", "user", user).then((docs) => {
       setRows(ETL(docs));
     });
-  };
-
-  const handlePhotoReportClick = (id) => {
-    router.push(`/qr/capture/${id}`);
-  };
-
-  const handleFilesReportClick = (id) => {
-    router.push(`/qr/dropfiles/${id}`);
   };
 
   const handleViewClick = (id) => {

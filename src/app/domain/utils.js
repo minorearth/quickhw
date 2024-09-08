@@ -1,6 +1,6 @@
-import { UploadFile } from "../../storagedb";
+import { UploadFile } from "../db/storagedb";
 import { getDownloadURL } from "firebase/storage";
-import { updateDocFieldsInCollectionById } from "../../datamodelSSR";
+import { updateDocFieldsInCollectionById } from "../db/datamodelSSR";
 
 export const UploadFileAndRefreshcollection = async (
   file,

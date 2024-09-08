@@ -6,12 +6,12 @@ import IosShareIcon from "@mui/icons-material/IosShare";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Snack } from "../../components/snackbar";
 import { getImgCnt, getUserName } from "../../localstorage";
-import { useOrientation } from "../../useOrientaton";
+import { useOrientation } from "../../hooks/useOrientaton";
 import JSZip from "jszip";
 import Progress from "@/app/components/backdrop";
 import Drop from "./drop";
 import { UploadFileAndRefreshcollection } from "../../domain/utils";
-import { mergeAllImages } from "../../capture/utils/imageUtils";
+import { mergeAllImages } from "../../utils/imageUtils";
 
 const DropZone = ({ session, setEditProfile, type }) => {
   const [files, setFiles] = useState([]);
