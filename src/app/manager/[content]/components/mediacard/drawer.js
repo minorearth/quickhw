@@ -5,7 +5,7 @@ import useImage from "use-image";
 import Box from "@mui/material/Box";
 import { useEffect } from "react";
 
-import { getImageDimensions } from "../../../../capture/utils/imageUtils";
+import { getImageDimensions } from "../../../../utils/imageUtils";
 import useMeasure from "react-use-measure";
 
 const Drawer = forwardRef(({ row, setShowProgress, stageRef }) => {

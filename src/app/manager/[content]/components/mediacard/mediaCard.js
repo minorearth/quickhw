@@ -6,7 +6,7 @@ import Drawer from "./drawer";
 import Fab from "@mui/material/Fab";
 import NavigationIcon from "@mui/icons-material/Navigation";
 import { getDownloadURL } from "firebase/storage";
-import { UploadFile } from "../../../../../storagedb";
+import { UploadFile } from "../../../../db/storagedb";
 import SaveIcon from "@mui/icons-material/Save";
 import HideImageIcon from "@mui/icons-material/HideImage";
 import Progress from "@/app/components/progress";

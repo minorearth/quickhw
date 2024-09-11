@@ -3,12 +3,12 @@ import Box from "@mui/material/Box";
 import { useState } from "react";
 import IconButton from "@mui/material/IconButton";
 import { Snack } from "../../components/snackbar";
-import { useOrientation } from "../../useOrientaton";
+import { useOrientation } from "../../hooks/useOrientaton";
 import JSZip from "jszip";
 import Progress from "@/app/components/progress";
 import Drop from "./drop";
 import { UploadFileAndRefreshcollection } from "../../domain/utils";
-import { mergeAllImages } from "../../capture/utils/imageUtils";
+import { mergeAllImages } from "../../utils/imageUtils";
 import TextField from "@mui/material/TextField";
 import EmailIcon from "@mui/icons-material/Email";
 
