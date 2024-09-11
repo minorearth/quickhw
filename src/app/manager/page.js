@@ -34,14 +34,6 @@ export default function Manager({ user, setEditProfile }) {
     });
   };
 
-  const handlePhotoReportClick = (id) => {
-    router.push(`/qr/capture/${id}`);
-  };
-
-  const handleFilesReportClick = (id) => {
-    router.push(`/qr/dropfiles/${id}`);
-  };
-
   const handleViewClick = (id) => {
     router.push(`/manager/${id}`);
   };

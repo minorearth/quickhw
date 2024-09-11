@@ -8,6 +8,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { getDocFromCollectionByIdRealtime } from "../../../../datamodel";
 import { Box } from "@mui/material";
 import Link from "@mui/material/Link";
+import { RiImageEditFill } from "react-icons/ri";
 
 export default function SurvFilesGrid2({
   setCurrRow,
@@ -42,7 +43,7 @@ export default function SurvFilesGrid2({
         <GridActionsCellItem
           sx={{ display: params.row.type != "img" ? "none" : "inherit" }}
           label="View"
-          icon={<PreviewIcon sx={{ fontSize: 40 }} />}
+          icon={<RiImageEditFill style={{ fontSize: 40 }} />}
           onClick={() => handleViewClick(params.row)}
         />,
       ],

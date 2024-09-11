@@ -21,7 +21,7 @@ import { UploadFileAndRefreshcollection } from "../../../domain/utils";
 
 import { getUserName, getImgCnt } from "../../../localstorage";
 import { capturePhoto } from "./camUtils";
-import Progress from "@/app/components/backdrop";
+import Progress from "@/app/components/progress";
 
 const sendBase64URI = async (b64URI, session, username) => {
   // const fileid = getImgCnt();

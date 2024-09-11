@@ -6,7 +6,17 @@ import SurvFilesGrid2 from "./components/survFilesGrid";
 import { Box } from "@mui/material";
 import Fab from "@mui/material/Fab";
 import QrCodeIcon from "@mui/icons-material/QrCode";
+import { TbQrcode } from "react-icons/tb";
+import { TbQrcodeOff } from "react-icons/tb";
+
 import { Qr } from "./components/qr";
+<Fab
+  sx={{ position: "absolute", top: 16, right: 16 }}
+  color="primary"
+  onClick={() => setQrVisible((state) => !state)}
+>
+  <QrCodeIcon />
+</Fab>;
 
 export default function Content({ params }) {
   const [currRow, setCurrRow] = useState();
@@ -23,7 +33,11 @@ export default function Content({ params }) {
         color="primary"
         onClick={() => setQrVisible((state) => !state)}
       >
-        <QrCodeIcon />
+        {!qrVisible ? (
+          <TbQrcode style={{ fontSize: 30 }} />
+        ) : (
+          <TbQrcodeOff style={{ fontSize: 30 }} />
+        )}
       </Fab>
 
       <SurvFilesGrid2
@@ -34,7 +48,12 @@ export default function Content({ params }) {
         setMediacardVisible={setMediacardVisible}
       />
       {mediacardVisible && (
-        <MediaCard row={currRow} session={params.content} setRowsx={setRowsx} />
+        <MediaCard
+          row={currRow}
+          session={params.content}
+          setRowsx={setRowsx}
+          setMediacardVisible={setMediacardVisible}
+        />
       )}
 
       {qrVisible && <Qr session={params.content} />}
