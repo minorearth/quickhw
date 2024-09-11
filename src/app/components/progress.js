@@ -9,7 +9,7 @@ const Progress = ({ open, perc }) => {
       sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1 })}
       open={open}
     >
-      <CircularProgress color="inherit" size="40px" />
+      <CircularProgress color="inherit" size="80px" />
       <Box
         sx={{
           top: 0,
@@ -25,7 +25,7 @@ const Progress = ({ open, perc }) => {
         <Typography
           variant="caption"
           component="div"
-          sx={{ color: "text.secondary" }}
+          sx={{ color: "white", fontSize: 20 }}
         >
           {`${perc}%`}
         </Typography>

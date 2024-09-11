@@ -1,24 +1,21 @@
-import React, { useCallback, useState } from "react";
+import React, { forwardRef, useCallback, useState } from "react";
 import { Stage, Layer, Line, Text, Image } from "react-konva";
 import useImage from "use-image";
-import { UploadFile } from "../../../../db/storagedb";
-import Fab from "@mui/material/Fab";
-import NavigationIcon from "@mui/icons-material/Navigation";
+
 import Box from "@mui/material/Box";
 import { useEffect } from "react";
-import { getDownloadURL } from "firebase/storage";
-import { getImageDimensions } from "../../../../utils/imageUtils";
+
+import { getImageDimensions } from "../../../../capture/utils/imageUtils";
 import useMeasure from "react-use-measure";
 
-const Drawer = ({ row, session, setRowsx }) => {
+const Drawer = forwardRef(({ row, setShowProgress, stageRef }) => {
   const [tool, setTool] = React.useState("pen");
   const [lines, setLines] = React.useState([]);
   const [imgDim, setImgDim] = useState({ w: 0, h: 0 });
   const isDrawing = React.useRef(false);
-  const stageRef = React.useRef(null);
   const { contSize, setContSize } = useState();
 
-  const [image] = useImage(row.path, "Anonymous");
+  const [image, status] = useImage(row.path, "Anonymous");
   const [ref, bounds] = useMeasure();
 
   useEffect(() => {
@@ -29,6 +26,8 @@ const Drawer = ({ row, session, setRowsx }) => {
   }, [row]);
 
   const LionImage = useCallback(() => {
+    status == "loaded" && setShowProgress(false);
+    status == "loading" && setShowProgress(true);
     return (
       <Image
         image={image}
@@ -36,7 +35,7 @@ const Drawer = ({ row, session, setRowsx }) => {
         scaleY={bounds.width / imgDim.w}
       />
     );
-  }, [image, bounds, imgDim]);
+  }, [image, bounds, imgDim, status]);
 
   const handleMouseDown = (e) => {
     isDrawing.current = true;
@@ -61,22 +60,6 @@ const Drawer = ({ row, session, setRowsx }) => {
     isDrawing.current = false;
   };
 
-  const handleSaveImage = async () => {
-    const imageSrc = stageRef.current.toDataURL();
-    const preBlob = await fetch(imageSrc);
-    const blob = await preBlob.blob();
-
-    const file = new File([blob], `${row.name}`, {
-      type: blob.type,
-    });
-    const doc = await UploadFile({ file, folder: session });
-    const path = await getDownloadURL(doc.ref);
-    setRowsx((rows) => {
-      rows.filter((srcrow) => srcrow.name == row.name)[0].path = path;
-      return rows;
-    });
-  };
-
   return (
     // <Box sx={{ "& > :not(style)": { m: 1 } }}>
     <Box
@@ -86,6 +69,7 @@ const Drawer = ({ row, session, setRowsx }) => {
         width: "100%",
         height: "100%",
         overflow: "auto",
+        // position: "relative",
       }}
       id="signInButton"
     >
@@ -96,14 +80,7 @@ const Drawer = ({ row, session, setRowsx }) => {
       >
         <SettingsIcon sx={{ fontSize: 60 }} />
       </IconButton> */}
-      <Fab
-        sx={{ position: "absolute", bottom: 16, left: 16 }}
-        variant="extended"
-        onClick={() => handleSaveImage()}
-      >
-        <NavigationIcon sx={{ mr: 1 }} />
-        Сохранить
-      </Fab>
+
       <Stage
         ref={stageRef}
         // width={window.innerWidth}
@@ -149,6 +126,7 @@ const Drawer = ({ row, session, setRowsx }) => {
       </select> */}
     </Box>
   );
-};
+});
+Drawer.displayName = "drawer";
 
 export default Drawer;
