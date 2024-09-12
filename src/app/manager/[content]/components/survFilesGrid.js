@@ -86,7 +86,15 @@ export default function SurvFilesGrid2({
   }, []);
 
   return (
-    <Box sx={{ minWidth: "30%", width: "100%", height: "100%", flex: 1 }}>
+    <Box
+      sx={{
+        minWidth: "30%",
+        width: "100%",
+        height: "100%",
+        overflow: "auto",
+        flex: 1,
+      }}
+    >
       <DataGrid
         autoHeight
         rows={rows}

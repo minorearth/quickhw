@@ -88,6 +88,7 @@ const DropZone = ({ session, setEditProfile, type }) => {
         height: "100%",
         alignItems: "center",
         padding: "10px",
+        transition: "padding 5s",
       }}
     >
       <Snack snackopen={snackopen} setSnackopen={setSnackopen} />
