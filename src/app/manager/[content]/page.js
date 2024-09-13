@@ -19,6 +19,7 @@ import {
 
 import { Roboto } from "next/font/google";
 import localFont from "next/font/local";
+import { motion } from "framer-motion";
 
 import { Qr } from "./components/qr";
 const roboto = Roboto({
@@ -27,6 +28,16 @@ const roboto = Roboto({
 });
 
 const myFont = localFont({ src: "../../fonts/overdozesans.ttf" });
+
+const variantButton = {
+  hover: {
+    scale: 1.3,
+    transition: {
+      duration: 0.3,
+      yoyo: Infinity,
+    },
+  },
+};
 
 export default function Content({ params }) {
   const [currRow, setCurrRow] = useState();
@@ -37,7 +48,7 @@ export default function Content({ params }) {
   const [mediacardVisible, setMediacardVisible] = useState(false);
 
   const [note, setNote] = useState(
-    "Перейдите по ссылке в QR-коде. Нажмите на область загрузки файлов.Cфотографируйте экран монитора, так чтобы был видел номер ПК. Нажмите на область загрузки файлов, выберите файлы для отправки"
+    "ЗАДАНИЕ[шаблон]\n\n1)Скачай файл из задания\n2)Заполни файл\n3)Перейди с телефона по ссылке в QR-коде, нажми на область загрузки файлов. Выбери файлы и отправь учителю\n\nили\n\nПерейди с телефона по ссылке в QR-коде, нажми на область загрузки файлов. Cфотографируй документ с монитора, так чтобы был виден номер ПК и отправь учителю\n\nили\n\nОткрой ссылку на компьютере,выбери файлы и отправь их учителю\n\nУдачи!!!"
   );
 
   useEffect(() => {
@@ -70,6 +81,17 @@ export default function Content({ params }) {
         sx={{ position: "absolute", top: 16, right: 16 }}
         color="primary"
         onClick={() => setQrVisible((state) => !state)}
+        component={motion.div}
+        animate={{
+          scale: [1, 1.3, 1],
+        }}
+        transition={{
+          duration: 5,
+          ease: "easeInOut",
+          // times: [0, 0.2, 0.5, 0.8, 1],
+          repeat: Infinity,
+          repeatDelay: 0,
+        }}
       >
         {!qrVisible ? (
           <TbQrcode style={{ fontSize: 30 }} />
@@ -114,9 +136,9 @@ export default function Content({ params }) {
               inputProps={{
                 style: {
                   color: "#405D72",
-                  fontSize: 34,
+                  fontSize: 30,
                   fontStyle: "italic",
-                  fontWeight: "bold",
+                  // fontWeight: "bold",
                   fontFamily: myFont.style.fontFamily,
                 },
               }}
