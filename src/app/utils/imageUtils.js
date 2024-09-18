@@ -29,17 +29,6 @@ export const resizeImg = (base64Str, w, h) => {
   });
 };
 
-export const resizeWebCamImg = async (base64Str, orientation, w, h) => {
-  switch (true) {
-    case (orientation == "portrait" && w < h) ||
-      (orientation != "portrait" && w > h):
-      return { src: base64Str, w, h };
-    case (orientation == "portrait" && w >= h) ||
-      (orientation != "portrait" && w <= h):
-      return await resizeImg(base64Str, h, w);
-  }
-};
-
 const prepareImages = (photos, log) => {
   let pos = 0;
   let maxW = 0;
@@ -148,43 +137,3 @@ export const mergeAllImages = async (files, username, setProgress) => {
     );
   });
 };
-
-// export const mergeAllImages = async (files, username, setMessage) => {
-//   const photos = await Promise.all(
-//     files.map(async (file) => {
-//       setMessage(11);
-//       const base64Str = await blobToBase64(file);
-//       setMessage(12);
-
-//       const arrayBuffer = await file.arrayBuffer();
-//       const sDim = await getImageDimensions(arrayBuffer, setMessage);
-//       setMessage(13);
-
-//       return { src: base64Str, w: sDim.w, h: sDim.h };
-//     })
-//   );
-
-//   setMessage(20);
-//   const imageMerged = await prepareAndMergeImagesTob46URI(photos, log);
-
-//   setMessage(30);
-//   const sDim = { w: imageMerged.w, h: imageMerged.h };
-//   setMessage(35);
-
-//   const sDimResized = scaleToBase(640, sDim);
-//   setMessage(40);
-//   setMessage(`${imageMerged.w} ${imageMerged.b64URI}`);
-
-//   // const base64StrResized = await resizeImg(
-//   //   imageMerged.b64URI,
-//   //   sDimResized.w,
-//   //   sDimResized.h
-//   // );
-//   setMessage(45);
-
-//   const filename = `${username}.jpg`;
-//   // const file = await b64URItoFile(base64StrResized.src, filename);
-//   const file = await b64URItoFile(imageMerged.b64URI, filename);
-//   setMessage(50);
-//   return file;
-// };

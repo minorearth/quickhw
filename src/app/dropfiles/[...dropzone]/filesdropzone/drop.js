@@ -1,6 +1,6 @@
 import React from "react";
 import { useDropzone } from "react-dropzone";
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { Box } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import List from "@mui/material/List";
@@ -39,21 +39,25 @@ const rejectStyle = {
   borderColor: "#ff1744",
 };
 
-const Drop = ({ setFiles, files, type, accept }) => {
-  const {
-    acceptedFiles,
-    getRootProps,
-    getInputProps,
-    isFocused,
-    isDragAccept,
-    isDragReject,
-  } = useDropzone({
-    accept,
-    maxSize: 10 * 1024 * 1024,
-    onDrop: (acceptedFiles) => {
-      setFiles((files) => [...files, ...acceptedFiles]);
-    },
-  });
+const Drop = ({ setFiles, files, type }) => {
+  const [accept, setAcceptFiles] = useState();
+
+  useEffect(() => {
+    type == "img"
+      ? setAcceptFiles({
+          "image/png": [".png", ".jpg", ".jpeg", ".bmp", ".gif"],
+        })
+      : {};
+  }, []);
+
+  const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } =
+    useDropzone({
+      accept,
+      maxSize: 10 * 1024 * 1024,
+      onDrop: (acceptedFiles) => {
+        setFiles((files) => [...files, ...acceptedFiles]);
+      },
+    });
 
   const style = useMemo(
     () => ({
@@ -97,7 +101,6 @@ const Drop = ({ setFiles, files, type, accept }) => {
           </ListItem>
         ))}
       </List>
-      {/* <aside>{files.length != 0 && <ul>{files}</ul>}</aside> */}
     </Box>
   );
 };

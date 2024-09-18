@@ -1,11 +1,6 @@
 "use client";
-import Image from "next/image";
-import styles from "./page.module.css";
-import { UploadFilesDialog } from "./fileupload.js";
-import Camera from "../legacy/capture/[camera]/сamera/camera";
-import { useEffect, useState } from "react";
-import Manager from "./manager/page";
-import { getUserName } from "./localstorage";
+
+import Manager from "./manager/manager";
 import Profile from "./components/profile";
 import { useCredentials } from "./hooks/useCredentials";
 
