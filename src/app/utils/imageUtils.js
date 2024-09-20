@@ -108,6 +108,20 @@ const prepareImages2 = async (files, setProgress) => {
   return { images: allimg, totalH: pos, maxW };
 };
 
+export const rotateImage = async (file, filename) => {
+  return new Promise(function (resolved, rejected) {
+    new Jimp(file, (err, image) => {
+      image.rotate(90);
+      image.getBuffer(Jimp.AUTO, (err, res) => {
+        const file = new File([res], filename, {
+          type: "image/png",
+        });
+        resolved(file);
+      });
+    });
+  });
+};
+
 export const mergeAllImages = async (files, username, setProgress) => {
   const filesPrepared = await prepareImages2(files, setProgress);
   return new Promise(function (resolved, rejected) {

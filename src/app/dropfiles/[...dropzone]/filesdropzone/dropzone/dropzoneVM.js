@@ -22,8 +22,8 @@ const useDropZone = ({ session, type }) => {
         const file = await mergeAllImages(files, name, setProgress);
         UploadFileAndRefreshcollection(file, session, name, "img");
       } else {
-        const fileZIP = await compressFiles(files, `${name}.zip`);
-        UploadFileAndRefreshcollection(fileZIP, session, name, "zip");
+        const file = await compressFiles(files, `${name}.zip`);
+        UploadFileAndRefreshcollection(file, session, name, "zip");
       }
       setShowProgress(false);
       showSnack("Все OK! Молодец");

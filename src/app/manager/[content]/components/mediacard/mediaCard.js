@@ -1,27 +1,39 @@
-import * as React from "react";
-import Image from "next/image";
-import { Box } from "@mui/material";
-// import { BlankElement } from "./blankCard";
-import Drawer from "./drawer";
-import Fab from "@mui/material/Fab";
-import NavigationIcon from "@mui/icons-material/Navigation";
+import React, { forwardRef, useCallback, useState } from "react";
+
+import Box from "@mui/material/Box";
+import { useEffect } from "react";
+import { getImageDimensions, rotateImage } from "../../../../utils/imageUtils";
+import useMeasure from "react-use-measure";
+import FabAnimated from "../../../../components/fabAnimated/fabAnimated";
 import { getDownloadURL } from "firebase/storage";
 import { UploadFile } from "../../../../db/storagedb";
-import SaveIcon from "@mui/icons-material/Save";
-import HideImageIcon from "@mui/icons-material/HideImage";
 import Progress from "@/app/components/progress";
-import { useState } from "react";
-
-export const MediaCard = ({ row, session, setRowsx, setMediacardVisible }) => {
-  //   const img = "https://images.unsplash.com/photo-1525097487452-6278ff080c31";
+import Drawer from "./drawer/drawer";
+import { useRef } from "react";
+import useImage from "use-image";
+import { UploadFileAndRefreshcollection } from "../../../../domain/utils";
+const MediaCard = ({
+  row,
+  session,
+  setRowsx,
+  setCurrRow,
+  setMediacardVisible,
+}) => {
+  const [imgDim, setImgDim] = useState({ w: 0, h: 0 });
+  const [ref, bounds] = useMeasure();
   const [showProgress, setShowProgress] = useState(false);
+  const [lines, setLines] = useState([]);
 
-  const stageRef = React.useRef(null);
+  const stageRef = useRef();
+
+  const getusernameFromFileName = (filename) => {
+    return filename.split(".").slice(-2)[0];
+  };
+
   const handleSaveImage = async () => {
     const imageSrc = stageRef.current.toDataURL();
     const preBlob = await fetch(imageSrc);
     const blob = await preBlob.blob();
-
     const file = new File([blob], `${row.name}`, {
       type: blob.type,
     });
@@ -33,55 +45,82 @@ export const MediaCard = ({ row, session, setRowsx, setMediacardVisible }) => {
     });
   };
 
+  useEffect(() => {
+    getImageDimensions(row.path).then((sDim) => {
+      setImgDim(sDim);
+    });
+    // setLines([]);
+  }, [row]);
+
   return (
     <Box
+      ref={ref}
       sx={{
-        backgroundColor: "white",
+        // backgroundColor: "red",
         minWidth: "30%",
-        height: "100%",
-        width: "100%",
         flex: 1,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
+        width: "100%",
+        height: "100%",
         position: "relative",
       }}
+      id="signInButton"
     >
-      <Progress open={showProgress} perc={0} />
-      <Fab
-        sx={{ position: "absolute", top: 16, left: 16 }}
-        // variant="extended"
-        color="primary"
-        onClick={() => handleSaveImage()}
+      <FabAnimated
+        icon="saveImage"
+        visible={true}
+        action={() => handleSaveImage()}
+        position={{ top: 16, left: 16 }}
+      />
+      <FabAnimated
+        icon="hideImage"
+        visible={true}
+        action={() => setMediacardVisible(false)}
+        position={{ top: 16, left: 88 }}
+      />
+      <FabAnimated
+        icon="undo"
+        visible={true}
+        action={() => {
+          lines.splice(-1);
+          setLines([...lines]);
+        }}
+        position={{ top: 16, left: 160 }}
+      />
+      <FabAnimated
+        icon="rotate"
+        visible={true}
+        action={async () => {
+          const file = await rotateImage(row.path, row.name);
+          const doc = await UploadFile({ file, folder: session });
+          const path = await getDownloadURL(doc.ref);
+          setCurrRow({ ...row, path });
+        }}
+        position={{ top: 16, left: 232 }}
+      />
+
+      <Box
+        ref={ref}
+        sx={{
+          flex: 1,
+          width: "100%",
+          height: "100%",
+          overflow: "auto",
+        }}
+        id="signInButton"
       >
-        <SaveIcon />
-        {/* Сохранить */}
-      </Fab>
-      <Fab
-        sx={{ position: "absolute", top: 16, left: 88 }}
-        // variant="extended"
-        color="primary"
-        onClick={() => setMediacardVisible(false)}
-      >
-        <HideImageIcon />
-        {/* Сохранить */}
-      </Fab>
-      {!!row && (
+        <Progress open={showProgress} perc={0} />
         <Drawer
-          row={row}
-          session={session}
-          setRowsx={setRowsx}
+          lines={lines}
+          setLines={setLines}
+          bounds={bounds}
+          imgDim={imgDim}
           stageRef={stageRef}
+          path={row.path}
           setShowProgress={setShowProgress}
         />
-      )}
+      </Box>
     </Box>
   );
-  // )
-
-  // : (
-  //   <BlankElement />
-  // );
 };
 
-// MediaCard.Menu = Menu;
+export default MediaCard;

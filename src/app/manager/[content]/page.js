@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { MediaCard } from "./components/mediacard/mediaCard";
+import MediaCard from "./components/mediaCard/mediaCard";
 import SurvFilesGrid2 from "./components/survFilesGrid";
 import { Box } from "@mui/material";
 import BlackBoard from "../[content]/components/blackBoard";
@@ -58,12 +58,13 @@ export default function Content({ params }) {
           setMediacardVisible={setMediacardVisible}
         />
       </Box>
-      {mediacardVisible && (
+      {mediacardVisible && !!currRow && (
         <MediaCard
+          setCurrRow={setCurrRow}
+          setMediacardVisible={setMediacardVisible}
           row={currRow}
           session={params.content}
           setRowsx={setRowsx}
-          setMediacardVisible={setMediacardVisible}
         />
       )}
 

@@ -105,7 +105,6 @@ export default function SurvFilesGrid2({
           },
         }}
         onRowSelectionModelChange={(newRowSelectionModel) => {
-          console.log("zuu");
           setMediacardVisible(false);
         }}
       />
