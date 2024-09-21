@@ -33,7 +33,17 @@ export default function Profile({ setAuth, setEditProfile, usertype }) {
   };
 
   return (
-    <Box sx={{ width: "100%", display: "flex", flexDirection: "column" }}>
+    <Box
+      sx={{
+        padding: "20px",
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        flex: 1,
+        flexDirection: "column",
+        justifyContent: "center",
+      }}
+    >
       <TextField
         id="outlined-basic"
         label={label}
@@ -47,7 +57,7 @@ export default function Profile({ setAuth, setEditProfile, usertype }) {
         size="large"
         onClick={() => saveToLocalStorage()}
       >
-        Сохранить и вернуться
+        Сохранить
       </Button>
     </Box>
   );

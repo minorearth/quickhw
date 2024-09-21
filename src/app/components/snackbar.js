@@ -1,25 +1,23 @@
 import Snackbar from "@mui/material/Snackbar";
 import { useState } from "react";
-
 import Slide from "@mui/material/Slide";
+import snack from "@/app/store/snack";
+import { observer } from "mobx-react-lite";
 
 function SlideTransition(props) {
   return <Slide {...props} direction="up" />;
 }
-
-export const Snack = ({ snackopen, setSnackopen }) => {
-  const handleClose = () => {
-    setSnackopen({ open: false, text: "" });
-  };
-
+const Snack = observer(() => {
   return (
     <Snackbar
-      open={snackopen.open}
-      onClose={handleClose}
+      open={snack.snackState.visible}
+      onClose={() => snack.closeSnack()}
       TransitionComponent={SlideTransition}
-      message={snackopen.text}
+      message={snack.snackState.text}
       key="snack"
       autoHideDuration={1000}
     />
   );
-};
+});
+
+export default Snack;

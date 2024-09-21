@@ -1,12 +1,5 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import { DataGrid, GridActionsCellItem, useGridApiRef } from "@mui/x-data-grid";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import SettingsIcon from "@mui/icons-material/Settings";
-import IconButton from "@mui/material/IconButton";
 import { updateDocFieldsInCollectionById } from "../../db/datamodelSSR";
 import { useEffect } from "react";
-import PreviewIcon from "@mui/icons-material/Preview";
 import { useRouter } from "next/navigation";
 import { addDocInCollection, getDocsKeyValue } from "../../db/datamodelSSR";
 import { useState } from "react";
@@ -41,12 +34,9 @@ export default function useSurveyGrid({ setEditProfile, user }) {
 
   useEffect(() => {
     getGridData();
-
-    // apiRef.current.autosizeColumns(autosizeOptions);
   }, []);
 
   const navigateToSettings = () => {
-    // deleteAllDocsInCollection("surveys", -10);
     setEditProfile(true);
   };
 

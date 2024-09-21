@@ -9,6 +9,27 @@ export function getImageDimensions(file) {
   });
 }
 
+export const Base64DataUrlToFile = async (imageBase64DataUrl, fileName) => {
+  const preBlob = await fetch(imageBase64DataUrl);
+  const blob = await preBlob.blob();
+  const file = new File([blob], fileName, {
+    type: blob.type,
+  });
+  return file;
+};
+
+export const Base64DataUrlToFile2 = async (imageBase64DataUrl, fileName) => {
+  var arr = imageBase64DataUrl.split(","),
+    mime = arr[0].match(/:(.*?);/)[1],
+    bstr = atob(arr[arr.length - 1]),
+    n = bstr.length,
+    u8arr = new Uint8Array(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new File([u8arr], fileName, { type: mime });
+};
+
 export const scaleToBase = (base, sDim) => {
   const scale = Number(Number(sDim.h / (sDim.w / base)).toFixed(0));
   if (sDim.w <= base) {
@@ -77,7 +98,7 @@ export function blobToBase64(blob) {
   });
 }
 
-const prepareImages2 = async (files, setProgress) => {
+const prepareImages2 = async (files) => {
   const filesExtracted = await Promise.all(
     files.map(async (file) => {
       const arrayBuffer = await file.arrayBuffer();
@@ -122,8 +143,8 @@ export const rotateImage = async (file, filename) => {
   });
 };
 
-export const mergeAllImages = async (files, username, setProgress) => {
-  const filesPrepared = await prepareImages2(files, setProgress);
+export const mergeAllImages = async (files, username) => {
+  const filesPrepared = await prepareImages2(files);
   return new Promise(function (resolved, rejected) {
     new Jimp(
       filesPrepared.maxW,

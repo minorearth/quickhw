@@ -7,8 +7,11 @@ import { Box } from "@mui/material";
 import BlackBoard from "../[content]/components/blackBoard";
 import FabAnimated from "../../components/fabAnimated/fabAnimated";
 import { Qr } from "./components/qr";
+import Progress from "@/app/components/progress";
+import progress from "@/app/store/progress";
+import { observer } from "mobx-react-lite";
 
-export default function Content({ params }) {
+const Content = observer(({ params }) => {
   const [currRow, setCurrRow] = useState();
   const [rows, setRowsx] = useState([]);
   const [qrVisible, setQrVisible] = useState(false);
@@ -24,6 +27,7 @@ export default function Content({ params }) {
         width: "100%",
       }}
     >
+      <Progress open={progress.showProgress} />
       <FabAnimated
         icon="qr"
         visible={qrVisible}
@@ -71,4 +75,6 @@ export default function Content({ params }) {
       {qrVisible && <Qr session={params.content} />}
     </Box>
   );
-}
+});
+
+export default Content;

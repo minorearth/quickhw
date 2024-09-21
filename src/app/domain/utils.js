@@ -8,7 +8,6 @@ export const UploadFileAndRefreshcollection = async (
   username,
   type
 ) => {
-  console.log(file, session, username, type);
   const fileDB = await UploadFile({ file, folder: session });
   const filePath = await getDownloadURL(fileDB.ref);
   // const fileMeta = await getMetadata(fileDB);

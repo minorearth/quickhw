@@ -9,6 +9,8 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import Progress from "@/app/components/progress";
+import progress from "@/app/store/progress";
 
 const baseStyle = {
   display: "flex",
@@ -71,6 +73,8 @@ const Drop = ({ setFiles, files, type }) => {
 
   return (
     <Box {...getRootProps({ style })}>
+      <Progress open={progress.showProgress} />
+
       <input {...getInputProps()} />
       <CloudUploadIcon sx={{ fontSize: 60 }} />
 
@@ -104,4 +108,5 @@ const Drop = ({ setFiles, files, type }) => {
     </Box>
   );
 };
+
 export default Drop;

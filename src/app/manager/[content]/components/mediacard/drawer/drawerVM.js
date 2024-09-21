@@ -1,5 +1,6 @@
 import React, { forwardRef, useCallback, useState } from "react";
 import { useEffect, useRef } from "react";
+import progress from "@/app/store/progress";
 
 export const useDrawer = ({ status, lines, setLines, bounds }) => {
   const [tool, setTool] = useState("pen");
@@ -8,6 +9,11 @@ export const useDrawer = ({ status, lines, setLines, bounds }) => {
   useEffect(() => {
     setLines([]);
   }, [status, bounds]);
+
+  useEffect(() => {
+    status == "loaded" && progress.setShowProgress(false);
+    status == "loading" && progress.setShowProgress(true);
+  }, [status]);
 
   const handleMouseDown = (e) => {
     isDrawing.current = true;

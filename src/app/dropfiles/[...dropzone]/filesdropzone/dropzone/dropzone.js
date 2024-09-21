@@ -1,13 +1,13 @@
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
-import { Snack } from "../../../../components/snackbar";
-import Progress from "@/app/components/progress";
+import Snack from "../../../../components/snackbar";
 import Drop from "../drop";
 import TextField from "@mui/material/TextField";
 import EmailIcon from "@mui/icons-material/Email";
 import useDropZone from "./dropzoneVM";
+import { observer } from "mobx-react-lite";
 
-const DropZone = ({ session, type }) => {
+const DropZone = observer(({ session, type }) => {
   const { actions, state } = useDropZone({ session, type });
   return (
     <Box
@@ -20,8 +20,7 @@ const DropZone = ({ session, type }) => {
         transition: "padding 5s",
       }}
     >
-      <Snack snackopen={state.snack} setSnackopen={actions.setSnackopen} />
-      <Progress open={state.showProgress} perc={state.progress} />
+      <Snack />
       <Box
         sx={{
           display: "flex",
@@ -59,6 +58,6 @@ const DropZone = ({ session, type }) => {
       </Box>
     </Box>
   );
-};
+});
 
 export default DropZone;

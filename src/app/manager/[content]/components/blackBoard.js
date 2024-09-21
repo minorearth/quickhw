@@ -51,10 +51,10 @@ const BlackBoard = ({ session }) => {
         inputProps={{
           style: {
             color: "#405D72",
-            fontSize: 30,
-            fontStyle: "italic",
+            fontSize: 20,
+            // fontStyle: "italic",
             // fontWeight: "bold",
-            fontFamily: myFont.style.fontFamily,
+            // fontFamily: myFont.style.fontFamily,
           },
         }}
         sx={{
@@ -67,8 +67,6 @@ const BlackBoard = ({ session }) => {
             borderWidth: "10px",
           },
         }}
-        // label="Заметка"
-        // placeholder="Введите текст заметки, например, задание к уроку сфотографируйте экран ПК, так чтобы был видел номер ПК"
         multiline
         value={note}
         rows={20}
