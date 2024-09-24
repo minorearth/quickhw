@@ -9,7 +9,7 @@ const FabAnimated = (props) => {
     <Fab
       sx={{ position: "absolute", ...position }}
       color="primary"
-      onClick={action}
+      onClick={() => action()}
       component={motion.div}
       animate={{
         scale: [1, 1.3, 1],
