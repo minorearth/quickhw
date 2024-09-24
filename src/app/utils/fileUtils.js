@@ -13,3 +13,34 @@ export const compressFiles = async (files, filename) => {
   });
   return fileZIPped;
 };
+
+function BufferToArrayBuffer(buffer) {
+  const arrayBuffer = new ArrayBuffer(buffer.data.length);
+  const view = new Uint8Array(arrayBuffer);
+  for (let i = 0; i < buffer.data.length; ++i) {
+    view[i] = buffer.data[i];
+  }
+  return arrayBuffer;
+}
+
+export function arrayBufferToBuffer(arrayBuffer) {
+  const buffer = Buffer.alloc(arrayBuffer.byteLength);
+  const view = new Uint8Array(arrayBuffer);
+  for (let i = 0; i < buffer.length; ++i) {
+    buffer[i] = view[i];
+  }
+  return buffer;
+}
+
+export const fileToBuffer = async (file) => {
+  const AB = await file.arrayBuffer();
+  const buffer = arrayBufferToBuffer(AB);
+  return buffer;
+};
+
+export const bufferToFile = (buffer, filename, type) => {
+  const file = new File([BufferToArrayBuffer(buffer)], filename, {
+    type,
+  });
+  return file;
+};

@@ -4,12 +4,12 @@ import { Box } from "@mui/material";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import Fab from "@mui/material/Fab";
 import FabAnimated from "@/app/components/fabAnimated/fabAnimated";
+import stn from "@/app/constants";
 
 export const Qr = ({ session }) => {
   const [qrLink, setQrLink] = useState([]);
-  const [value, setValue] = useState("img");
+  const [value, setValue] = useState(stn.files.droptypes.IMAGES);
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -61,12 +61,12 @@ export const Qr = ({ session }) => {
         sx={{ marginBottom: "20px" }}
       >
         <FormControlLabel
-          value="img"
+          value={stn.files.droptypes.IMAGES}
           control={<Radio />}
-          label="Собрать изображения"
+          label="собрать изображения"
         />
         <FormControlLabel
-          value="files"
+          value={stn.files.droptypes.FILES}
           control={<Radio />}
           label="собрать файлы"
         />

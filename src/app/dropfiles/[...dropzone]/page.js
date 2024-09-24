@@ -1,9 +1,7 @@
 "use client";
-import DropZone from "./filesdropzone/dropzone/dropzone";
-import Profile from "../../components/profile.js";
-import { useCredentials } from "../../hooks/useCredentials";
+import Drop from "./drop/drop";
 
 export default function Home({ params }) {
   // const { auth, setAuth, setEditProfile, editProfile } = useCredentials();
-  return <DropZone type={params.dropzone[0]} session={params.dropzone[1]} />;
+  return <Drop type={params.dropzone[0]} session={params.dropzone[1]} />;
 }

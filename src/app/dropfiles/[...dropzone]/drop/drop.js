@@ -1,13 +1,14 @@
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
-import Snack from "../../../../components/snackbar";
-import Drop from "../drop";
+import Snack from "../../../components/snackbar";
+import DropZone from "./dropzone/dropzone";
 import TextField from "@mui/material/TextField";
 import EmailIcon from "@mui/icons-material/Email";
-import useDropZone from "./dropzoneVM";
+import useDropZone from "./useDropVC";
 import { observer } from "mobx-react-lite";
+import stn from "@/app/constants";
 
-const DropZone = observer(({ session, type }) => {
+const Drop = observer(({ session, type }) => {
   const { actions, state } = useDropZone({ session, type });
   return (
     <Box
@@ -32,7 +33,7 @@ const DropZone = observer(({ session, type }) => {
       >
         <TextField
           id="outlined-basic"
-          label="Укажи фамилию"
+          label={stn.caption.ENTER_NAME}
           variant="outlined"
           sx={{ margin: "10px" }}
           onChange={(e) => actions.changeName(e)}
@@ -54,10 +55,10 @@ const DropZone = observer(({ session, type }) => {
           height: "auto",
         }}
       >
-        <Drop files={state.files} setFiles={actions.setFiles} type={type} />
+        <DropZone files={state.files} setFiles={actions.setFiles} type={type} />
       </Box>
     </Box>
   );
 });
 
-export default DropZone;
+export default Drop;

@@ -11,6 +11,8 @@ import UploadFileIcon from "@mui/icons-material/UploadFile";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import Progress from "@/app/components/progress";
 import progress from "@/app/store/progress";
+import stn from "@/app/constants";
+import stnd from "@/app/constantsDyn";
 
 const baseStyle = {
   display: "flex",
@@ -41,13 +43,13 @@ const rejectStyle = {
   borderColor: "#ff1744",
 };
 
-const Drop = ({ setFiles, files, type }) => {
+const DropZone = ({ setFiles, files, type }) => {
   const [accept, setAcceptFiles] = useState();
 
   useEffect(() => {
-    type == "img"
+    type == stn.files.droptypes.IMAGES
       ? setAcceptFiles({
-          "image/png": [".png", ".jpg", ".jpeg", ".bmp", ".gif"],
+          "image/png": stn.files.ALLOWED_IMG,
         })
       : {};
   }, []);
@@ -55,7 +57,7 @@ const Drop = ({ setFiles, files, type }) => {
   const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } =
     useDropzone({
       accept,
-      maxSize: 10 * 1024 * 1024,
+      maxSize: stn.files.MAX_SIZE,
       onDrop: (acceptedFiles) => {
         setFiles((files) => [...files, ...acceptedFiles]);
       },
@@ -74,26 +76,21 @@ const Drop = ({ setFiles, files, type }) => {
   return (
     <Box {...getRootProps({ style })}>
       <Progress open={progress.showProgress} />
-
       <input {...getInputProps()} />
       <CloudUploadIcon sx={{ fontSize: 60 }} />
-
       <Typography
         variant="body1"
         gutterBottom
         style={{ textAlign: "center", fontSize: "large" }}
       >
-        {`Перетащите сюда ${
-          type == "img" ? "изображения(bmp,jpeg,gif,png)" : "файлы"
-        } или нажмите на область для загрузки вручную`}
+        {stnd.FILES_UPLOAD_GUIDE(type)}
       </Typography>
       <Typography
         variant="body1"
         gutterBottom
         style={{ textAlign: "center", fontSize: "medium" }}
       >
-        Максимальный размер файла 10 мегабайт, файл не появится в списке на
-        загрузку, если он больше 10 мегабайт
+        {stn.files.UPLOAD_TEXT}
       </Typography>
       <List dense={true}>
         {files.map((file, id) => (
@@ -101,7 +98,7 @@ const Drop = ({ setFiles, files, type }) => {
             <ListItemIcon>
               <UploadFileIcon />
             </ListItemIcon>
-            <ListItemText primary={`${file.path} - ${file.size} bytes`} />
+            <ListItemText primary={`${file.path} - ${file.size} байт>`} />
           </ListItem>
         ))}
       </List>
@@ -109,4 +106,4 @@ const Drop = ({ setFiles, files, type }) => {
   );
 };
 
-export default Drop;
+export default DropZone;

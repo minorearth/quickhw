@@ -20,16 +20,14 @@ import {
 
 import { deleteAllFileFromDir } from "./storagedb";
 
-// import { checkIfUniqueExistAndReturnDocDM } from "./dm";
-
 const firebaseConfig = {
-  apiKey: "AIzaSyBwMnO7HaGuHu6LrzsTj6y6J9BojyC1ei0",
-  authDomain: "testchallenge-52d1b.firebaseapp.com",
-  projectId: "testchallenge-52d1b",
-  storageBucket: "testchallenge-52d1b.appspot.com",
-  messagingSenderId: "785621858975",
-  appId: "1:785621858975:web:e1fcef81ff499466bd40aa",
-  measurementId: "G-E08Z0JNFH2",
+  apiKey: process.env.API_KEY,
+  authDomain: process.env.AUTH_DOMAIN,
+  projectId: process.env.PROJECT_ID,
+  storageBucket: process.env.STORAGE_BUCKET,
+  messagingSenderId: process.env.MESSAGING_SENDER_ID,
+  appId: process.env.APP_ID,
+  measurementId: process.env.MEASUREMENT_ID,
 };
 
 import { initializeApp } from "firebase/app";
@@ -82,14 +80,6 @@ export const getDocFromCollectionById = async (collectionName, id) => {
   return { id: docSnap.id, ...data };
 };
 
-export const getDocFromCollectionByIdRealtime = async (collectionName, id) => {
-  const docRef = doc(db, collectionName, id);
-
-  const docSnap = await getDoc(docRef);
-  const data = docSnap.data();
-  return { data: { id: docSnap.id, ...data }, docref: docRef };
-};
-
 export const deleteAllDocsInCollection = async (collectionName, timeLag) => {
   let th = new Date();
   th.setDate(th.getDate() - timeLag);
@@ -106,6 +96,36 @@ export const deleteAllDocsInCollection = async (collectionName, timeLag) => {
     })
   );
   return log;
+};
+
+let docsss = {};
+
+const Refresh = (docData, id) => {
+  docsss = { ...docsss, [id]: docData };
+};
+
+export const getDocFromCollectionByIdUpdates = async (id) => {
+  return docsss[id];
+};
+
+export const getDocFromCollectionByIdRealtime = async (collectionName, id) => {
+  const docRef = doc(db, collectionName, id);
+  onSnapshot(docRef, (doc) => {
+    Refresh(doc.data(), id);
+  });
+
+  const docSnap = await getDoc(docRef);
+  const data = docSnap.data();
+  return { id: docSnap.id, ...data };
+};
+
+// export const addDocInCollection = async (collectionName, data) => {
+//   const doc = await addDoc(collection(db, collectionName), data);
+//   return doc.id;
+// };
+
+export const log = async (data) => {
+  await updateDoc(doc(db, "logs", "1"), data);
 };
 
 // const DBDocsToIds = (docs) => {

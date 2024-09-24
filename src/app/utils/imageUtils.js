@@ -74,22 +74,6 @@ export const prepareAndMergeImagesTob46URI = async (photos, log) => {
   return { b64URI, h: imagesPrepared.totalH, w: imagesPrepared.maxW };
 };
 
-export const b64URItoFile = async (b64URI, filename) => {
-  const preBlob = await fetch(b64URI);
-  const blob = await preBlob.blob();
-  const file = new File([blob], filename, {
-    type: blob.type,
-  });
-  return file;
-};
-
-export const bufferToFile = (buffer, filename) => {
-  const file = new File([buffer], filename, {
-    type: buffer.type,
-  });
-  return file;
-};
-
 export function blobToBase64(blob) {
   return new Promise((resolve, _) => {
     const reader = new FileReader();

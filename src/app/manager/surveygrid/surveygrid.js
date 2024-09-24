@@ -5,10 +5,10 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
 import IconButton from "@mui/material/IconButton";
 import PreviewIcon from "@mui/icons-material/Preview";
-import useSurveyGrid from "./surveygridVM";
+import useSurveyGridVC from "./useSurveygridVC";
 
 export default function SurveyGrid({ setEditProfile, user }) {
-  const { actions, rows } = useSurveyGrid({ setEditProfile, user });
+  const { actions, rows } = useSurveyGridVC({ setEditProfile, user });
   const columns = [
     // { field: "id", headerName: "id", width: 130 },
     // { field: "user", headerName: "ПОльзователь", width: 130 },

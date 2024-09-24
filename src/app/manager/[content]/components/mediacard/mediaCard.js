@@ -2,16 +2,16 @@ import React from "react";
 import Box from "@mui/material/Box";
 import FabAnimated from "@/app/components/fabAnimated/fabAnimated";
 import Drawer from "./drawer/drawer";
-import { useMediaCard } from "./mediaCardVM";
+import useMediaCardVC from "./mediaCardVC";
 const MediaCard = ({
-  row,
+  currRow,
   session,
   setRowsx,
   setCurrRow,
   setMediacardVisible,
 }) => {
-  const { actions, state, stageRef, boundsRef } = useMediaCard({
-    row,
+  const { actions, state, stageRef, boundsRef } = useMediaCardVC({
+    currRow,
     session,
     setRowsx,
     setCurrRow,
@@ -68,7 +68,7 @@ const MediaCard = ({
           bounds={state.bounds}
           imgDim={state.imgDim}
           stageRef={stageRef}
-          path={row.path}
+          path={currRow.path}
         />
       </Box>
     </Box>

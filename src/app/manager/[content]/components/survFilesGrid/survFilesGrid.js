@@ -1,15 +1,12 @@
 "use client";
 
 import { GridActionsCellItem } from "@mui/x-data-grid";
-import PreviewIcon from "@mui/icons-material/Preview";
-import { PiImageSquareBold } from "react-icons/pi";
-
-import { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { getDocFromCollectionByIdRealtime } from "../../../db/datamodel";
 import { Box } from "@mui/material";
 import Link from "@mui/material/Link";
 import { RiImageEditFill } from "react-icons/ri";
+import stn from "@/app/constants";
+import useSurvFilesGrid2VC from "./survFilesGridVC";
 
 export default function SurvFilesGrid2({
   setCurrRow,
@@ -18,11 +15,12 @@ export default function SurvFilesGrid2({
   setRowsx,
   setMediacardVisible,
 }) {
-  const handleViewClick = (row) => {
-    setMediacardVisible(true);
-    setCurrRow(row);
-    // row.type == "zip";
-  };
+  const { setCardVisible } = useSurvFilesGrid2VC({
+    setCurrRow,
+    session,
+    setRowsx,
+    setMediacardVisible,
+  });
 
   const columns = [
     // { field: "id", headerName: "id", width: 130 },
@@ -42,10 +40,15 @@ export default function SurvFilesGrid2({
       getActions: (params) => [
         // eslint-disable-next-line react/jsx-key
         <GridActionsCellItem
-          sx={{ display: params.row.type != "img" ? "none" : "inherit" }}
+          sx={{
+            display:
+              params.row.type != stn.files.droptypes.IMAGES
+                ? "none"
+                : "inherit",
+          }}
           label="View"
           icon={<RiImageEditFill style={{ fontSize: 40 }} />}
-          onClick={() => handleViewClick(params.row)}
+          onClick={() => setCardVisible(params.row)}
         />,
       ],
     },
@@ -56,34 +59,6 @@ export default function SurvFilesGrid2({
       type: "dateTime",
     },
   ];
-
-  const ObjtoArr = (obj) => {
-    return !obj
-      ? []
-      : Object.keys(obj).map((key) => {
-          const datetime = new Date(obj[key]?.datetime?.seconds * 1000);
-          return {
-            name: obj[key].name,
-            id: key,
-            path: obj[key].path,
-            type: obj[key].type,
-            datetime: datetime,
-          };
-        });
-  };
-
-  const Refresh = (freshdata) => {
-    setRowsx(ObjtoArr(freshdata.files));
-  };
-
-  useEffect(() => {
-    getDocFromCollectionByIdRealtime("surveys", session, Refresh).then(
-      (docData) => {
-        // const fileMeta = await getMetadata(file);
-        setRowsx(ObjtoArr(docData?.files));
-      }
-    );
-  }, []);
 
   return (
     <Box

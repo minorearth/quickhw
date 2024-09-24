@@ -6,7 +6,8 @@ import { useEffect, useState } from "react";
 import {
   updateDocFieldsInCollectionById,
   getDocFromCollectionById,
-} from "../../../db/datamodelSSR";
+} from "../../../data model/server actions/datamodel";
+import stn from "@/app/constants";
 
 const roboto = Roboto({
   weight: "900",
@@ -22,13 +23,10 @@ const BlackBoard = ({ session }) => {
     });
   };
 
-  const [note, setNote] = useState(
-    "ЗАДАНИЕ[шаблон]\n\n1)Скачай файл из задания\n2)Заполни файл\n3)Перейди с телефона по ссылке в QR-коде, нажми на область загрузки файлов. Выбери файлы и отправь учителю\n\nили\n\nПерейди с телефона по ссылке в QR-коде, нажми на область загрузки файлов. Cфотографируй документ с монитора, так чтобы был виден номер ПК и отправь учителю\n\nили\n\nОткрой ссылку на компьютере,выбери файлы и отправь их учителю\n\nУдачи!!!"
-  );
+  const [note, setNote] = useState(stn.defaults.BLACKBOARD_TEXT);
 
   useEffect(() => {
     getDocFromCollectionById("surveys", session).then((docData) => {
-      // const fileMeta = await getMetadata(file);
       !!docData?.note && setNote(docData?.note);
     });
   }, []);

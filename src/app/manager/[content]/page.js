@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import MediaCard from "./components/mediaCard/mediaCard";
-import SurvFilesGrid2 from "./components/survFilesGrid";
+import SurvFilesGrid2 from "./components/survFilesGrid/survFilesGrid";
 import { Box } from "@mui/material";
 import BlackBoard from "../[content]/components/blackBoard";
 import FabAnimated from "../../components/fabAnimated/fabAnimated";
@@ -66,12 +66,11 @@ const Content = observer(({ params }) => {
         <MediaCard
           setCurrRow={setCurrRow}
           setMediacardVisible={setMediacardVisible}
-          row={currRow}
+          currRow={currRow}
           session={params.content}
           setRowsx={setRowsx}
         />
       )}
-
       {qrVisible && <Qr session={params.content} />}
     </Box>
   );

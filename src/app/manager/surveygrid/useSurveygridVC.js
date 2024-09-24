@@ -1,18 +1,12 @@
-import { updateDocFieldsInCollectionById } from "../../db/datamodelSSR";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { addDocInCollection, getDocsKeyValue } from "../../db/datamodelSSR";
 import { useState } from "react";
+import useSurveyGridVM from "./useSurveygridVM";
+import stn from "@/app/constants";
 
-const ETL = (docs) => {
-  const docsFormatted = docs.map((doc) => {
-    const date = new Date(doc.datetime.seconds * 1000);
-    return { id: doc.id, title: doc.title, datetime: date, user: doc.user };
-  });
-  return docsFormatted;
-};
-
-export default function useSurveyGrid({ setEditProfile, user }) {
+export default function useSurveyGridVC({ setEditProfile, user }) {
+  const { addDocInCollection, getGridData, updateDocFieldsInCollectionById } =
+    useSurveyGridVM();
   // const apiRef = useGridApiRef();
 
   const router = useRouter();
@@ -20,20 +14,16 @@ export default function useSurveyGrid({ setEditProfile, user }) {
 
   const addrow = () => {
     var today = new Date();
-    const data = { title: "Новый опрос", datetime: today, user };
+    const data = { title: stn.defaults.NEW_SURVEY, datetime: today, user };
     addDocInCollection("surveys", { ...data }).then((id) => {
       setRows((oldRows) => [{ id, ...data }, ...oldRows]);
     });
   };
 
-  const getGridData = () => {
-    getDocsKeyValue("surveys", "user", user).then((docs) => {
-      setRows(ETL(docs));
-    });
-  };
-
   useEffect(() => {
-    getGridData();
+    getGridData(user).then((docs) => {
+      setRows(docs);
+    });
   }, []);
 
   const navigateToSettings = () => {

@@ -1,4 +1,4 @@
-import { getUserName } from "../db/localstorage";
+import { getUserName } from "../data model/localstorage";
 import { useState, useEffect } from "react";
 
 export const useCredentials = () => {
