@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import MediaCard from "./components/mediaCard/mediaCard";
-import SurvFilesGrid2 from "./components/survFilesGrid/survFilesGrid";
+import MediaCard from "./components/mediacard/mediaCard";
+import SurvFilesGrid2 from "./components/survfilesgrid/survFilesGrid";
 import { Box } from "@mui/material";
 import BlackBoard from "../[content]/components/blackBoard";
 import FabAnimated from "../../components/fabAnimated/fabAnimated";

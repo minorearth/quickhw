@@ -1,7 +1,6 @@
 import { rotateImage, Base64DataUrlToFile2 } from "@/app/utils/imageUtils";
-import { getDownloadURL } from "firebase/storage";
 import { UploadFile } from "@/app/data model/server actions/storagedb";
-import { arrayBufferToBuffer, fileToBuffer } from "@/app/utils/fileUtils";
+import { fileToBuffer } from "@/app/utils/fileUtils";
 
 const useMediaCardVM = () => {
   const rotateAndRefresh = async ({ imagePath, name, session }) => {
