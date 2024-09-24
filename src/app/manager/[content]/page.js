@@ -5,7 +5,7 @@ import MediaCard from "./components/mediacard/mediaCard.js";
 import SurvFilesGrid2 from "./components/survFilesGrid/survFilesGri.js";
 import { Box } from "@mui/material";
 import BlackBoard from "../[content]/components/blackBoard";
-import FabAnimated from "../../components/fabAnimated/fabAnimated";
+import FabAnimated from "../fabAnimated/fabAnimated.js";
 import { Qr } from "./components/qr";
 import Progress from "@/app/components/progress";
 import progress from "@/app/store/progress";

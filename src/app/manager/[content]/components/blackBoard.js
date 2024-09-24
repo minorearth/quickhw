@@ -1,5 +1,5 @@
 import TextField from "@mui/material/TextField";
-import FabAnimated from "../../../components/fabAnimated/fabAnimated";
+import FabAnimated from "../../fabAnimated/fabAnimated";
 import { Roboto } from "next/font/google";
 import localFont from "next/font/local";
 import { useEffect, useState } from "react";

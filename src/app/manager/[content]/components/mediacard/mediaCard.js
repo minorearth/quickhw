@@ -1,6 +1,6 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import FabAnimated from "@/app/components/fabAnimated/fabAnimated";
+import FabAnimated from "@/app/manager/fabAnimated/fabAnimated";
 import Drawer from "./drawer/drawer";
 import useMediaCardVC from "./mediaCardVC";
 const MediaCard = ({
