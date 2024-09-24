@@ -11,16 +11,17 @@ import { getDownloadURL } from "firebase/storage";
 import { initializeApp } from "firebase/app";
 
 import { bufferToFile } from "@/app/utils/fileUtils";
+import { app } from "./firebaseapp";
 
-const firebaseConfig = {
-  apiKey: process.env.API_KEY,
-  authDomain: process.env.AUTH_DOMAIN,
-  projectId: process.env.PROJECT_ID,
-  storageBucket: "testchallenge-52d1b.appspot.com",
-  messagingSenderId: process.env.MESSAGING_SENDER_ID,
-  appId: process.env.APP_ID,
-  measurementId: process.env.MEASUREMENT_ID,
-};
+// const firebaseConfig = {
+//   apiKey: process.env.API_KEY,
+//   authDomain: process.env.AUTH_DOMAIN,
+//   projectId: process.env.PROJECT_ID,
+//   storageBucket: "testchallenge-52d1b.appspot.com",
+//   messagingSenderId: process.env.MESSAGING_SENDER_ID,
+//   appId: process.env.APP_ID,
+//   measurementId: process.env.MEASUREMENT_ID,
+// };
 
 // const firebaseConfig = {
 //   apiKey: process.env.API_KEY,
@@ -32,7 +33,7 @@ const firebaseConfig = {
 //   measurementI: process.env.MEASUREMENT_ID,
 // };
 
-const app = initializeApp(firebaseConfig);
+// const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
 
 export const UploadFile = async ({ buffer, name, type, folder }) => {
