@@ -9,7 +9,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import Progress from "@/app/components/progress";
+import Progress from "@/components/progress";
 import progress from "@/app/store/progress";
 import stn from "@/app/constants";
 import stnd from "@/app/constantsDyn";

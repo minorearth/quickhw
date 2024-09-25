@@ -1,7 +1,7 @@
 "use client";
 
 import Manager from "./manager/manager";
-import Profile from "./components/profile";
+import Profile from "../components/profile";
 import { useCredentials } from "./hooks/useCredentials";
 
 export default function Home() {
