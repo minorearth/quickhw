@@ -29,12 +29,12 @@ const MediaCard = ({
       }}
       id="signInButton"
     >
-      {/* <FabAnimated
+      <FabAnimated
         icon="saveImage"
         visible={true}
         action={() => actions.saveImage()}
         position={{ top: 16, left: 16 }}
-      /> */}
+      />
       <FabAnimated
         icon="hideImage"
         visible={true}
@@ -47,12 +47,12 @@ const MediaCard = ({
         action={() => actions.redo()}
         position={{ top: 16, left: 160 }}
       />
-      {/* <FabAnimated
+      <FabAnimated
         icon="rotate"
         visible={true}
         action={() => actions.rotate()}
         position={{ top: 16, left: 232 }}
-      /> */}
+      />
       <Box
         sx={{
           flex: 1,

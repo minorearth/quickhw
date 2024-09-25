@@ -7,8 +7,8 @@ import IconButton from "@mui/material/IconButton";
 import PreviewIcon from "@mui/icons-material/Preview";
 import useSurveyGridVC from "./useSurveygridVC";
 
-export default function SurveyGrid({ setEditProfile, user }) {
-  const { actions, rows } = useSurveyGridVC({ setEditProfile, user });
+export default function SurveyGrid({ setProfileVisible, user }) {
+  const { actions, rows } = useSurveyGridVC({ setProfileVisible, user });
   const columns = [
     // { field: "id", headerName: "id", width: 130 },
     // { field: "user", headerName: "ПОльзователь", width: 130 },

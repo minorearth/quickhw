@@ -4,7 +4,7 @@ import { useState } from "react";
 import useSurveyGridVM from "./useSurveygridVM";
 import stn from "@/app/constants";
 
-export default function useSurveyGridVC({ setEditProfile, user }) {
+export default function useSurveyGridVC({ setProfileVisible, user }) {
   const { addDocInCollection, getGridData, updateDocFieldsInCollectionById } =
     useSurveyGridVM();
   // const apiRef = useGridApiRef();
@@ -27,7 +27,7 @@ export default function useSurveyGridVC({ setEditProfile, user }) {
   }, []);
 
   const navigateToSettings = () => {
-    setEditProfile(true);
+    setProfileVisible(true);
   };
 
   const processEdit = (newRow) => {

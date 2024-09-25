@@ -2,34 +2,29 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import { useState, useEffect } from "react";
 
-export default function Profile({ setAuth, setEditProfile, usertype }) {
-  const [name, setName] = useState("");
-  const [properVal, setProperVal] = useState(false);
-  const [label, setLabel] = useState(false);
+export default function Profile({ setAuth, setProfileVisible, setUsername }) {
+  const [value, setValue] = useState("");
+  const [buttonDisabled, setDisabledButton] = useState(false);
 
   useEffect(() => {
-    setLabel(
-      usertype == "manager" ? "Введите e-mail" : "Укажите Фамилию и имя"
-    );
     const userName = localStorage.getItem("name");
-
-    userName != null ? setProperVal(true) : setProperVal(false);
-    userName != null ? setName(userName) : setName("");
+    userName != null ? setDisabledButton(true) : setDisabledButton(false);
+    userName != null ? setValue(userName) : setValue("");
   }, []);
 
   const saveToLocalStorage = () => {
-    localStorage.setItem("name", name);
+    setUsername(value);
+    localStorage.setItem("name", value);
     setAuth(2);
-    setEditProfile(false);
+    setProfileVisible(false);
   };
 
   const changeName = (e) => {
-    setName(e.target.value);
-    e.target.value != "" ? setProperVal(true) : setProperVal(false);
+    setValue(e.target.value);
+    e.target.value != "" ? setDisabledButton(true) : setDisabledButton(false);
   };
 
   return (
@@ -46,14 +41,14 @@ export default function Profile({ setAuth, setEditProfile, usertype }) {
     >
       <TextField
         id="outlined-basic"
-        label={label}
+        label="Введите e-mail"
         variant="outlined"
         sx={{ margin: "10px" }}
         onChange={(e) => changeName(e)}
-        value={name}
+        value={value}
       />
       <Button
-        disabled={!properVal}
+        disabled={!buttonDisabled}
         size="large"
         onClick={() => saveToLocalStorage()}
       >

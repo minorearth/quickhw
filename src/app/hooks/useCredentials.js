@@ -2,26 +2,33 @@ import { getUserName } from "../data model/localstorage";
 import { useState, useEffect } from "react";
 
 export const useCredentials = () => {
-  const [editProfile, setEditProfile] = useState(false);
+  const [profileVisible, setProfileVisible] = useState(false);
   const [auth, setAuth] = useState(0);
-  const [user, setUser] = useState("");
+  const [username, setUsername] = useState("");
   //0-loading
   //1-setUserName
   //2-accessed
 
   useEffect(() => {
-    const userName = getUserName();
-    setUser(userName);
+    const userNameLS = getUserName();
+    setUsername(userNameLS);
     switch (true) {
-      case userName == null:
+      case userNameLS == null:
         setAuth(1);
         return;
-      case userName != null:
+      case userNameLS != null:
         setAuth(2);
         return;
       default:
     }
   }, []);
 
-  return { auth, editProfile, setEditProfile, setAuth, user };
+  return {
+    auth,
+    profileVisible,
+    setProfileVisible,
+    setAuth,
+    username,
+    setUsername,
+  };
 };

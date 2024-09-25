@@ -37,12 +37,12 @@ const BlackBoard = ({ session }) => {
 
   return (
     <>
-      {/* <FabAnimated
+      <FabAnimated
         icon="saveNote"
         visible={true}
         action={() => handleSaveNote()}
         position={{ bottom: 16, left: 98 }}
-      /> */}
+      />
 
       <TextField
         id="outlined-multiline-static"

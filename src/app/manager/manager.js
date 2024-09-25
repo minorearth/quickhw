@@ -4,7 +4,7 @@ import { useState } from "react";
 import Splash from "../../components/splash/splash.js";
 import stn from "../constants.js";
 
-export default function Manager({ user, setEditProfile }) {
+export default function Manager({ user, setProfileVisible }) {
   const [closeSplash, setCloseSplash] = useState(false);
   return (
     <>
@@ -15,7 +15,7 @@ export default function Manager({ user, setEditProfile }) {
         />
       )}
       {closeSplash && (
-        <SurveyGrid user={user} setEditProfile={setEditProfile} />
+        <SurveyGrid user={user} setProfileVisible={setProfileVisible} />
       )}
     </>
   );

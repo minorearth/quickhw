@@ -14,6 +14,7 @@ const ETL = (docs) => {
 
 export default function useSurveyGridVM() {
   const getGridData = async (user) => {
+    console.log(user);
     const docs = await getDocsKeyValue("surveys", "user", user);
     return ETL(docs);
   };
