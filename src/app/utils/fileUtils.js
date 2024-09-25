@@ -38,9 +38,9 @@ export const fileToBuffer = async (file) => {
   return buffer;
 };
 
-export const bufferToFile = (buffer, filename, type) => {
+export const bufferToFile = (buffer, filename, filetype) => {
   const file = new File([BufferToArrayBuffer(buffer)], filename, {
-    type,
+    type: filetype,
   });
   return file;
 };

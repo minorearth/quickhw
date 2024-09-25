@@ -9,14 +9,15 @@ const useDropVM = () => {
   const UploadFileAndRefreshcollection = async (
     file,
     session,
-    username,
-    type
+    filename,
+    type,
+    username
   ) => {
     const buffer = await fileToBuffer(file);
     const path = await UploadFile({
       buffer,
-      name: username,
-      type: file.type,
+      filename,
+      filetype: file.type,
       folder: session,
     });
     // const fileMeta = await getMetadata(fileDB);
@@ -33,12 +34,15 @@ const useDropVM = () => {
     });
   };
 
-  const sendFilesDB = async ({ files, name, session, type }) => {
+  const sendFilesDB = async ({ files, username, session, type }) => {
+    const extension = type == stn.files.droptypes.IMAGES ? ".jpg" : ".zip";
+    const filename = `${username}${extension}`;
     const file =
       type == stn.files.droptypes.IMAGES
-        ? await mergeAllImages(files, name)
-        : await compressFiles(files, `${name}.zip`);
-    UploadFileAndRefreshcollection(file, session, name, type);
+        ? await mergeAllImages(files, filename)
+        : await compressFiles(files, filename);
+    console.log(file);
+    UploadFileAndRefreshcollection(file, session, filename, type, username);
   };
 
   return {

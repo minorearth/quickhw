@@ -36,9 +36,9 @@ import { app } from "./firebaseapp";
 // const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
 
-export const UploadFile = async ({ buffer, name, type, folder }) => {
+export const UploadFile = async ({ buffer, filename, filetype, folder }) => {
   //Strange behaviour -buffer comes as object from client in case of Use server
-  const file = bufferToFile(buffer, name, type);
+  const file = bufferToFile(buffer, filename, filetype);
   const filedb = await uploadFileToDB(file, `/capture/${folder}`);
   const path = await getDownloadURL(filedb.ref);
   return path;

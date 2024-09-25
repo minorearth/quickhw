@@ -27,7 +27,7 @@ const useMediaCardVC = ({ currRow, session, setRowsx, setCurrRow }) => {
     progress.setShowProgress(true);
     const path = await rotateAndRefresh({
       imagePath: currRow.path,
-      name: extractusername(currRow.name),
+      filename: currRow.name,
       session,
     });
     console.log(path);
@@ -39,7 +39,7 @@ const useMediaCardVC = ({ currRow, session, setRowsx, setCurrRow }) => {
     const imageBase64DataUrl = stageRef.current.toDataURL();
     const path = await saveImageDB({
       imageBase64DataUrl,
-      name: extractusername(currRow.name),
+      filename: currRow.name,
       session,
     });
     setRowsx((rows) => {

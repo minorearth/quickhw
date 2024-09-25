@@ -127,7 +127,7 @@ export const rotateImage = async (file, filename) => {
   });
 };
 
-export const mergeAllImages = async (files, username) => {
+export const mergeAllImages = async (files, filename) => {
   const filesPrepared = await prepareImages2(files);
   return new Promise(function (resolved, rejected) {
     new Jimp(
@@ -140,7 +140,6 @@ export const mergeAllImages = async (files, username) => {
         });
 
         image.getBuffer(Jimp.AUTO, (err, res) => {
-          const filename = `${username}.jpg`;
           const file = new File([res], filename, {
             type: "image/png",
           });

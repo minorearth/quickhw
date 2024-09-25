@@ -7,32 +7,32 @@ import useDropVM from "./useDropVM";
 
 const useDropVC = ({ session, type }) => {
   const [files, setFiles] = useState([]);
-  const [name, setName] = useState("");
+  const [username, setUserName] = useState("");
   const { sendFilesDB } = useDropVM();
 
   useEffect(() => {
-    setInterval(() => setName(""), stn.files.NAME_CLEANUP_INTERVAL);
+    setInterval(() => setUserName(""), stn.files.NAME_CLEANUP_INTERVAL);
   }, []);
 
   const sendFiles = async () => {
-    if (files.length != 0 && name != "") {
+    if (files.length != 0 && username != "") {
       progress.setShowProgress(true);
-      sendFilesDB({ files, name, session, type });
+      sendFilesDB({ files, username, session, type });
       progress.setShowProgress(false);
       snack.showSnack(stn.msg.JOB_DONE);
     } else {
       !files.length && snack.showSnack(stn.msg.PICK_FILES);
-      !name && snack.showSnack(stn.msg.PICK_NAME);
+      !username && snack.showSnack(stn.msg.PICK_NAME);
     }
   };
 
   const changeName = (e) => {
-    setName(e.target.value);
+    setUserName(e.target.value);
   };
 
   return {
     actions: { changeName, sendFiles, setFiles },
-    state: { name, files },
+    state: { name: username, files },
   };
 };
 
