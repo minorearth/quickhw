@@ -86,35 +86,14 @@ export const deleteAllDocsInCollection = async (collectionName, timeLag) => {
   return log;
 };
 
-let docsss = {};
-
-const Refresh = (docData, id) => {
-  docsss = { ...docsss, [id]: docData };
-};
-
-export const getDocFromCollectionByIdUpdates = async (id) => {
-  return docsss[id];
-};
-
-export const getDocFromCollectionByIdRealtime = async (collectionName, id) => {
-  const docRef = doc(db, collectionName, id);
-  onSnapshot(docRef, (doc) => {
-    Refresh(doc.data(), id);
-  });
-
-  const docSnap = await getDoc(docRef);
-  const data = docSnap.data();
-  return { id: docSnap.id, ...data };
+export const log = async (data) => {
+  await updateDoc(doc(db, "logs", "1"), data);
 };
 
 // export const addDocInCollection = async (collectionName, data) => {
 //   const doc = await addDoc(collection(db, collectionName), data);
 //   return doc.id;
 // };
-
-export const log = async (data) => {
-  await updateDoc(doc(db, "logs", "1"), data);
-};
 
 // const DBDocsToIds = (docs) => {
 //   return docs.docs.map((item) => item.id);

@@ -19,6 +19,9 @@ export const Qr = ({ session }) => {
     setQrLink(
       `${process.env.NEXT_PUBLIC_DOMAIN}/dropfiles/${value}/${session}`
     );
+    return () => {
+      console.log("qr unmounted");
+    };
   }, [value, session]);
 
   return (

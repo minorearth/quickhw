@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import {
-  getDocFromCollectionByIdRealtime,
-  getDocFromCollectionByIdUpdates,
-} from "../../../../data model/server actions/datamodel";
+import { getDocFromCollectionByIdUpdates } from "../../../../data model/server actions/datamodel";
+
+import { getDocFromCollectionByIdRealtime } from "../../../../data model/client actions/datamodel";
+
 import { ObjtoArr } from "@/app/utils/objectUtils";
 
 const useSurvFilesGrid2VC = ({
@@ -19,14 +19,17 @@ const useSurvFilesGrid2VC = ({
   };
 
   useEffect(() => {
-    setInterval(async () => {
-      const freshdata = await getDocFromCollectionByIdUpdates(session);
-      setRowsx(ObjtoArr(freshdata?.files));
-    }, 5000);
-    getDocFromCollectionByIdRealtime("surveys", session).then((docData) => {
-      // const fileMeta = await getMetadata(file);
-      setRowsx(ObjtoArr(docData?.files));
+    getDocFromCollectionByIdRealtime("surveys", session, (data) => {
+      setRowsx(ObjtoArr(data.files));
+    }).then((docData) => {
+      setInterval(() => {
+        docData.unsubscribe();
+      }, 1000 * 60 * 30);
+      setRowsx(ObjtoArr(docData?.data?.files));
     });
+    return () => {
+      console.log("grid unmounted");
+    };
   }, []);
 
   return { setCardVisible };
