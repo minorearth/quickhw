@@ -9,7 +9,7 @@ import { ObjtoArr } from "@/app/utils/objectUtils";
 
 const useSurvFilesGrid2VC = ({
   setCurrRow,
-  session,
+  surveyid,
   setRowsx,
   setMediacardVisible,
 }) => {
@@ -19,7 +19,7 @@ const useSurvFilesGrid2VC = ({
   };
 
   useEffect(() => {
-    getDocFromCollectionByIdRealtime("surveys", session, (data) => {
+    getDocFromCollectionByIdRealtime("surveysresults", surveyid, (data) => {
       setRowsx(ObjtoArr(data.files));
     }).then((docData) => {
       setInterval(() => {

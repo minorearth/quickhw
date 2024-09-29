@@ -5,7 +5,7 @@ import useMeasure from "react-use-measure";
 import progress from "@/app/store/progress";
 import useMediaCardVM from "./mediaCardVM";
 
-const useMediaCardVC = ({ currRow, session, setRowsx, setCurrRow }) => {
+const useMediaCardVC = ({ currRow, surveyid, setRowsx, setCurrRow }) => {
   const [imgDim, setImgDim] = useState({ w: 0, h: 0 });
 
   const { rotateAndRefresh, saveImageDB } = useMediaCardVM();
@@ -28,7 +28,7 @@ const useMediaCardVC = ({ currRow, session, setRowsx, setCurrRow }) => {
     const path = await rotateAndRefresh({
       imagePath: currRow.path,
       filename: currRow.name,
-      session,
+      surveyid,
     });
     console.log(path);
     setCurrRow({ ...currRow, path });
@@ -40,7 +40,7 @@ const useMediaCardVC = ({ currRow, session, setRowsx, setCurrRow }) => {
     const path = await saveImageDB({
       imageBase64DataUrl,
       filename: currRow.name,
-      session,
+      surveyid,
     });
     setRowsx((rows) => {
       rows.filter((srcrow) => srcrow.name == currRow.name)[0].path = path;

@@ -53,12 +53,12 @@ const Content = observer(({ params }) => {
           flex: 1,
         }}
       >
-        {noteVisible && <BlackBoard session={params.content} />}
+        {noteVisible && <BlackBoard surveyid={params.content} />}
         <SurvFilesGrid2
           setCurrRow={setCurrRow}
           rows={rows}
           setRowsx={setRowsx}
-          session={params.content}
+          surveyid={params.content}
           setMediacardVisible={setMediacardVisible}
         />
       </Box>
@@ -67,11 +67,11 @@ const Content = observer(({ params }) => {
           setCurrRow={setCurrRow}
           setMediacardVisible={setMediacardVisible}
           currRow={currRow}
-          session={params.content}
+          surveyid={params.content}
           setRowsx={setRowsx}
         />
       )}
-      {qrVisible && <Qr session={params.content} />}
+      {qrVisible && <Qr surveyid={params.content} />}
     </Box>
   );
 });

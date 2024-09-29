@@ -16,9 +16,9 @@ const roboto = Roboto({
 
 const myFont = localFont({ src: "../../../fonts/overdozesans.ttf" });
 
-const BlackBoard = ({ session }) => {
+const BlackBoard = ({ surveyid }) => {
   const handleSaveNote = async () => {
-    await updateDocFieldsInCollectionById("surveys", session, {
+    await updateDocFieldsInCollectionById("surveysresults", surveyid, {
       note: note,
     });
   };
@@ -26,7 +26,7 @@ const BlackBoard = ({ session }) => {
   const [note, setNote] = useState(stn.defaults.BLACKBOARD_TEXT);
 
   useEffect(() => {
-    getDocFromCollectionById("surveys", session).then((docData) => {
+    getDocFromCollectionById("surveysresults", surveyid).then((docData) => {
       !!docData?.note && setNote(docData?.note);
     });
   }, []);

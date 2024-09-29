@@ -30,7 +30,6 @@ export const getDocFromCollectionByIdRealtime = async (
   id,
   refreshdata
 ) => {
-  console.log("db, collectionName, id", db, collectionName, id);
   const docRef = doc(db, collectionName, id);
   const unsubscribe = onSnapshot(docRef, (doc) => {
     refreshdata(doc.data());
@@ -38,4 +37,14 @@ export const getDocFromCollectionByIdRealtime = async (
   const docSnap = await getDoc(docRef);
   const data = docSnap.data();
   return { data: { id: docSnap.id, ...data }, unsubscribe };
+};
+
+export const addDocInCollection2 = async (collectionName, data) => {
+  const doc = await addDoc(collection(db, collectionName), data);
+  return doc.id;
+};
+
+export const setDocInCollection = async (collectionName, data, id) => {
+  const newdoc = await setDoc(doc(db, collectionName, id), data);
+  return newdoc.id;
 };

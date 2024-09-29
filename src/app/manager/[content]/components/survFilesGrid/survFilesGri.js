@@ -10,14 +10,14 @@ import useSurvFilesGrid2VC from "./survFilesGridVC";
 
 export default function SurvFilesGrid2({
   setCurrRow,
-  session,
+  surveyid,
   rows,
   setRowsx,
   setMediacardVisible,
 }) {
   const { setCardVisible } = useSurvFilesGrid2VC({
     setCurrRow,
-    session,
+    surveyid,
     setRowsx,
     setMediacardVisible,
   });

@@ -7,7 +7,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FabAnimated from "@/components/fabAnimated/fabAnimated";
 import stn from "@/app/constants";
 
-export const Qr = ({ session }) => {
+export const Qr = ({ surveyid }) => {
   const [qrLink, setQrLink] = useState([]);
   const [value, setValue] = useState(stn.files.droptypes.IMAGES);
 
@@ -17,12 +17,12 @@ export const Qr = ({ session }) => {
 
   useEffect(() => {
     setQrLink(
-      `${process.env.NEXT_PUBLIC_DOMAIN}/dropfiles/${value}/${session}`
+      `${process.env.NEXT_PUBLIC_DOMAIN}/dropfiles/${value}/${surveyid}`
     );
     return () => {
       console.log("qr unmounted");
     };
-  }, [value, session]);
+  }, [value, surveyid]);
 
   return (
     <Box

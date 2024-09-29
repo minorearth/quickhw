@@ -8,7 +8,7 @@ import { fileToBuffer } from "@/app/utils/fileUtils";
 const useDropVM = () => {
   const UploadFileAndRefreshcollection = async (
     file,
-    session,
+    surveyid,
     filename,
     type,
     username
@@ -16,12 +16,12 @@ const useDropVM = () => {
     // const buffer = await fileToBuffer(file);
     const path = await UploadFile({
       file,
-      folder: session,
+      folder: surveyid,
     });
     // const fileMeta = await getMetadata(fileDB);
     // const dateFormatted = formatDate(fileMeta.updated);
     var today = new Date();
-    await updateDocFieldsInCollectionById("surveys", session, {
+    await updateDocFieldsInCollectionById("surveysresults", surveyid, {
       [`files.${username}`]: {
         path,
         id: file.name,
@@ -32,7 +32,7 @@ const useDropVM = () => {
     });
   };
 
-  const sendFilesDB = async ({ files, username, session, type }) => {
+  const sendFilesDB = async ({ files, username, surveyid, type }) => {
     const extension = type == stn.files.droptypes.IMAGES ? ".jpg" : ".zip";
     const filename = `${username}${extension}`;
     const file =
@@ -40,7 +40,7 @@ const useDropVM = () => {
         ? await mergeAllImages(files, filename)
         : await compressFiles(files, filename);
     console.log(file);
-    UploadFileAndRefreshcollection(file, session, filename, type, username);
+    UploadFileAndRefreshcollection(file, surveyid, filename, type, username);
   };
 
   return {

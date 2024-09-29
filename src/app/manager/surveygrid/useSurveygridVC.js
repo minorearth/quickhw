@@ -3,27 +3,63 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import useSurveyGridVM from "./useSurveygridVM";
 import stn from "@/app/constants";
+import {
+  addDocInCollection2,
+  setDocInCollection,
+} from "../../data model/client actions/migration";
 
 export default function useSurveyGridVC({ setProfileVisible, user }) {
-  const { addDocInCollection, getGridData, updateDocFieldsInCollectionById } =
-    useSurveyGridVM();
+  const {
+    addDocInCollection,
+    getGridData,
+    updateDocFieldsInCollectionById,
+    getGridDataMigration,
+  } = useSurveyGridVM();
   // const apiRef = useGridApiRef();
 
   const router = useRouter();
   const [rows, setRows] = useState([]);
+  const [currSurvey, setCurrSurvey] = useState([]);
 
   const addrow = () => {
     var today = new Date();
-    const data = { title: stn.defaults.NEW_SURVEY, datetime: today, user };
-    addDocInCollection("surveys", { ...data }).then((id) => {
-      setRows((oldRows) => [{ id, ...data }, ...oldRows]);
-    });
+    addDocInCollection("surveysresults", { files: {}, manager: user }).then(
+      (id) => {
+        const data = {
+          title: stn.defaults.NEW_SURVEY,
+          datetime: today,
+        };
+        updateDocFieldsInCollectionById("surveys2", user, {
+          [`surveys.${id}`]: data,
+        });
+        setRows((oldRows) => [{ id, ...data }, ...oldRows]);
+      }
+    );
   };
 
   useEffect(() => {
     getGridData(user).then((docs) => {
-      setRows(docs);
+      setRows(docs.rows);
+      setCurrSurvey(docs.id);
     });
+    // getGridDataMigration(user).then((docs) => {
+    //   // setRows(docs);
+
+    //   Promise.all(
+    //     Object.keys(docs).map(async (doc) => {
+    //       console.log(doc);
+    //       const docid = await addDocInCollection2("surveysresults", {
+    //         files: docs[doc].files,
+    //         manager: user,
+    //       });
+    //       docs[docid] = {
+    //         title: docs[doc].title,
+    //         datetime: docs[doc].datetime,
+    //       };
+    //       delete docs.docs;
+    //     })
+    //   ).then((res) => setDocInCollection("surveys2", { surveys: docs }, user));
+    // });
   }, []);
 
   const navigateToSettings = () => {
@@ -31,8 +67,8 @@ export default function useSurveyGridVC({ setProfileVisible, user }) {
   };
 
   const processEdit = (newRow) => {
-    updateDocFieldsInCollectionById("surveys", newRow.id, {
-      title: newRow.title,
+    updateDocFieldsInCollectionById("surveys2", currSurvey, {
+      [`surveys.${newRow.id}.title`]: newRow.title,
     });
     rows.filter((row) => row.id == newRow.id)[0].title = newRow.title;
     return newRow;
@@ -43,7 +79,12 @@ export default function useSurveyGridVC({ setProfileVisible, user }) {
   };
 
   return {
-    actions: { navigateToFiles, processEdit, navigateToSettings, addrow },
+    actions: {
+      navigateToFiles,
+      processEdit,
+      navigateToSettings,
+      addrow,
+    },
     rows,
   };
 }

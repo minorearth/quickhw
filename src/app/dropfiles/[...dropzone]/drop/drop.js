@@ -8,8 +8,8 @@ import useDropZone from "./useDropVC";
 import { observer } from "mobx-react-lite";
 import stn from "@/app/constants";
 
-const Drop = observer(({ session, type }) => {
-  const { actions, state } = useDropZone({ session, type });
+const Drop = observer(({ surveyid, type }) => {
+  const { actions, state } = useDropZone({ surveyid, type });
   return (
     <Box
       sx={{

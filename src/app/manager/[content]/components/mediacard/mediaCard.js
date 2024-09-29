@@ -5,14 +5,14 @@ import Drawer from "./drawer/drawer";
 import useMediaCardVC from "./mediaCardVC";
 const MediaCard = ({
   currRow,
-  session,
+  surveyid,
   setRowsx,
   setCurrRow,
   setMediacardVisible,
 }) => {
   const { actions, state, stageRef, boundsRef } = useMediaCardVC({
     currRow,
-    session,
+    surveyid,
     setRowsx,
     setCurrRow,
   });
