@@ -1,8 +1,6 @@
 import { cookies } from "next/headers";
 
 export function middleware(request) {
-  console.log("request", request);
-
   const session = request.cookies.get("session");
 
   if (!session && request.nextUrl.pathname.startsWith("/manager")) {

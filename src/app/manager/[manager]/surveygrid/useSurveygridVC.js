@@ -6,7 +6,7 @@ import stn from "@/app/constants";
 import {
   addDocInCollection2,
   setDocInCollection,
-} from "../../data model/client actions/migration";
+} from "../../../data model/client actions/migration";
 
 export default function useSurveyGridVC({ setProfileVisible, user }) {
   const {
@@ -37,29 +37,31 @@ export default function useSurveyGridVC({ setProfileVisible, user }) {
     );
   };
 
+  const Migrate = () => {
+    getGridDataMigration(user).then((docs) => {
+      // setRows(docs);
+
+      Promise.all(
+        Object.keys(docs).map(async (doc) => {
+          const docid = await addDocInCollection2("surveysresults", {
+            files: docs[doc].files,
+            manager: user,
+          });
+          docs[docid] = {
+            title: docs[doc].title,
+            datetime: docs[doc].datetime,
+          };
+          delete docs[doc];
+        })
+      ).then((res) => setDocInCollection("surveys2", { surveys: docs }, user));
+    });
+  };
+
   useEffect(() => {
     getGridData(user).then((docs) => {
       setRows(docs.rows);
       setCurrSurvey(docs.id);
     });
-    // getGridDataMigration(user).then((docs) => {
-    //   // setRows(docs);
-
-    //   Promise.all(
-    //     Object.keys(docs).map(async (doc) => {
-    //       console.log(doc);
-    //       const docid = await addDocInCollection2("surveysresults", {
-    //         files: docs[doc].files,
-    //         manager: user,
-    //       });
-    //       docs[docid] = {
-    //         title: docs[doc].title,
-    //         datetime: docs[doc].datetime,
-    //       };
-    //       delete docs.docs;
-    //     })
-    //   ).then((res) => setDocInCollection("surveys2", { surveys: docs }, user));
-    // });
   }, []);
 
   const navigateToSettings = () => {
@@ -75,7 +77,7 @@ export default function useSurveyGridVC({ setProfileVisible, user }) {
   };
 
   const navigateToFiles = (id) => {
-    router.push(`/manager/${id}`);
+    router.push(`/manager/${user}/content/${id}`);
   };
 
   return {
@@ -84,6 +86,7 @@ export default function useSurveyGridVC({ setProfileVisible, user }) {
       processEdit,
       navigateToSettings,
       addrow,
+      Migrate,
     },
     rows,
   };

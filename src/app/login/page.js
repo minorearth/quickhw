@@ -8,9 +8,8 @@ import Link from "@mui/material/Link";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { useRouter } from "next/navigation";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { signInTeacher, logout } from "../../../session";
-import { app } from "../data model/server actions/firebaseapp";
+import { signInTeacher, logout } from "../data model/server actions/session";
+import Typography from "@mui/material/Typography";
 
 export default function Page() {
   const router = useRouter();
@@ -26,13 +25,16 @@ export default function Page() {
 
     const authNow = async (email, password) => {
       logout();
-      try {
-        await signInTeacher(email, password);
-        console.log("here we go");
-        router.push("/manager");
-      } catch (error) {
-        console.log("auth error");
-      }
+      const uid = await signInTeacher(email, password);
+      router.push(`/manager/${uid}`);
+
+      // try {
+      //   const uid = await signInTeacher(email, password);
+      //   console.log("here we go", uid);
+      //   router.push(`/manager/${uid}`);
+      // } catch (error) {
+      //   console.log("auth error3");
+      // }
     };
     await authNow(email, password);
   };
@@ -41,12 +43,15 @@ export default function Page() {
     // <React.Fragment>
     <>
       <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+        {/* <Typography component="h1" variant="h5">
+          Sign in
+        </Typography> */}
         <TextField
           margin="normal"
           required
           fullWidth
           id="email"
-          label="Email Address"
+          label="Введите email"
           name="email"
           autoComplete="email"
           autoFocus
@@ -57,7 +62,7 @@ export default function Page() {
           required
           fullWidth
           name="password"
-          label="Password"
+          label="Введите пароль"
           type="password"
           id="password"
           autoComplete="current-password"
@@ -75,24 +80,27 @@ export default function Page() {
         >
           Войти
         </Button>
-        <Button
+        {/* <Button
           onClick={() => {}}
           fullWidth
           variant="contained"
           sx={{ mt: 3, mb: 2 }}
         >
           Отмена
-        </Button>
+        </Button> */}
         <Grid container>
           <Grid item xs>
-            <Link href="#" variant="body2">
-              Забыли пароль?
-            </Link>
+            <Link href="#">Забыли пароль?</Link>
           </Grid>
           <Grid item>
-            <Link href="#" variant="body2">
-              {"Не зарегистрированы? Sign Up"}
-            </Link>
+            <Typography sx={{ textAlign: "center" }}>
+              Нет аккаунта?{" "}
+              <span>
+                <Link href="/login/signup" sx={{ alignSelf: "center" }}>
+                  Зарегистроваться
+                </Link>
+              </span>
+            </Typography>
           </Grid>
         </Grid>
       </Box>

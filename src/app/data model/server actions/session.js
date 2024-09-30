@@ -2,8 +2,14 @@
 // import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { app } from "./src/app/data model/server actions/firebaseapp";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
+import { setDocInCollection } from "./datamodel";
+import { app } from "./firebaseapp";
 
 const secretKey = "secret";
 const key = new TextEncoder().encode(secretKey);
@@ -33,13 +39,41 @@ export async function login(user) {
 
 export async function signInTeacher(email, password) {
   const auth = getAuth(app);
-  try {
-    await signInWithEmailAndPassword(auth, email, password);
-    await login("teacher");
-  } catch (error) {
-    throw new Error("auth error");
-  }
+  // try {
+  //   await signInWithEmailAndPassword(auth, email, password);
+  // } catch (error) {
+  //   throw new Error("auth error2", error.message);
+  // }
+
+  signInWithEmailAndPassword(auth, email, password);
+  const getid = new Promise((resolved, rejected) => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        login("teacher");
+        resolved(user.uid);
+      } else {
+      }
+    });
+  });
+  const uid = await getid;
+  return uid;
 }
+
+export const SignUpUser = async (email, password) => {
+  const auth = getAuth();
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    setDocInCollection("surveys2", { surveys: {} }, userCredential.user.uid);
+    return userCredential.user.uid;
+  } catch (error) {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+  }
+};
 
 // export async function signInStudent(pincode) {
 //   const zz = await checkIfUniqueExistAndReturnDocDM("myusers", {

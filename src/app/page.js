@@ -1,6 +1,6 @@
 "use client";
 
-import Manager from "./manager/manager";
+import Manager from "./manager/[manager]/manager";
 import Profile from "../components/profile";
 import { useCredentials } from "./hooks/useCredentials";
 import { useEffect } from "react";

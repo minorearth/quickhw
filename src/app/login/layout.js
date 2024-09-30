@@ -22,8 +22,8 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href="https://bestdr.vercel.app/">
+        Быстрёнок
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -66,9 +66,7 @@ export default function Layout({ children }) {
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
+
           {children}
           <Copyright sx={{ mt: 5 }} />
         </Box>

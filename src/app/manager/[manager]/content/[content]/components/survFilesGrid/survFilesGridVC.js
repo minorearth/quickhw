@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getDocFromCollectionByIdUpdates } from "../../../../data model/server actions/datamodel";
+import { getDocFromCollectionByIdUpdates } from "../../../../../../data model/server actions/datamodel";
 
-import { getDocFromCollectionByIdRealtime } from "../../../../data model/client actions/datamodel";
+import { getDocFromCollectionByIdRealtime } from "../../../../../../data model/client actions/datamodel";
 
 import { ObjtoArr } from "@/app/utils/objectUtils";
 

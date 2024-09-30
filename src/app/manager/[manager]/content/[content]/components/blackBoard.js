@@ -1,12 +1,12 @@
 import TextField from "@mui/material/TextField";
-import FabAnimated from "../../../../components/fabAnimated/fabAnimated";
+import FabAnimated from "../../../../../../components/fabAnimated/fabAnimated";
 import { Roboto } from "next/font/google";
 import localFont from "next/font/local";
 import { useEffect, useState } from "react";
 import {
   updateDocFieldsInCollectionById,
   getDocFromCollectionById,
-} from "../../../data model/server actions/datamodel";
+} from "../../../../../data model/server actions/datamodel";
 import stn from "@/app/constants";
 
 const roboto = Roboto({
@@ -14,7 +14,7 @@ const roboto = Roboto({
   subsets: ["latin"],
 });
 
-const myFont = localFont({ src: "../../../fonts/overdozesans.ttf" });
+const myFont = localFont({ src: "../../../../../fonts/overdozesans.ttf" });
 
 const BlackBoard = ({ surveyid }) => {
   const handleSaveNote = async () => {

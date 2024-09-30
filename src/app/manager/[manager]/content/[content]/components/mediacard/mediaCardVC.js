@@ -30,7 +30,6 @@ const useMediaCardVC = ({ currRow, surveyid, setRowsx, setCurrRow }) => {
       filename: currRow.name,
       surveyid,
     });
-    console.log(path);
     setCurrRow({ ...currRow, path });
     progress.setShowProgress(false);
   };

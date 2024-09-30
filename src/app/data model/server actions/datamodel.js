@@ -86,6 +86,11 @@ export const deleteAllDocsInCollection = async (collectionName, timeLag) => {
   return log;
 };
 
+export const setDocInCollection = async (collectionName, data, id) => {
+  const newdoc = await setDoc(doc(db, collectionName, id), data);
+  return newdoc.id;
+};
+
 export const log = async (data) => {
   await updateDoc(doc(db, "logs", "1"), data);
 };
