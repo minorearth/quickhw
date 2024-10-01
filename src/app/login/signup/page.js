@@ -9,43 +9,28 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { sendmail } from "../../data model/client actions/datamodel";
 import { SignUpUser } from "../../data model/server actions/session";
+import AlertDialog from "@/components/dialog";
+import { useRouter } from "next/navigation";
 
 export default function SignUp() {
-  const [mode, setMode] = React.useState("light");
+  const [dialogVisible, setDialogVisible] = React.useState(false);
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
   const [nameError, setNameError] = React.useState(false);
   const [nameErrorMessage, setNameErrorMessage] = React.useState("");
+  const router = useRouter();
 
   const handleRegister = async () => {
     const isValid = validateInputs();
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-    console.log("here", email, password, isValid);
     if (isValid) {
       const userC = await SignUpUser(email, password);
-      console.log("userC", userC);
+      setDialogVisible(true);
     }
-
-    // const email = document.getElementById("email").value;
-    // sendmail(email);
   };
-  // This code only runs on the client side, to determine the system color preference
-  React.useEffect(() => {
-    // Check if there is a preferred mode in localStorage
-    const savedMode = localStorage.getItem("themeMode");
-    if (savedMode) {
-      setMode(savedMode);
-    } else {
-      // If no preference is found, it uses system preference
-      const systemPrefersDark = window.matchMedia(
-        "(prefers-color-scheme: dark)"
-      ).matches;
-      setMode(systemPrefersDark ? "dark" : "light");
-    }
-  }, []);
 
   const validateInputs = () => {
     const email = document.getElementById("email");
@@ -101,6 +86,13 @@ export default function SignUp() {
         width: "100%",
       }}
     >
+      <AlertDialog
+        dialogVisible={dialogVisible}
+        setDialogVisible={setDialogVisible}
+        action={() => {
+          router.push(`/login`);
+        }}
+      />
       {/* <Typography
         component="h1"
         variant="h4"
@@ -113,6 +105,7 @@ export default function SignUp() {
           autoComplete="name"
           name="name"
           label="Введите имя"
+          defaultValue="Roman"
           required
           fullWidth
           id="name"
@@ -144,6 +137,7 @@ export default function SignUp() {
           fullWidth
           name="password"
           // placeholder="••••••"
+          defaultValue="1234567"
           label="Пароль"
           type="password"
           id="password"

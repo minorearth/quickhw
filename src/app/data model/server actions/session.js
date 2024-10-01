@@ -7,6 +7,8 @@ import {
   signInWithEmailAndPassword,
   onAuthStateChanged,
   createUserWithEmailAndPassword,
+  sendEmailVerification,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { setDocInCollection } from "./datamodel";
 import { app } from "./firebaseapp";
@@ -37,6 +39,11 @@ export async function login(user) {
   cookies().set("session", user, { expires, httpOnly: true });
 }
 
+export async function resetPsw(email) {
+  const auth = getAuth(app);
+  sendPasswordResetEmail(auth, email);
+}
+
 export async function signInTeacher(email, password) {
   const auth = getAuth(app);
   // try {
@@ -49,8 +56,15 @@ export async function signInTeacher(email, password) {
   const getid = new Promise((resolved, rejected) => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        login("teacher");
-        resolved(user.uid);
+        auth.languageCode = "ru";
+        // user.emailVerified;
+
+        if (user.emailVerified) {
+          login("teacher");
+          resolved(user.uid);
+        } else {
+          resolved("notVerified");
+        }
       } else {
       }
     });
@@ -67,6 +81,12 @@ export const SignUpUser = async (email, password) => {
       email,
       password
     );
+    // onAuthStateChanged(auth, (user) => {
+    //   if (user) {
+    //     sendEmailVerification(user).then(() => {});
+    //   }
+    // });
+    sendEmailVerification(userCredential.user).then(() => {});
     setDocInCollection("surveys2", { surveys: {} }, userCredential.user.uid);
     return userCredential.user.uid;
   } catch (error) {

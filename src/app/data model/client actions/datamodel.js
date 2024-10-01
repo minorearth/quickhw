@@ -25,6 +25,7 @@ import {
 } from "firebase/auth";
 
 import { signInTeacher } from "../server actions/session";
+import { sendEmailVerification } from "firebase/auth";
 
 import { app } from "./firebaseapp";
 
@@ -33,32 +34,12 @@ const db = initializeFirestore(app, {
   useFetchStreams: false,
 });
 
-// const RESEND_API_KEY = "re_FmyuB8GY_H8Gko2QyVL7XCqDhMvzfpfMn";
-
-// export async function POST(email) {
-//   const res = await fetch("https://api.resend.com/emails", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization: `Bearer ${RESEND_API_KEY}`,
-//     },
-//     body: JSON.stringify({
-//       from: "Acme <onboarding@resend.dev>",
-//       to: [email],
-//       subject: "hello world",
-//       html: "<strong>it works!</strong>",
-//     }),
-//   });
-
-//   if (res.ok) {
-//     const data = await res.json();
-//     return Response.json(data);
-//   }
-// }
-
-export async function sendmail(email) {
-  POST();
-}
+export const sendEmailandVerify = () => {
+  // const auth = getAuth();
+  //   // Email verification sent!
+  //   // ...
+  // });
+};
 
 export const getDocFromCollectionByIdRealtime = async (
   collectionName,

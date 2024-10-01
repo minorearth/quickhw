@@ -8,14 +8,27 @@ import Link from "@mui/material/Link";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { useRouter } from "next/navigation";
-import { signInTeacher, logout } from "../data model/server actions/session";
+import {
+  signInTeacher,
+  logout,
+  resetPsw,
+} from "../data model/server actions/session";
+import { sendEmailandVerify } from "../data model/client actions/datamodel";
 import Typography from "@mui/material/Typography";
+import AlertDialog from "@/components/dialog";
 
 export default function Page() {
   const router = useRouter();
+  const [dialogVisible, setDialogVisible] = React.useState(false);
+
   React.useEffect(() => {
     logout();
   }, []);
+
+  const handleForgetPswSubmit = () => {
+    console.log("reset");
+    resetPsw(document.getElementById("email").value);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -26,7 +39,9 @@ export default function Page() {
     const authNow = async (email, password) => {
       logout();
       const uid = await signInTeacher(email, password);
-      router.push(`/manager/${uid}`);
+      if (uid == "notVerified") {
+        setDialogVisible(true);
+      } else router.push(`/manager/${uid}`);
 
       // try {
       //   const uid = await signInTeacher(email, password);
@@ -46,6 +61,13 @@ export default function Page() {
         {/* <Typography component="h1" variant="h5">
           Sign in
         </Typography> */}
+        <AlertDialog
+          dialogVisible={dialogVisible}
+          setDialogVisible={setDialogVisible}
+          action={() => {
+            router.push(`/login`);
+          }}
+        />
         <TextField
           margin="normal"
           required
@@ -66,7 +88,7 @@ export default function Page() {
           type="password"
           id="password"
           autoComplete="current-password"
-          defaultValue="123456"
+          defaultValue="1234567"
         />
         <FormControlLabel
           control={<Checkbox value="remember" color="primary" />}
@@ -90,7 +112,14 @@ export default function Page() {
         </Button> */}
         <Grid container>
           <Grid item xs>
-            <Link href="#">Забыли пароль?</Link>
+            <Link
+              onClick={() => {
+                handleForgetPswSubmit();
+              }}
+              href="#"
+            >
+              Забыли пароль?
+            </Link>
           </Grid>
           <Grid item>
             <Typography sx={{ textAlign: "center" }}>
