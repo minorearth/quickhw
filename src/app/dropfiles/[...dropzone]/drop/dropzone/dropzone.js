@@ -13,6 +13,7 @@ import Progress from "@/components/progress";
 import progress from "@/app/store/progress";
 import stn from "@/app/constants";
 import stnd from "@/app/constantsDyn";
+import { observer } from "mobx-react-lite";
 
 const baseStyle = {
   display: "flex",
@@ -43,7 +44,7 @@ const rejectStyle = {
   borderColor: "#ff1744",
 };
 
-const DropZone = ({ setFiles, files, type }) => {
+const DropZone = observer(({ setFiles, files, type }) => {
   const [accept, setAcceptFiles] = useState();
 
   useEffect(() => {
@@ -95,15 +96,15 @@ const DropZone = ({ setFiles, files, type }) => {
       <List dense={true}>
         {files.map((file, id) => (
           <ListItem key={id}>
-            <ListItemIcon>
+            {/* <ListItemIcon>
               <UploadFileIcon />
-            </ListItemIcon>
+            </ListItemIcon> */}
             <ListItemText primary={`${file.path} - ${file.size} байт>`} />
           </ListItem>
         ))}
       </List>
     </Box>
   );
-};
+});
 
 export default DropZone;

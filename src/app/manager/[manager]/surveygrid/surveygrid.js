@@ -12,6 +12,16 @@ export default function SurveyGrid({ setProfileVisible, user }) {
     setProfileVisible,
     user,
   });
+
+  const labelDisplayedRows = ({ from, to, count, estimated }) => {
+    if (!estimated) {
+      return `${from}–${to} из ${count !== -1 ? count : `всего ${to}`}`;
+    }
+    return `${from}–${to} od ${
+      count !== -1 ? count : `всего ${estimated > to ? estimated : to}`
+    }`;
+  };
+
   const columns = [
     // { field: "id", headerName: "id", width: 130 },
     // { field: "user", headerName: "ПОльзователь", width: 130 },
@@ -53,9 +63,9 @@ export default function SurveyGrid({ setProfileVisible, user }) {
         <AddCircleIcon sx={{ fontSize: 60 }} />
       </IconButton> */}
 
-      <IconButton aria-label="delete" onClick={actions.navigateToSettings}>
+      {/* <IconButton aria-label="delete" onClick={actions.navigateToSettings}>
         <SettingsIcon sx={{ fontSize: 60 }} />
-      </IconButton>
+      </IconButton> */}
       <DataGrid
         initialState={{
           sorting: {
@@ -69,6 +79,15 @@ export default function SurveyGrid({ setProfileVisible, user }) {
           actions.processEdit(updatedRow)
         }
         onProcessRowUpdateError={() => {}}
+        slotProps={{
+          pagination: { labelRowsPerPage: "Строчек на странице" },
+        }}
+        localeText={{
+          noRowsLabel: "Нет данных",
+          MuiTablePagination: {
+            labelDisplayedRows,
+          },
+        }}
       />
     </Box>
   );

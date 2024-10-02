@@ -8,6 +8,7 @@ import Link from "@mui/material/Link";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { useRouter } from "next/navigation";
+
 import {
   signInTeacher,
   logout,
@@ -19,6 +20,7 @@ import AlertDialog from "@/components/dialog";
 
 export default function Page() {
   const router = useRouter();
+
   const [dialogVisible, setDialogVisible] = React.useState(false);
 
   React.useEffect(() => {
@@ -90,10 +92,10 @@ export default function Page() {
           autoComplete="current-password"
           defaultValue="1234567"
         />
-        <FormControlLabel
+        {/* <FormControlLabel
           control={<Checkbox value="remember" color="primary" />}
           label="Запомнить меня"
-        />
+        /> */}
         <Button
           type="submit"
           fullWidth

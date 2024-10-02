@@ -17,7 +17,7 @@ const useDropVC = ({ surveyid, type }) => {
   const sendFiles = async () => {
     if (files.length != 0 && username != "") {
       progress.setShowProgress(true);
-      sendFilesDB({ files, username, surveyid, type });
+      await sendFilesDB({ files, username, surveyid, type });
       progress.setShowProgress(false);
       snack.showSnack(stn.msg.JOB_DONE);
     } else {

@@ -48,7 +48,6 @@ export default function useSurveyGridVM() {
 
   const getGridData = async (user) => {
     const doc = await getDocFromCollectionById("surveys2", user);
-    console.log("doc", doc);
     // setDocInCollection(
     //   "surveys2",
     //   { surveys: doc.surveys },

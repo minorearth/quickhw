@@ -82,6 +82,10 @@ export default function SurvFilesGrid2({
         onRowSelectionModelChange={(newRowSelectionModel) => {
           setMediacardVisible(false);
         }}
+        slotProps={{
+          pagination: { labelRowsPerPage: "Строчек на странице" },
+        }}
+        localeText={{ noRowsLabel: "Нет данных" }}
       />
     </Box>
   );

@@ -42,7 +42,7 @@ export const Qr = ({ surveyid }) => {
         icon="copyClipboard"
         visible={true}
         action={() => navigator.clipboard.writeText(qrLink)}
-        position={{ top: 16, right: 88 }}
+        position={{ top: 76, right: 88 }}
       />
 
       <QRCode

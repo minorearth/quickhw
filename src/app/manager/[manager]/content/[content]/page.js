@@ -32,7 +32,7 @@ const Content = observer(({ params }) => {
         icon="qr"
         visible={qrVisible}
         action={() => setQrVisible((state) => !state)}
-        position={{ top: 16, right: 16 }}
+        position={{ top: 76, right: 16 }}
       />
       <FabAnimated
         icon="note"

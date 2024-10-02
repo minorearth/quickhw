@@ -34,7 +34,7 @@ export async function decrypt(input) {
 }
 
 export async function login(user) {
-  const expires = new Date(Date.now() + 1000 * 1000);
+  const expires = new Date(Date.now() + 60 * 60 * 20 * 1000);
   // const session = await encrypt({ user, expires });
   cookies().set("session", user, { expires, httpOnly: true });
 }
@@ -52,7 +52,7 @@ export async function signInTeacher(email, password) {
   //   throw new Error("auth error2", error.message);
   // }
 
-  signInWithEmailAndPassword(auth, email, password);
+  await signInWithEmailAndPassword(auth, email, password);
   const getid = new Promise((resolved, rejected) => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -112,7 +112,7 @@ export async function updateSession(request) {
   const session = request.cookies.get("session")?.value;
   if (!session) return;
   const parsed = await decrypt(session);
-  parsed.expires = new Date(Date.now() + 100 * 1000);
+  parsed.expires = new Date(Date.now() + 1000);
   const res = NextResponse.next();
   res.cookies.set({
     name: "session",
