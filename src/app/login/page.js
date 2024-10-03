@@ -9,9 +9,13 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { useRouter } from "next/navigation";
 
-import { logout, resetPsw } from "../data model/server actions/session";
+import {
+  logout,
+  resetPsw,
+  signInTeacher,
+} from "../data model/server actions/session";
 
-import { signInTeacher } from "../data model/client actions/session";
+// import { signInTeacher } from "../data model/client actions/session";
 
 import { sendEmailandVerify } from "../data model/client actions/datamodel";
 import Typography from "@mui/material/Typography";
@@ -38,7 +42,7 @@ export default function Page() {
     const password = data.get("password");
 
     const authNow = async (email, password) => {
-      logout();
+      await logout();
       const uid = await signInTeacher(email, password);
       console.log("uid", uid);
       if (uid == "notVerified") {

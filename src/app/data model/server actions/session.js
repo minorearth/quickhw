@@ -55,14 +55,14 @@ export async function signInTeacher(email, password) {
 
   await signInWithEmailAndPassword(auth, email, password);
   const getid = new Promise((resolved, rejected) => {
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
       console.log("signinuser", user);
       if (user) {
         auth.languageCode = "ru";
         // user.emailVerified;
 
         if (user.emailVerified) {
-          login("teacher");
+          await login("teacher");
           resolved(user.uid);
         } else {
           resolved("notVerified");
