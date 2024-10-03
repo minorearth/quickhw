@@ -37,7 +37,7 @@ export async function login(user) {
   // const expires = new Date(Date.now() + 60 * 60 * 20 * 1000);
   const expires = new Date(Date.now() + 10000);
   // const session = await encrypt({ user, expires });
-  cookies().set("session2", user, { expires, httpOnly: true });
+  cookies().set("__session", user, { expires, httpOnly: true });
 }
 
 export async function resetPsw(email) {
@@ -107,17 +107,17 @@ export const SignUpUser = async (email, password) => {
 // }
 
 export async function logout() {
-  cookies().set("session2", "", { expires: new Date(0) });
+  cookies().set("__session", "", { expires: new Date(0) });
 }
 
 // export async function updateSession(request) {
-//   const session = request.cookies.get("session2")?.value;
+//   const session = request.cookies.get("__session")?.value;
 //   if (!session) return;
 //   const parsed = await decrypt(session);
 //   parsed.expires = new Date(Date.now() + 1000);
 //   const res = NextResponse.next();
 //   res.cookies.set({
-//     name: "session2",
+//     name: "__session",
 //     value: await encrypt(parsed),
 //     httpOnly: true,
 //     expires: parsed.expires,
