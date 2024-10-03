@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 
 export function middleware(request) {
   const session = request.cookies.get("__session");
+  console.log("__session", session);
 
   if (!session && request.nextUrl.pathname.startsWith("/manager")) {
     return Response.redirect(new URL("/", request.url));

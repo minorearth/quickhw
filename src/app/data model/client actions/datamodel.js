@@ -41,6 +41,12 @@ export const sendEmailandVerify = () => {
   // });
 };
 
+export const getDocFromCollectionById = async (collectionName, id) => {
+  const docSnap = await getDoc(doc(db, collectionName, id));
+  const data = docSnap.data();
+  return JSON.stringify({ id: docSnap.id, ...data });
+};
+
 export const getDocFromCollectionByIdRealtime = async (
   collectionName,
   id,

@@ -2,8 +2,9 @@ import {
   addDocInCollection,
   getDocsKeyValue,
   updateDocFieldsInCollectionById,
-  getDocFromCollectionById,
 } from "../../../data model/server actions/datamodel";
+
+import { getDocFromCollectionById } from "../../../data model/client actions/datamodel";
 
 import { setDocInCollection } from "../../../data model/client actions/migration";
 
