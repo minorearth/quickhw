@@ -59,6 +59,7 @@ export default function useSurveyGridVC({ setProfileVisible, user }) {
 
   useEffect(() => {
     getGridData(user).then((docs) => {
+      console.log(user, docs);
       setRows(docs.rows);
       setCurrSurvey(docs.id);
     });

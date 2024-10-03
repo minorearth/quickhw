@@ -34,7 +34,8 @@ export async function decrypt(input) {
 }
 
 export async function login(user) {
-  const expires = new Date(Date.now() + 60 * 60 * 20 * 1000);
+  // const expires = new Date(Date.now() + 60 * 60 * 20 * 1000);
+  const expires = new Date(Date.now() + 10000);
   // const session = await encrypt({ user, expires });
   cookies().set("session", user, { expires, httpOnly: true });
 }
@@ -55,6 +56,7 @@ export async function signInTeacher(email, password) {
   await signInWithEmailAndPassword(auth, email, password);
   const getid = new Promise((resolved, rejected) => {
     onAuthStateChanged(auth, (user) => {
+      console.log("signinuser", user);
       if (user) {
         auth.languageCode = "ru";
         // user.emailVerified;
@@ -108,17 +110,17 @@ export async function logout() {
   cookies().set("session", "", { expires: new Date(0) });
 }
 
-export async function updateSession(request) {
-  const session = request.cookies.get("session")?.value;
-  if (!session) return;
-  const parsed = await decrypt(session);
-  parsed.expires = new Date(Date.now() + 1000);
-  const res = NextResponse.next();
-  res.cookies.set({
-    name: "session",
-    value: await encrypt(parsed),
-    httpOnly: true,
-    expires: parsed.expires,
-  });
-  return res;
-}
+// export async function updateSession(request) {
+//   const session = request.cookies.get("session")?.value;
+//   if (!session) return;
+//   const parsed = await decrypt(session);
+//   parsed.expires = new Date(Date.now() + 1000);
+//   const res = NextResponse.next();
+//   res.cookies.set({
+//     name: "session",
+//     value: await encrypt(parsed),
+//     httpOnly: true,
+//     expires: parsed.expires,
+//   });
+//   return res;
+// }
