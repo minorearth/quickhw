@@ -48,12 +48,7 @@ export default function useSurveyGridVM() {
 
   const getGridData = async (user) => {
     const doc = await getDocFromCollectionById("surveys2", user);
-    // setDocInCollection(
-    //   "surveys2",
-    //   { surveys: doc.surveys },
-    //   "KtT1bUjz7few0Y5zjzucKZ5IMhy1"
-    // );
-    return ETL(doc);
+    return ETL(JSON.parse(doc));
   };
 
   return {

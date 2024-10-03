@@ -65,7 +65,7 @@ export const updateDocFieldsInCollectionById2 = async (path, data) => {
 export const getDocFromCollectionById = async (collectionName, id) => {
   const docSnap = await getDoc(doc(db, collectionName, id));
   const data = docSnap.data();
-  return { id: docSnap.id, ...data };
+  return JSON.stringify({ id: docSnap.id, ...data });
 };
 
 export const deleteAllDocsInCollection = async (collectionName, timeLag) => {
