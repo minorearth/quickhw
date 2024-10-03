@@ -41,6 +41,7 @@ export default function Page() {
     const authNow = async (email, password) => {
       logout();
       const uid = await signInTeacher(email, password);
+      console.log("uid", uid);
       if (uid == "notVerified") {
         setDialogVisible(true);
       } else router.push(`/manager/${uid}`);
