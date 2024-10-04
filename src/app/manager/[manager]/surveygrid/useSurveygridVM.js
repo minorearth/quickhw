@@ -1,12 +1,8 @@
 import {
-  addDocInCollection,
-  getDocsKeyValue,
   updateDocFieldsInCollectionById,
-} from "../../../data model/server actions/datamodel";
-
-import { getDocFromCollectionById } from "../../../data model/server actions/datamodel";
-
-import { setDocInCollection } from "../../../data model/client actions/migration";
+  addDocInCollection,
+  getDocFromCollectionById,
+} from "../../../data model/client actions/datamodel";
 
 const ETL = (doc) => {
   const data = doc.surveys;
@@ -21,41 +17,16 @@ const ETL = (doc) => {
   return { rows: docsFormatted, id: doc.id };
 };
 
-const ETLMigration = (docs) => {
-  const docsFormatted = docs.reduce((acc, doc, id) => {
-    // const date = new Date(doc.datetime.seconds * 1000);
-    return {
-      ...acc,
-      [`survey${id}`]: {
-        title: doc.title,
-        datetime: doc.datetime,
-        user: doc.user,
-        files: !!doc.files ? doc.files : {},
-      },
-    };
-  }, {});
-  return docsFormatted;
-};
-
 export default function useSurveyGridVM() {
-  const getGridDataMigration = async (user) => {
-    const docs = await getDocsKeyValue(
-      "surveys",
-      "user",
-      "r.v.lavrentev@school1298.ru"
-    );
-    return ETLMigration(docs);
-  };
-
   const getGridData = async (user) => {
     const doc = await getDocFromCollectionById("surveys2", user);
-    return ETL(JSON.parse(doc));
+    return ETL(doc);
+    // return ETL(JSON.parse(doc));
   };
 
   return {
     addDocInCollection,
     getGridData,
     updateDocFieldsInCollectionById,
-    getGridDataMigration,
   };
 }

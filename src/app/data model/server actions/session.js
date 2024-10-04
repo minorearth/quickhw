@@ -2,16 +2,6 @@
 // import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
-  sendPasswordResetEmail,
-} from "firebase/auth";
-import { setDocInCollection } from "./datamodel";
-import { app } from "./firebaseapp";
 
 const secretKey = "secret";
 const key = new TextEncoder().encode(secretKey);
@@ -39,72 +29,6 @@ export async function login(user) {
   // const session = await encrypt({ user, expires });
   cookies().set("__session", user, { expires, httpOnly: true });
 }
-
-export async function resetPsw(email) {
-  const auth = getAuth(app);
-  sendPasswordResetEmail(auth, email);
-}
-
-export async function signInTeacher(email, password) {
-  const auth = getAuth(app);
-  // try {
-  //   await signInWithEmailAndPassword(auth, email, password);
-  // } catch (error) {
-  //   throw new Error("auth error2", error.message);
-  // }
-
-  await signInWithEmailAndPassword(auth, email, password);
-  const getid = new Promise((resolved, rejected) => {
-    onAuthStateChanged(auth, async (user) => {
-      console.log("signinuser", user);
-      if (user) {
-        auth.languageCode = "ru";
-        // user.emailVerified;
-
-        if (user.emailVerified) {
-          await login("teacher");
-          resolved(user.uid);
-        } else {
-          resolved("notVerified");
-        }
-      } else {
-      }
-    });
-  });
-  const uid = await getid;
-  return uid;
-}
-
-export const SignUpUser = async (email, password) => {
-  const auth = getAuth();
-  try {
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-    // onAuthStateChanged(auth, (user) => {
-    //   if (user) {
-    //     sendEmailVerification(user).then(() => {});
-    //   }
-    // });
-    sendEmailVerification(userCredential.user).then(() => {});
-    setDocInCollection("surveys2", { surveys: {} }, userCredential.user.uid);
-    return userCredential.user.uid;
-  } catch (error) {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-  }
-};
-
-// export async function signInStudent(pincode) {
-//   const zz = await checkIfUniqueExistAndReturnDocDM("myusers", {
-//     login: pincode,
-//   });
-
-//   const allow = zz != "multiple" && zz != "none";
-//   allow && login("student");
-// }
 
 export async function logout() {
   cookies().set("__session", "", { expires: new Date(0) });

@@ -6,9 +6,9 @@ import Link from "@mui/material/Link";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { useRouter } from "next/navigation";
-import { logout, resetPsw } from "../data model/server actions/session";
-import { signInTeacher } from "../data model/server actions/session";
-import { sendEmailandVerify } from "../data model/client actions/datamodel";
+import { logout } from "../data model/server actions/session";
+import { resetPsw } from "./authentication";
+import { signInTeacher } from "./authentication";
 import Typography from "@mui/material/Typography";
 import AlertDialog from "@/components/dialog";
 

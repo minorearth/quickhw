@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import {
   updateDocFieldsInCollectionById,
   getDocFromCollectionById,
-} from "../../../../../data model/server actions/datamodel";
+} from "../../../../../data model/client actions/datamodel";
 import stn from "@/app/constants";
 
 const roboto = Roboto({
@@ -18,6 +18,8 @@ const myFont = localFont({ src: "../../../../../fonts/overdozesans.ttf" });
 
 const BlackBoard = ({ surveyid }) => {
   const handleSaveNote = async () => {
+    console.log(surveyid);
+
     await updateDocFieldsInCollectionById("surveysresults", surveyid, {
       note: note,
     });
@@ -27,6 +29,7 @@ const BlackBoard = ({ surveyid }) => {
 
   useEffect(() => {
     getDocFromCollectionById("surveysresults", surveyid).then((docData) => {
+      console.log(docData?.note, surveyid);
       !!docData?.note && setNote(docData?.note);
     });
   }, []);

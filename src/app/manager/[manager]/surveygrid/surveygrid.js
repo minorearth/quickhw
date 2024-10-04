@@ -59,13 +59,6 @@ export default function SurveyGrid({ setProfileVisible, user }) {
       <IconButton aria-label="delete" size="small" onClick={actions.addrow}>
         <AddCircleIcon sx={{ fontSize: 60 }} />
       </IconButton>
-      {/* <IconButton aria-label="delete" size="small" onClick={actions.Migrate}>
-        <AddCircleIcon sx={{ fontSize: 60 }} />
-      </IconButton> */}
-
-      {/* <IconButton aria-label="delete" onClick={actions.navigateToSettings}>
-        <SettingsIcon sx={{ fontSize: 60 }} />
-      </IconButton> */}
       <DataGrid
         initialState={{
           sorting: {

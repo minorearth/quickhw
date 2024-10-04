@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getDocFromCollectionByIdUpdates } from "../../../../../../data model/server actions/datamodel";
+import { getDocFromCollectionByIdUpdates } from "../../../../../../api/apiDB";
 
 import { getDocFromCollectionByIdRealtime } from "../../../../../../data model/client actions/datamodel";
 

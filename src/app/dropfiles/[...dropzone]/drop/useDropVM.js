@@ -2,7 +2,7 @@ import { mergeAllImages } from "../../../utils/imageUtils";
 import { compressFiles } from "../../../utils/fileUtils";
 import stn from "@/app/constants";
 import { UploadFile } from "@/app/data model/client actions/storagedb";
-import { updateDocFieldsInCollectionById } from "@/app/data model/server actions/datamodel";
+import { updateDocFieldsInCollectionById } from "@/app/data model/client actions/datamodel";
 import { fileToBuffer } from "@/app/utils/fileUtils";
 
 const useDropVM = () => {

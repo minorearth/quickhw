@@ -22,3 +22,24 @@ const uploadFileToDB = async (file, folder) => {
   const path = await getDownloadURL(res.ref);
   return path;
 };
+
+export const deleteFileFromDB = async (relativePath) => {
+  const Ref = ref(storage, relativePath);
+  deleteObject(Ref)
+    .then((res) => {})
+    .catch((e) => {});
+};
+
+export const deleteAllFileFromDir = async (relativePath) => {
+  const Ref = ref(storage, relativePath);
+  const listResults = await listAll(Ref);
+  listResults.items.map((item) => {
+    deleteObject(item);
+  });
+};
+
+export const getAllFiles = async (relativePath) => {
+  const Ref = ref(storage, `/capture/${relativePath}`);
+  const res = await listAll(Ref);
+  return res;
+};

@@ -1,9 +1,5 @@
 import { initializeApp } from "firebase/app";
 
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount)
-// });
-
 const firebaseConfig = {
   apiKey: process.env.NEXT_API_KEY,
   authDomain: process.env.NEXT_AUTH_DOMAIN,
@@ -14,4 +10,4 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_MEASUREMENT_ID,
 };
 
-export const app = initializeApp(firebaseConfig, "newapp");
+export const app = initializeApp(firebaseConfig, "serverside");

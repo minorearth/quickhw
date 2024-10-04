@@ -3,10 +3,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import useSurveyGridVM from "./useSurveygridVM";
 import stn from "@/app/constants";
-import {
-  addDocInCollection2,
-  setDocInCollection,
-} from "../../../data model/client actions/migration";
 import { app } from "../../../data model/client actions/firebaseapp";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
@@ -38,26 +34,6 @@ export default function useSurveyGridVC({ setProfileVisible, user }) {
         setRows((oldRows) => [{ id, ...data }, ...oldRows]);
       }
     );
-  };
-
-  const Migrate = () => {
-    getGridDataMigration(user).then((docs) => {
-      // setRows(docs);
-
-      Promise.all(
-        Object.keys(docs).map(async (doc) => {
-          const docid = await addDocInCollection2("surveysresults", {
-            files: docs[doc].files,
-            manager: user,
-          });
-          docs[docid] = {
-            title: docs[doc].title,
-            datetime: docs[doc].datetime,
-          };
-          delete docs[doc];
-        })
-      ).then((res) => setDocInCollection("surveys2", { surveys: docs }, user));
-    });
   };
 
   useEffect(() => {
@@ -97,7 +73,6 @@ export default function useSurveyGridVC({ setProfileVisible, user }) {
       processEdit,
       navigateToSettings,
       addrow,
-      Migrate,
     },
     rows,
   };
