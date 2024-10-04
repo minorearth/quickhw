@@ -28,8 +28,6 @@ const db = initializeFirestore(app, {
   useFetchStreams: false,
 });
 
-getAuth(app);
-
 // export const getA = () => {
 //   const auth = getAuth(app);
 //   console.log("serverAuth", auth);
@@ -74,6 +72,8 @@ export const updateDocFieldsInCollectionById2 = async (path, data) => {
 };
 
 export const getDocFromCollectionById = async (collectionName, id) => {
+  getAuth(app);
+
   const docSnap = await getDoc(doc(db, collectionName, id));
   const data = docSnap.data();
   return JSON.stringify({ id: docSnap.id, ...data });
