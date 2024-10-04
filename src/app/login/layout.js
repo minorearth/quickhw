@@ -10,6 +10,7 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
+import { useRouter } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -32,6 +33,8 @@ function Copyright(props) {
 }
 
 export default function Layout({ children }) {
+  const router = useRouter();
+
   return (
     // <ThemeProvider theme={defaultTheme}>
     // <ThemeProvider>
@@ -63,7 +66,9 @@ export default function Layout({ children }) {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          {/* } else router.push(`/manager/${uid}`); */}
+
+          <Avatar onClick={() => {}} sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
 

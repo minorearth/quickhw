@@ -10,6 +10,7 @@ export default function AlertDialog({
   dialogVisible,
   setDialogVisible,
   action,
+  message,
 }) {
   const handleClose = () => {
     setDialogVisible(false);
@@ -28,7 +29,7 @@ export default function AlertDialog({
       </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          Ваш аккаунт успешно создан. Чтобы активировать его необходимо...
+          {message}
         </DialogContentText>
       </DialogContent>
       <DialogActions>

@@ -92,6 +92,7 @@ export default function SignUp() {
         action={() => {
           router.push(`/login`);
         }}
+        message="Ваш аккаунт успешно создан. Чтобы активировать его необходимо..."
       />
       {/* <Typography
         component="h1"

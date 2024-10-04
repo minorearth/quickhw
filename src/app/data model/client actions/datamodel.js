@@ -34,6 +34,8 @@ const db = initializeFirestore(app, {
   useFetchStreams: false,
 });
 
+getAuth(app);
+
 export const sendEmailandVerify = () => {
   // const auth = getAuth();
   //   // Email verification sent!

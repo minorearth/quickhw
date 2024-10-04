@@ -18,6 +18,8 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
 import { deleteAllFileFromDir } from "./storagedb";
 import { app } from "./firebaseapp";
 
@@ -26,7 +28,16 @@ const db = initializeFirestore(app, {
   useFetchStreams: false,
 });
 
-// const auth = getAuth(app);
+getAuth(app);
+
+// export const getA = () => {
+//   const auth = getAuth(app);
+//   console.log("serverAuth", auth);
+// };
+
+// onAuthStateChanged(auth, (user) => {
+//   console.log("auth changed on server", user?.uid);
+// });
 
 const DBDocsToObject = (docs) => {
   let ret = [];

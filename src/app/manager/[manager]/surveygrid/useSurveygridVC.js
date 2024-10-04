@@ -7,6 +7,8 @@ import {
   addDocInCollection2,
   setDocInCollection,
 } from "../../../data model/client actions/migration";
+import { app } from "../../../data model/client actions/firebaseapp";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export default function useSurveyGridVC({ setProfileVisible, user }) {
   const {
@@ -23,6 +25,7 @@ export default function useSurveyGridVC({ setProfileVisible, user }) {
 
   const addrow = () => {
     var today = new Date();
+
     addDocInCollection("surveysresults", { files: {}, manager: user }).then(
       (id) => {
         const data = {
@@ -59,6 +62,11 @@ export default function useSurveyGridVC({ setProfileVisible, user }) {
 
   useEffect(() => {
     console.log("request docs", user);
+    // getAuth(app);
+
+    // onAuthStateChanged(auth, async (user) => {
+    //   console.log("signinuser", user);
+    // });
 
     getGridData(user).then((docs) => {
       console.log(user, docs);

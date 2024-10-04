@@ -4,6 +4,9 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   onAuthStateChanged,
+  setPersistence,
+  browserSessionPersistence,
+  browserLocalPersistence,
 } from "firebase/auth";
 import { login } from "../server actions/session";
 // import { setDocInCollection } from "./datamodel";
@@ -14,7 +17,9 @@ const key = new TextEncoder().encode(secretKey);
 
 export async function signInTeacher(email, password) {
   const auth = getAuth(app);
+  // await setPersistence(auth, browserLocalPersistence);
   await signInWithEmailAndPassword(auth, email, password);
+  console.log("auth", auth);
   const getid = new Promise((resolved, rejected) => {
     onAuthStateChanged(auth, async (user) => {
       console.log("signinuser", user);
