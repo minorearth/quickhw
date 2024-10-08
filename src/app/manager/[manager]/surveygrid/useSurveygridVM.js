@@ -19,7 +19,7 @@ const ETL = (doc) => {
 
 export default function useSurveyGridVM() {
   const getGridData = async (user) => {
-    const doc = await getDocFromCollectionById("surveys2", user);
+    const doc = await getDocFromCollectionById("surveys", user);
     return ETL(doc);
     // return ETL(JSON.parse(doc));
   };

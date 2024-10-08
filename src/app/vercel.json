@@ -1,8 +1,0 @@
-{
-  "rewrites": [
-    {
-      "source": "/__/auth/(.*)",
-      "destination": "https://testchallenge-52d1b.firebaseapp.com/__/auth/$1"
-    }
-  ]
-}

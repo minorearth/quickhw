@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode: false,
+
   env: {
     NEXT_PUBLIC_DOMAIN: process.env.NEXT_PUBLIC_DOMAIN,
     NEXT_API_KEY: process.env.NEXT_API_KEY,
@@ -39,11 +41,4 @@ const nextConfig = {
   },
 };
 
-// module.exports = {
-//   experimental: {
-//     serverActions: {
-//       bodySizeLimit: '2mb',
-//     },
-//   },
-// }
 export default nextConfig;

@@ -9,18 +9,19 @@ import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
   sendPasswordResetEmail,
+  signOut,
 } from "firebase/auth";
-import { login } from "../data model/server actions/session";
+import { login, logout } from "../../server actions/session";
 import { app } from "../data model/client actions/firebaseapp";
-import {} from "firebase/auth";
 import { setDocInCollection } from "../data model/client actions/datamodel";
+import { createNewUser } from "../data model/client actions/indexUtils";
 
 // const secretKey = "secret";
 // const key = new TextEncoder().encode(secretKey);
 
 export async function signInTeacher(email, password) {
   const auth = getAuth(app);
-  // await setPersistence(auth, browserLocalPersistence);
+  await setPersistence(auth, browserSessionPersistence);
   await signInWithEmailAndPassword(auth, email, password);
   const getid = new Promise((resolved, rejected) => {
     onAuthStateChanged(auth, async (user) => {
@@ -31,6 +32,7 @@ export async function signInTeacher(email, password) {
           await login("teacher");
           resolved(user.uid);
         } else {
+          // sendEmailVerification(user).then(() => {});
           resolved("notVerified");
         }
       } else {
@@ -54,13 +56,26 @@ export const SignUpUser = async (email, password) => {
       email,
       password
     );
+    const userid = userCredential.user.uid;
     sendEmailVerification(userCredential.user).then(() => {});
-    setDocInCollection("surveys2", { surveys: {} }, userCredential.user.uid);
+    createNewUser(userid);
     return userCredential.user.uid;
   } catch (error) {
     const errorCode = error.code;
     const errorMessage = error.message;
   }
+};
+
+export const signOutUser = () => {
+  const auth = getAuth(app);
+  signOut(auth)
+    .then(() => {
+      logout();
+      // Sign-out successful.
+    })
+    .catch((error) => {
+      // An error happened.
+    });
 };
 
 // export async function signInStudent(pincode) {

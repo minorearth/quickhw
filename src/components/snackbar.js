@@ -1,7 +1,7 @@
 import Snackbar from "@mui/material/Snackbar";
 import { useState } from "react";
 import Slide from "@mui/material/Slide";
-import snack from "@/app/store/snack";
+import snack from "@/store/snack";
 import { observer } from "mobx-react-lite";
 
 function SlideTransition(props) {

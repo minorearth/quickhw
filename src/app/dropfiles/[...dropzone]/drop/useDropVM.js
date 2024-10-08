@@ -11,12 +11,13 @@ const useDropVM = () => {
     surveyid,
     filename,
     type,
-    username
+    username,
+    manager
   ) => {
     // const buffer = await fileToBuffer(file);
     const path = await UploadFile({
       file,
-      folder: surveyid,
+      folder: `${manager}/${surveyid}`,
     });
     // const fileMeta = await getMetadata(fileDB);
     // const dateFormatted = formatDate(fileMeta.updated);
@@ -32,7 +33,7 @@ const useDropVM = () => {
     });
   };
 
-  const sendFilesDB = async ({ files, username, surveyid, type }) => {
+  const sendFilesDB = async ({ files, username, surveyid, type, manager }) => {
     const extension = type == stn.files.droptypes.IMAGES ? ".jpg" : ".zip";
     const filename = `${username}${extension}`;
     const file =
@@ -40,7 +41,14 @@ const useDropVM = () => {
         ? await mergeAllImages(files, filename)
         : await compressFiles(files, filename);
     console.log(file);
-    UploadFileAndRefreshcollection(file, surveyid, filename, type, username);
+    UploadFileAndRefreshcollection(
+      file,
+      surveyid,
+      filename,
+      type,
+      username,
+      manager
+    );
   };
 
   return {

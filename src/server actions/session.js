@@ -27,11 +27,11 @@ export async function login(user) {
   const expires = new Date(Date.now() + 60 * 60 * 20 * 1000);
   // const expires = new Date(Date.now() + 10000);
   // const session = await encrypt({ user, expires });
-  cookies().set("__session", user, { expires, httpOnly: true });
+  cookies().set("session", user, { expires, httpOnly: true });
 }
 
 export async function logout() {
-  cookies().set("__session", "", { expires: new Date(0) });
+  cookies().set("session", "", { expires: new Date(0) });
 }
 
 // export async function updateSession(request) {

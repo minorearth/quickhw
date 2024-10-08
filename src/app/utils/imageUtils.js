@@ -1,9 +1,11 @@
 import mergeImages from "merge-images";
+
 import "jimp";
 
-export function getImageDimensions(file) {
+export async function getImageDimensions(file) {
   return new Promise(function (resolved, rejected) {
     new Jimp(file, (err, image) => {
+      console.log(err);
       resolved({ w: image.bitmap.width, h: image.bitmap.height });
     });
   });
@@ -123,6 +125,23 @@ export const rotateImage = async (file, filename) => {
         });
         resolved(file);
       });
+    });
+  });
+};
+
+export const getJimpFileByUrl = async (file, filename) => {
+  return new Promise(function (resolved, rejected) {
+    new Jimp(file, (err, image) => {
+      try {
+        image.getBuffer(Jimp.AUTO, (err, res) => {
+          const file = new File([res], filename, {
+            type: "image/jpeg",
+          });
+          resolved(file);
+        });
+      } catch (e) {
+        throw rejected("User not found");
+      }
     });
   });
 };

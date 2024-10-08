@@ -6,7 +6,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FabAnimated from "@/components/fabAnimated/fabAnimated";
 import user from "@/store/user";
-import Picktype from "../components/typepicker/typepicker.js";
+import Picktype from "./typepicker/typepicker.js";
 import stn from "@/app/constants";
 
 export const Qr = ({

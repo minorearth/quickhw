@@ -5,12 +5,14 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
 import IconButton from "@mui/material/IconButton";
 import PreviewIcon from "@mui/icons-material/Preview";
+import LinkIcon from "@mui/icons-material/Link";
 import useSurveyGridVC from "./useSurveygridVC";
 
-export default function SurveyGrid({ setProfileVisible, user }) {
+export default function SurveyGrid({ setModalVisible, user, setSurveyid }) {
   const { actions, rows } = useSurveyGridVC({
-    setProfileVisible,
+    setModalVisible,
     user,
+    setSurveyid,
   });
 
   const labelDisplayedRows = ({ from, to, count, estimated }) => {
@@ -35,7 +37,8 @@ export default function SurveyGrid({ setProfileVisible, user }) {
           key="PreviewIcon"
           label="View"
           icon={<PreviewIcon sx={{ fontSize: 40 }} />}
-          onClick={() => actions.navigateToFiles(params.id)}
+          // onClick={() => actions.navigateToFiles(params.id)}
+          onClick={() => actions.showSurvey(params.id)}
         />,
       ],
     },
@@ -51,6 +54,19 @@ export default function SurveyGrid({ setProfileVisible, user }) {
       headerName: "Дата и время",
       width: 200,
       type: "dateTime",
+    },
+    {
+      field: "copyid",
+      type: "actions",
+      width: 60,
+      getActions: (params) => [
+        <GridActionsCellItem
+          key="Copyid"
+          label="View"
+          icon={<LinkIcon sx={{ fontSize: 40 }} />}
+          onClick={() => navigator.clipboard.writeText(params.id)}
+        />,
+      ],
     },
   ];
 

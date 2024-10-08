@@ -7,6 +7,8 @@ import HideImageIcon from "@mui/icons-material/HideImage";
 import LinkIcon from "@mui/icons-material/Link";
 import UndoIcon from "@mui/icons-material/Undo";
 import CropRotateIcon from "@mui/icons-material/CropRotate";
+import { BiCategoryAlt } from "react-icons/bi";
+import { BiExit } from "react-icons/bi";
 
 const Icon2State = ({ visible, icon }) => {
   if (icon == "qr")
@@ -15,6 +17,19 @@ const Icon2State = ({ visible, icon }) => {
     ) : (
       <TbQrcodeOff style={{ fontSize: 30 }} />
     );
+  if (icon == "close")
+    return !visible ? (
+      <BiExit style={{ fontSize: 30 }} />
+    ) : (
+      <BiExit style={{ fontSize: 30 }} />
+    );
+  if (icon == "pickFileType")
+    return !visible ? (
+      <BiCategoryAlt style={{ fontSize: 30 }} />
+    ) : (
+      <BiCategoryAlt style={{ fontSize: 30 }} />
+    );
+
   if (icon == "note")
     return !visible ? (
       <MdSpeakerNotes style={{ fontSize: 30 }} />

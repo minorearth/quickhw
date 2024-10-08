@@ -18,37 +18,14 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 
-import {
-  getAuth,
-  sendSignInLinkToEmail,
-  createUserWithEmailAndPassword,
-} from "firebase/auth";
-
-import { app } from "./firebaseapp";
-
-const db = initializeFirestore(app, {
-  experimentalForceLongPolling: true,
-  useFetchStreams: false,
-});
-
-getAuth(app);
-
-export const setDocInCollection = async (collectionName, data, id) => {
+export const setDocInCollection = async (db, collectionName, data, id) => {
   await setDoc(doc(db, collectionName, id), data);
 };
 
-export const getDocFromCollectionById = async (collectionName, id) => {
-  const docSnap = await getDoc(doc(db, collectionName, id));
-  const data = docSnap.data();
-  return { id: docSnap.id, ...data };
-  // return JSON.stringify({ id: docSnap.id, ...data });
-};
-
-export const getDocDataFromCollectionById = async (collectionName, id) => {
+export const getDocFromCollectionById = async (db, collectionName, id) => {
   const docSnap = await getDoc(doc(db, collectionName, id));
   const data = docSnap.data();
   return { id: docSnap.id, data };
-  // return JSON.stringify({ id: docSnap.id, ...data });
 };
 
 export const getDocFromCollectionByIdRealtime = async (
@@ -71,29 +48,18 @@ export const addDocInCollection = async (collectionName, data) => {
 };
 
 export const updateDocFieldsInCollectionById = async (
+  db,
   collectionName,
   id,
   data
 ) => {
-  await updateDoc(doc(db, collectionName, id), data);
-  console.log("updated");
-};
-
-export const updateDocFieldsInCollectionByIdCheck = async (
-  collectionName,
-  id,
-  data
-) => {
+  console.log(db, collectionName, id, data);
   await updateDoc(doc(db, collectionName, id), data);
 };
 
-export const getAllDocs = async (collectionName) => {
+export const getAllDocs = async (db, collectionName) => {
   const querySnapshot = await getDocs(collection(db, collectionName));
   return querySnapshot;
-};
-
-export const deleteDocFromCollection = async (collectionName, id) => {
-  deleteDoc(doc(db, collectionName, id));
 };
 
 // export const getDocsKeyValue = async (collectionName, key, value) => {

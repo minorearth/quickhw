@@ -6,11 +6,12 @@ import Link from "@mui/material/Link";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { useRouter } from "next/navigation";
-import { logout } from "../data model/server actions/session";
+import { logout } from "../../server actions/session";
 import { resetPsw } from "./authentication";
 import { signInTeacher } from "./authentication";
 import Typography from "@mui/material/Typography";
 import AlertDialog from "@/components/dialog";
+import user from "@/store/user";
 
 export default function Page() {
   const router = useRouter();
@@ -22,7 +23,6 @@ export default function Page() {
   }, []);
 
   const handleForgetPswSubmit = () => {
-    console.log("reset");
     resetPsw(document.getElementById("email").value);
   };
 
@@ -35,6 +35,7 @@ export default function Page() {
     const authNow = async (email, password) => {
       await logout();
       const uid = await signInTeacher(email, password);
+      user.setUserid(uid);
       if (uid == "notVerified") {
         setDialogVisible(true);
       } else router.push(`/manager/${uid}`);

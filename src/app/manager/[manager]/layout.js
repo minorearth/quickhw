@@ -22,12 +22,31 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import Logo from "../../assets/logo.jsx";
 import { useRouter } from "next/navigation";
-import { logout } from "../../data model/server actions/session.js";
+import { logout } from "../../../server actions/session.js";
+import { signOutUser } from "../../login/authentication.js";
+import { observer } from "mobx-react-lite";
+import user from "@/store/user.js";
+import {
+  getAuth,
+  setPersistence,
+  browserSessionPersistence,
+  browserLocalPersistence,
+} from "firebase/auth";
+import { app } from "../../data model/client actions/firebaseapp.js";
 
-export default function Layout({ children }) {
+const Layout = observer(({ children }) => {
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const router = useRouter();
+
+  React.useEffect(() => {
+    const persist = async () => {
+      const auth = getAuth(app);
+      await setPersistence(auth, browserLocalPersistence);
+      user.setUserid(auth.currentUser.uid);
+    };
+    persist();
+  }, []);
 
   const handleChange = (event) => {
     setAuth(event.target.checked);
@@ -38,14 +57,12 @@ export default function Layout({ children }) {
   };
 
   const handleClose = () => {
-    logout();
+    signOutUser();
     router.push(`/login/`);
   };
 
   return (
-    // <ThemeProvider theme={defaultTheme}>
-    // <ThemeProvider>
-    <>
+    <Box sx={{ height: "100%" }}>
       <AppBar position="static">
         <Toolbar>
           <IconButton
@@ -54,6 +71,9 @@ export default function Layout({ children }) {
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2, width: "60px", height: "60px" }}
+            onClick={() => {
+              router.push(`/manager/${user.userid}`);
+            }}
           >
             <Logo />
           </IconButton>
@@ -113,6 +133,8 @@ export default function Layout({ children }) {
         </Toolbar>
       </AppBar>
       {children}
-    </>
+    </Box>
   );
-}
+});
+
+export default Layout;

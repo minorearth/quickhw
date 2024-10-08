@@ -6,7 +6,11 @@ import stn from "@/app/constants";
 import { app } from "../../../data model/client actions/firebaseapp";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-export default function useSurveyGridVC({ setProfileVisible, user }) {
+export default function useSurveyGridVC({
+  setModalVisible,
+  user,
+  setSurveyid,
+}) {
   const {
     addDocInCollection,
     getGridData,
@@ -22,42 +26,40 @@ export default function useSurveyGridVC({ setProfileVisible, user }) {
   const addrow = () => {
     var today = new Date();
 
-    addDocInCollection("surveysresults", { files: {}, manager: user }).then(
-      (id) => {
-        const data = {
-          title: stn.defaults.NEW_SURVEY,
-          datetime: today,
-        };
-        updateDocFieldsInCollectionById("surveys2", user, {
-          [`surveys.${id}`]: data,
-        });
-        setRows((oldRows) => [{ id, ...data }, ...oldRows]);
-      }
-    );
+    addDocInCollection("surveysresults", {
+      files: {},
+      manager: user,
+      surveyname: stn.defaults.NEW_SURVEY,
+    }).then((id) => {
+      const data = {
+        title: stn.defaults.NEW_SURVEY,
+        datetime: today,
+      };
+      updateDocFieldsInCollectionById("surveys", user, {
+        [`surveys.${id}`]: data,
+      });
+      setRows((oldRows) => [{ id, ...data }, ...oldRows]);
+    });
   };
 
   useEffect(() => {
-    console.log("request docs", user);
-    // getAuth(app);
-
-    // onAuthStateChanged(auth, async (user) => {
-    //   console.log("signinuser", user);
-    // });
-
     getGridData(user).then((docs) => {
-      console.log(user, docs);
       setRows(docs.rows);
       setCurrSurvey(docs.id);
     });
   }, []);
 
-  const navigateToSettings = () => {
-    setProfileVisible(true);
+  const showSurvey = (surveyid) => {
+    setModalVisible(true);
+    setSurveyid(surveyid);
   };
 
   const processEdit = (newRow) => {
-    updateDocFieldsInCollectionById("surveys2", currSurvey, {
+    updateDocFieldsInCollectionById("surveys", currSurvey, {
       [`surveys.${newRow.id}.title`]: newRow.title,
+    });
+    updateDocFieldsInCollectionById("surveysresults", newRow.id, {
+      [`surveyname`]: newRow.title,
     });
     rows.filter((row) => row.id == newRow.id)[0].title = newRow.title;
     return newRow;
@@ -71,8 +73,8 @@ export default function useSurveyGridVC({ setProfileVisible, user }) {
     actions: {
       navigateToFiles,
       processEdit,
-      navigateToSettings,
       addrow,
+      showSurvey,
     },
     rows,
   };
