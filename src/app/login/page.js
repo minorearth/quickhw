@@ -12,8 +12,10 @@ import { signInTeacher } from "./authentication";
 import Typography from "@mui/material/Typography";
 import AlertDialog from "@/components/dialog";
 import user from "@/store/user";
+import Snack from "@/components/snackbar";
+import { observer } from "mobx-react-lite";
 
-export default function Page() {
+const Page = observer(() => {
   const router = useRouter();
 
   const [dialogVisible, setDialogVisible] = React.useState(false);
@@ -21,10 +23,6 @@ export default function Page() {
   React.useEffect(() => {
     logout();
   }, []);
-
-  const handleForgetPswSubmit = () => {
-    resetPsw(document.getElementById("email").value);
-  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -46,14 +44,17 @@ export default function Page() {
   return (
     <>
       <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-        <AlertDialog
+        <AlertDialog />
+
+        {/* <AlertDialog
           dialogVisible={dialogVisible}
           setDialogVisible={setDialogVisible}
           action={() => {
             router.push(`/login`);
           }}
           message="Неверный логин или пароль"
-        />
+        /> */}
+        <Snack />
         <TextField
           margin="normal"
           required
@@ -87,10 +88,9 @@ export default function Page() {
         <Grid container>
           <Grid item xs>
             <Link
-              onClick={() => {
-                handleForgetPswSubmit();
-              }}
-              href="#"
+              onClick={() =>
+                router.push(`/login/${document.getElementById("email").value}`)
+              }
             >
               Забыли пароль?
             </Link>
@@ -109,4 +109,6 @@ export default function Page() {
       </Box>
     </>
   );
-}
+});
+
+export default Page;

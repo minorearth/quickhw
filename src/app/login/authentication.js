@@ -13,11 +13,9 @@ import {
 } from "firebase/auth";
 import { login, logout } from "../../server actions/session";
 import { app } from "../data model/client actions/firebaseapp";
-import { setDocInCollection } from "../data model/client actions/datamodel";
 import { createNewUser } from "../data model/client actions/indexUtils";
-
-// const secretKey = "secret";
 // const key = new TextEncoder().encode(secretKey);
+import stn from "../constants";
 
 export async function signInTeacher(email, password) {
   const auth = getAuth(app);
@@ -45,7 +43,8 @@ export async function signInTeacher(email, password) {
 
 export async function resetPsw(email) {
   const auth = getAuth(app);
-  sendPasswordResetEmail(auth, email);
+
+  // sendPasswordResetEmail(auth, email);
 }
 
 export const SignUpUser = async (email, password) => {
@@ -71,11 +70,8 @@ export const signOutUser = () => {
   signOut(auth)
     .then(() => {
       logout();
-      // Sign-out successful.
     })
-    .catch((error) => {
-      // An error happened.
-    });
+    .catch((error) => {});
 };
 
 // export async function signInStudent(pincode) {

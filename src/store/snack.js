@@ -3,8 +3,8 @@ class snack {
   snackState = { visible: false, text: "" };
 
   showSnack(text) {
-    this.snackState.visible = true;
     this.snackState.text = text;
+    this.snackState.visible = true;
   }
   closeSnack() {
     this.snackState.visible = false;

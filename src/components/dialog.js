@@ -5,38 +5,33 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { observer } from "mobx-react-lite";
+import alertdialog from "@/store/dialog";
 
-export default function AlertDialog({
-  dialogVisible,
-  setDialogVisible,
-  action,
-  message,
-}) {
-  const handleClose = () => {
-    setDialogVisible(false);
-    action();
-  };
-
+const AlertDialog = observer(() => {
   return (
     <Dialog
-      open={dialogVisible}
-      onClose={handleClose}
+      open={alertdialog.dialogState.visible}
+      // open={true}
+      onClose={() => alertdialog.closeDialog()}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
       <DialogTitle id="alert-dialog-title">
-        {"Ваш аккаунт успешно создан"}
+        {alertdialog.dialogState.title}
       </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          {message}
+          {alertdialog.dialogState.text}
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} autoFocus>
+        <Button onClick={() => alertdialog.closeDialog()} autoFocus>
           Понятно
         </Button>
       </DialogActions>
     </Dialog>
   );
-}
+});
+
+export default AlertDialog;

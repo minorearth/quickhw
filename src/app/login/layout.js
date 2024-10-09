@@ -11,6 +11,8 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import { useRouter } from "next/navigation";
+import { observer } from "mobx-react-lite";
+// import AlertDialog from "@/components/dialog";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -32,12 +34,10 @@ function Copyright(props) {
   );
 }
 
-export default function Layout({ children }) {
+const Layout = ({ children }) => {
   const router = useRouter();
 
   return (
-    // <ThemeProvider theme={defaultTheme}>
-    // <ThemeProvider>
     <Grid container component="main" sx={{ height: "100vh" }}>
       <CssBaseline />
       <Grid
@@ -48,10 +48,6 @@ export default function Layout({ children }) {
         sx={{
           backgroundImage: `url(/wall.jpg)`,
           backgroundRepeat: "no-repeat",
-          // backgroundColor: (t) =>
-          //   t.palette.mode === "light"
-          //     ? t.palette.grey[50]
-          //     : t.palette.grey[900],
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
@@ -66,8 +62,6 @@ export default function Layout({ children }) {
             alignItems: "center",
           }}
         >
-          {/* } else router.push(`/manager/${uid}`); */}
-
           <Avatar onClick={() => {}} sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
@@ -77,6 +71,6 @@ export default function Layout({ children }) {
         </Box>
       </Grid>
     </Grid>
-    // {/* </ThemeProvider> */}
   );
-}
+};
+export default Layout;

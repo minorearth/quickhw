@@ -11,6 +11,8 @@ import { sendmail } from "../../data model/client actions/datamodel";
 import { SignUpUser } from "../authentication";
 import AlertDialog from "@/components/dialog";
 import { useRouter } from "next/navigation";
+import dialog from "@/store/dialog";
+import stn from "@/app/constants";
 
 export default function SignUp() {
   const [dialogVisible, setDialogVisible] = React.useState(false);
@@ -26,9 +28,16 @@ export default function SignUp() {
     const isValid = validateInputs();
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
+
     if (isValid) {
       const userC = await SignUpUser(email, password);
-      setDialogVisible(true);
+      dialog.showDialog(
+        stn.msg.alert.PSW_ACOUNT_CREATED_TITLE,
+        stn.msg.alert.PSW_ACOUNT_CREATED_TEXT,
+        () => {
+          router.push(`/login`);
+        }
+      );
     }
   };
 
@@ -86,14 +95,7 @@ export default function SignUp() {
         width: "100%",
       }}
     >
-      <AlertDialog
-        dialogVisible={dialogVisible}
-        setDialogVisible={setDialogVisible}
-        action={() => {
-          router.push(`/login`);
-        }}
-        message="Ваш аккаунт успешно создан. Чтобы активировать его необходимо..."
-      />
+      <AlertDialog />
       {/* <Typography
         component="h1"
         variant="h4"

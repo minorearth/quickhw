@@ -26,10 +26,10 @@ const useDropVC = ({ surveyid, type, manager, surveyname }) => {
         surveyname,
       });
       progress.setShowProgress(false);
-      snack.showSnack(stn.msg.JOB_DONE);
+      snack.showSnack(stn.msg.snack.JOB_DONE);
     } else {
-      !files.length && snack.showSnack(stn.msg.PICK_FILES);
-      !username && snack.showSnack(stn.msg.PICK_NAME);
+      !files.length && snack.showSnack(stn.msg.snack.PICK_FILES);
+      !username && snack.showSnack(stn.msg.snack.PICK_NAME);
     }
   };
 

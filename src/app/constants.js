@@ -2,9 +2,19 @@ import { Splash } from "next/font/google";
 
 const stn = {
   msg: {
-    PICK_FILES: "Ты хоть выбери что-нибудь :(",
-    PICK_NAME: "Ввведи свою фамилию, будь другом...",
-    JOB_DONE: "Все OK! Молодец",
+    snack: {
+      PICK_FILES: "Ты хоть выбери что-нибудь :(",
+      PICK_NAME: "Ввведи свою фамилию, будь другом...",
+      JOB_DONE: "Все OK! Молодец",
+    },
+    alert: {
+      PSW_RECOVERY_TITLE: "Проверь почту",
+      PSW_RECOVERY_TEXT:
+        "На ваш почтовый ящик выслано письмо, перейдите по ссылке в письме для смены пароля",
+      PSW_ACOUNT_CREATED_TITLE: "Ваш аккаунт успешно создан!",
+      PSW_ACOUNT_CREATED_TEXT:
+        "На ваш почтовый ящик выслано письмо, перейдите по ссылке в письме для активации аккаунта",
+    },
   },
   caption: {
     ENTER_NAME: "Укажи фамилию",
