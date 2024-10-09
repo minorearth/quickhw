@@ -14,7 +14,7 @@ import TextField from "@mui/material/TextField";
 
 export default function SurveyGrid() {
   const migrate = () => {
-    searchInIndex("3a5nHnKXJFTMM0eCooHqKefECTj1", "ЕВ");
+    // searchInIndex("3a5nHnKXJFTMM0eCooHqKefECTj1", "Девяткин");
     // copyAllDocs();
     // createIndex("3a5nHnKXJFTMM0eCooHqKefECTj1");
     // createIndexspealout("3a5nHnKXJFTMM0eCooHqKefECTj1");

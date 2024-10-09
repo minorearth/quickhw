@@ -12,7 +12,7 @@ import progress from "@/store/progress.js";
 import { observer } from "mobx-react-lite";
 import stn from "@/app/constants.js";
 
-const Content = observer(({ surveyid, setSurveyVisible }) => {
+const Content = observer(({ surveyid, setSurveyVisible, surveyname }) => {
   const [currRow, setCurrRow] = useState();
   const [rows, setRowsx] = useState([]);
   const [qrVisible, setQrVisible] = useState(false);
@@ -88,6 +88,7 @@ const Content = observer(({ surveyid, setSurveyVisible }) => {
           setModalVisible={setModalVisible}
           fileType={fileType}
           setFileType={setFileType}
+          surveyname={surveyname}
         />
       )}
     </Box>

@@ -8,8 +8,13 @@ import useDropZone from "./useDropVC";
 import { observer } from "mobx-react-lite";
 import stn from "@/app/constants";
 
-const Drop = observer(({ surveyid, type, manager }) => {
-  const { actions, state } = useDropZone({ surveyid, type, manager });
+const Drop = observer(({ surveyid, type, manager, surveyname }) => {
+  const { actions, state } = useDropZone({
+    surveyid,
+    type,
+    manager,
+    surveyname,
+  });
   return (
     <Box
       sx={{

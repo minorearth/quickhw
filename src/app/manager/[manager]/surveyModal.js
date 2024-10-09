@@ -26,7 +26,7 @@ const ToggleButton = styled(MuiToggleButton)({
   },
 });
 
-const ModalForm = ({ modalVisible, setModalVisible, surveyid }) => {
+const ModalForm = ({ modalVisible, setModalVisible, surveyid, surveyname }) => {
   const handleClose = () => setModalVisible(false);
 
   const handleChange = (event, nextView) => {
@@ -41,7 +41,11 @@ const ModalForm = ({ modalVisible, setModalVisible, surveyid }) => {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <Survey surveyid={surveyid} setSurveyVisible={setModalVisible} />
+        <Survey
+          surveyid={surveyid}
+          setSurveyVisible={setModalVisible}
+          surveyname={surveyname}
+        />
       </Box>
     </Modal>
   );

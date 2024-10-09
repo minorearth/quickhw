@@ -94,9 +94,11 @@ export const createIndex = async (manager) => {
         datetime: userData.datetime,
         id: userData.id,
         path: userData.path,
+        name: userData.name,
         type: userData.type,
         surveyid: id,
         surveyname,
+        username: user,
       };
       try {
         await updateDocFieldsInCollectionById("index", currindex, {
@@ -188,24 +190,53 @@ export const createIndexspealout = async (manager) => {
   }
 };
 
-export const searchInIndex = async (manager, userpart) => {
+const replaceDate = (datetime) => {
+  const date = new Date(datetime.seconds * 1000);
+  return date;
+};
+
+export const searchInIndex = async (
+  manager,
+  userpart,
+  setSearchRows = () => {}
+) => {
+  setSearchRows([]);
+
   const maxindex = await getCurrIndex(manager);
+  let rows = [];
   for (let i = 0; i <= maxindex; i++) {
     const doc = await getDocDataFromCollectionById("index", `${manager}_${i}`);
     const data = doc.data;
     const names = Object.keys(data.results);
     for (let j = 0; j < names.length; j++) {
       if (names[j].includes(userpart)) {
-        console.log(names[j], data.results[names[j]]);
+        const userData = data.results[names[j]];
+        console.log(userData);
+        userData.forEach((row, id) => {
+          row.id = `${i}${j}${id}`;
+          row.datetime = replaceDate(row.datetime);
+        });
+        setSearchRows((rows) => [...rows, ...userData]);
+        // setSearchRows(userData);
       }
-      //   const newUserData = {
-      //     datetime: userData.datetime,
-      //     id: userData.id,
-      //     path: userData.path,
-      //     type: userData.type,
-      //     surveyid: id,
-      //     surveyname,
-      //   };
     }
+  }
+  console.log(rows);
+};
+
+export const addDataToIndex = async (managerid, studentname, data) => {
+  let currindex = await getCurrIndexDocID(managerid);
+  try {
+    await updateDocFieldsInCollectionById("index", currindex, {
+      [`results.${studentname}`]: arrayUnion(data),
+    });
+  } catch (e) {
+    console.log("тута");
+    if (e.message.includes("exceeds the maximum allowed size")) {
+      currindex = await increaseIndexCurrInCollection(managerid);
+    }
+    await updateDocFieldsInCollectionById("index", currindex, {
+      [`results.${studentname}`]: arrayUnion(data),
+    });
   }
 };

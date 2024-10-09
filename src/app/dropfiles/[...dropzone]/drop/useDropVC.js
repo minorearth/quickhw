@@ -5,7 +5,7 @@ import snack from "@/store/snack";
 import stn from "@/app/constants";
 import useDropVM from "./useDropVM";
 
-const useDropVC = ({ surveyid, type, manager }) => {
+const useDropVC = ({ surveyid, type, manager, surveyname }) => {
   const [files, setFiles] = useState([]);
   const [username, setUserName] = useState("");
   const { sendFilesDB } = useDropVM();
@@ -17,7 +17,14 @@ const useDropVC = ({ surveyid, type, manager }) => {
   const sendFiles = async () => {
     if (files.length != 0 && username != "") {
       progress.setShowProgress(true);
-      await sendFilesDB({ files, username, surveyid, type, manager });
+      await sendFilesDB({
+        files,
+        username,
+        surveyid,
+        type,
+        manager,
+        surveyname,
+      });
       progress.setShowProgress(false);
       snack.showSnack(stn.msg.JOB_DONE);
     } else {

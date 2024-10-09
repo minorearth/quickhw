@@ -23,7 +23,7 @@ export default function SurvFilesGrid2({
   });
 
   const columns = [
-    // { field: "id", headerName: "id", width: 130 },
+    { field: "id", headerName: "id", width: 130 },
     // { field: "name", headerName: "Файл", flex: 1, minwidth: 230 },
     // { field: "type", headerName: "Type", flex: 1, minwidth: 230 },
     {

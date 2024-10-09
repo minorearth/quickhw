@@ -15,6 +15,7 @@ export const Qr = ({
   setModalVisible,
   fileType,
   setFileType,
+  surveyname,
 }) => {
   const [qrLink, setQrLink] = useState([]);
 
@@ -24,7 +25,7 @@ export const Qr = ({
 
   useEffect(() => {
     setQrLink(
-      `${process.env.NEXT_PUBLIC_DOMAIN}/dropfiles/${fileType}/${surveyid}/${user.userid}`
+      `${process.env.NEXT_PUBLIC_DOMAIN}/dropfiles/${fileType}/${surveyid}/${user.userid}/${surveyname}`
     );
     return () => {
       console.log("qr unmounted");

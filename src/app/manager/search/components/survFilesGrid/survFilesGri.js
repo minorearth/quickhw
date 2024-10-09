@@ -8,30 +8,28 @@ import { RiImageEditFill } from "react-icons/ri";
 import stn from "@/app/constants";
 import useSurvFilesGrid2VC from "./survFilesGridVC";
 
-export default function SurvFilesGrid2({
+export default function SearchGrid({
   setCurrRow,
-  surveyid,
   rows,
-  setRowsx,
   setMediacardVisible,
+  setSearchSurveyid,
 }) {
   const { setCardVisible } = useSurvFilesGrid2VC({
     setCurrRow,
-    surveyid,
-    setRowsx,
     setMediacardVisible,
+    setSearchSurveyid,
   });
 
   const columns = [
-    // { field: "id", headerName: "id", width: 130 },
+    { field: "id", headerName: "id", width: 80 },
     // { field: "name", headerName: "Файл", flex: 1, minwidth: 230 },
-    // { field: "type", headerName: "Type", flex: 1, minwidth: 230 },
+    // { field: "name", headerName: "Type", flex: 1, minwidth: 230 },
     {
       field: "zip",
       headerName: "Файл",
       width: 200,
       renderCell: (params) => (
-        <Link href={params.row.path}>{params.row.name}</Link>
+        <Link href={params.row.path}>{params.row.username}</Link>
       ),
     },
     {
@@ -53,6 +51,12 @@ export default function SurvFilesGrid2({
       ],
     },
     {
+      field: "surveyname",
+      headerName: "Опрос",
+      width: 500,
+      // type: "dateTime",
+    },
+    {
       field: "datetime",
       headerName: "Дата изменения",
       width: 200,
@@ -66,8 +70,8 @@ export default function SurvFilesGrid2({
         minWidth: "30%",
         width: "100%",
         height: "100%",
-        overflow: "auto",
-        flex: 1,
+        // overflow: "auto",
+        // flex: 1,
       }}
     >
       <DataGrid
@@ -75,6 +79,9 @@ export default function SurvFilesGrid2({
         rows={rows}
         columns={columns}
         initialState={{
+          pagination: {
+            paginationModel: { pageSize: 10, page: 0 },
+          },
           sorting: {
             sortModel: [{ field: "datetime", sort: "desc" }],
           },
@@ -86,6 +93,7 @@ export default function SurvFilesGrid2({
           pagination: { labelRowsPerPage: "Строчек на странице" },
         }}
         localeText={{ noRowsLabel: "Нет данных" }}
+        pageSizeOptions={[5, 10, 20]}
       />
     </Box>
   );

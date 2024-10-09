@@ -45,7 +45,7 @@ const useMediaCardVC = ({ currRow, surveyid, setRowsx, setCurrRow }) => {
       userid: user.userid,
     });
     setRowsx((rows) => {
-      rows.filter((srcrow) => srcrow.name == currRow.name)[0].path = path;
+      rows.filter((srcrow) => srcrow.id == currRow.id)[0].path = path;
       return rows;
     });
   };

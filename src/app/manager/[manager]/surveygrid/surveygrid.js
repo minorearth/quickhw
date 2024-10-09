@@ -7,12 +7,23 @@ import IconButton from "@mui/material/IconButton";
 import PreviewIcon from "@mui/icons-material/Preview";
 import LinkIcon from "@mui/icons-material/Link";
 import useSurveyGridVC from "./useSurveygridVC";
+import SearchIcon from "@mui/icons-material/Search";
 
-export default function SurveyGrid({ setModalVisible, user, setSurveyid }) {
+export default function SurveyGrid({
+  setModalVisible,
+  user,
+  setSurveyid,
+  setSearchVisible,
+  setSearchRows,
+  setSurveyname,
+}) {
   const { actions, rows } = useSurveyGridVC({
     setModalVisible,
+    setSearchVisible,
     user,
     setSurveyid,
+    setSearchRows,
+    setSurveyname,
   });
 
   const labelDisplayedRows = ({ from, to, count, estimated }) => {
@@ -37,8 +48,7 @@ export default function SurveyGrid({ setModalVisible, user, setSurveyid }) {
           key="PreviewIcon"
           label="View"
           icon={<PreviewIcon sx={{ fontSize: 40 }} />}
-          // onClick={() => actions.navigateToFiles(params.id)}
-          onClick={() => actions.showSurvey(params.id)}
+          onClick={() => actions.showSurvey(params.id, params.row.title)}
         />,
       ],
     },
@@ -74,6 +84,13 @@ export default function SurveyGrid({ setModalVisible, user, setSurveyid }) {
     <Box sx={{ width: "100%" }}>
       <IconButton aria-label="delete" size="small" onClick={actions.addrow}>
         <AddCircleIcon sx={{ fontSize: 60 }} />
+      </IconButton>
+      <IconButton
+        aria-label="delete"
+        size="small"
+        onClick={() => actions.startSearch()}
+      >
+        <SearchIcon sx={{ fontSize: 60 }} />
       </IconButton>
       <DataGrid
         initialState={{

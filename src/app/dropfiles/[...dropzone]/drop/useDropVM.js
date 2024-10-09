@@ -4,6 +4,7 @@ import stn from "@/app/constants";
 import { UploadFile } from "@/app/data model/client actions/storagedb";
 import { updateDocFieldsInCollectionById } from "@/app/data model/client actions/datamodel";
 import { fileToBuffer } from "@/app/utils/fileUtils";
+import { addDataToIndex } from "@/app/admin/adminVC";
 
 const useDropVM = () => {
   const UploadFileAndRefreshcollection = async (
@@ -12,7 +13,8 @@ const useDropVM = () => {
     filename,
     type,
     username,
-    manager
+    manager,
+    surveyname
   ) => {
     // const buffer = await fileToBuffer(file);
     const path = await UploadFile({
@@ -31,9 +33,27 @@ const useDropVM = () => {
         datetime: today,
       },
     });
+
+    await addDataToIndex(manager, username.toUpperCase(), {
+      path,
+      id: file.name,
+      name: file.name,
+      type,
+      datetime: today,
+      surveyid,
+      surveyname: decodeURI(surveyname),
+      username,
+    });
   };
 
-  const sendFilesDB = async ({ files, username, surveyid, type, manager }) => {
+  const sendFilesDB = async ({
+    files,
+    username,
+    surveyid,
+    type,
+    manager,
+    surveyname,
+  }) => {
     const extension = type == stn.files.droptypes.IMAGES ? ".jpg" : ".zip";
     const filename = `${username}${extension}`;
     const file =
@@ -47,7 +67,8 @@ const useDropVM = () => {
       filename,
       type,
       username,
-      manager
+      manager,
+      surveyname
     );
   };
 

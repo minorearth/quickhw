@@ -5,11 +5,15 @@ import useSurveyGridVM from "./useSurveygridVM";
 import stn from "@/app/constants";
 import { app } from "../../../data model/client actions/firebaseapp";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { searchInIndex } from "@/app/admin/adminVC";
 
 export default function useSurveyGridVC({
   setModalVisible,
+  setSearchVisible,
   user,
   setSurveyid,
+  setSearchRows,
+  setSurveyname,
 }) {
   const {
     addDocInCollection,
@@ -42,6 +46,11 @@ export default function useSurveyGridVC({
     });
   };
 
+  const startSearch = () => {
+    setSearchVisible(true);
+    // searchInIndex("3a5nHnKXJFTMM0eCooHqKefECTj1", "ЕВЯТКИН", setSearchRows);
+  };
+
   useEffect(() => {
     getGridData(user).then((docs) => {
       setRows(docs.rows);
@@ -49,9 +58,10 @@ export default function useSurveyGridVC({
     });
   }, []);
 
-  const showSurvey = (surveyid) => {
+  const showSurvey = (surveyid, surveyname) => {
     setModalVisible(true);
     setSurveyid(surveyid);
+    setSurveyname(surveyname);
   };
 
   const processEdit = (newRow) => {
@@ -75,6 +85,7 @@ export default function useSurveyGridVC({
       processEdit,
       addrow,
       showSurvey,
+      startSearch,
     },
     rows,
   };
