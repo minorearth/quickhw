@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import progress from "@/store/progress";
 import snack from "@/store/snack";
-import stn from "@/app/constants";
+import stn from "@/globals/constants";
 import useDropVM from "./useDropVM";
 
 const useDropVC = ({ surveyid, type, manager, surveyname }) => {

@@ -5,7 +5,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Box } from "@mui/material";
 import Link from "@mui/material/Link";
 import { RiImageEditFill } from "react-icons/ri";
-import stn from "@/app/constants";
+import stn from "@/globals/constants";
 import useSurvFilesGrid2VC from "./survFilesGridVC";
 
 export default function SearchGrid({
@@ -13,6 +13,9 @@ export default function SearchGrid({
   rows,
   setMediacardVisible,
   setSearchSurveyid,
+  setSurveyModalVisible,
+  setSurveyid,
+  setSurveyname,
 }) {
   const { setCardVisible } = useSurvFilesGrid2VC({
     setCurrRow,
@@ -21,7 +24,7 @@ export default function SearchGrid({
   });
 
   const columns = [
-    { field: "id", headerName: "id", width: 80 },
+    // { field: "id", headerName: "id", width: 80 },
     // { field: "name", headerName: "Файл", flex: 1, minwidth: 230 },
     // { field: "name", headerName: "Type", flex: 1, minwidth: 230 },
     {
@@ -30,6 +33,26 @@ export default function SearchGrid({
       width: 200,
       renderCell: (params) => (
         <Link href={params.row.path}>{params.row.username}</Link>
+      ),
+    },
+    {
+      field: "surveyname",
+      headerName: "Опрос",
+      width: 450,
+      renderCell: (params) => (
+        // <Link href={params.row.path}>{params.row.username}</Link>
+
+        <Link
+          sx={{ cursor: "default" }}
+          // href={params.row.path}
+          onClick={() => {
+            setSurveyModalVisible(true);
+            setSurveyname(params.row.surveyname);
+            setSurveyid(params.row.surveyid);
+          }}
+        >
+          {params.row.surveyname}
+        </Link>
       ),
     },
     {
@@ -50,12 +73,12 @@ export default function SearchGrid({
         />,
       ],
     },
-    {
-      field: "surveyname",
-      headerName: "Опрос",
-      width: 500,
-      // type: "dateTime",
-    },
+    // {
+    //   field: "surveyname",
+    //   headerName: "Опрос",
+    //   width: 500,
+    //   // type: "dateTime",
+    // },
     {
       field: "datetime",
       headerName: "Дата изменения",

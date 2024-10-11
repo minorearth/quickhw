@@ -11,8 +11,8 @@ import UploadFileIcon from "@mui/icons-material/UploadFile";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import Progress from "@/components/progress";
 import progress from "@/store/progress";
-import stn from "@/app/constants";
-import stnd from "@/app/constantsDyn";
+import stn from "@/globals/constants";
+import stnd from "@/globals/constantsDyn";
 import { observer } from "mobx-react-lite";
 
 const baseStyle = {

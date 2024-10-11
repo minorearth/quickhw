@@ -3,8 +3,9 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import MuiToggleButton from "@mui/material/ToggleButton";
 import { styled } from "@mui/material/styles";
-import stn from "@/app/constants";
+import stn from "@/globals/constants";
 import Survey from "../[manager]/content/[content]/survey";
+import ModalBar from "@/components/modalBar";
 
 const style = {
   position: "absolute",
@@ -15,8 +16,12 @@ const style = {
   // transform: "translate(-3%, -3%)",
   bgcolor: "background.paper",
   border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
+  boxShadow: 0,
+  flex: 1,
+  // overflow: "auto",
+  borderRadius: "15px 15px 0px 0px",
+
+  // p: "4px",
 };
 
 const ToggleButton = styled(MuiToggleButton)({
@@ -29,10 +34,6 @@ const ToggleButton = styled(MuiToggleButton)({
 const ModalForm = ({ modalVisible, setModalVisible, surveyid, surveyname }) => {
   const handleClose = () => setModalVisible(false);
 
-  const handleChange = (event, nextView) => {
-    // setFileType(nextView);
-  };
-
   return (
     <Modal
       open={modalVisible}
@@ -41,6 +42,7 @@ const ModalForm = ({ modalVisible, setModalVisible, surveyid, surveyname }) => {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
+        <ModalBar closeAction={handleClose} />
         <Survey
           surveyid={surveyid}
           setSurveyVisible={setModalVisible}

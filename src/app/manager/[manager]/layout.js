@@ -1,28 +1,16 @@
 "use client";
-import { Inter } from "next/font/google";
-import "@/app/globals.css";
+import "@/globals/globals.css";
 import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import CssBaseline from "@mui/material/CssBaseline";
-import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
-import Link from "@mui/material/Link";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import Switch from "@mui/material/Switch";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormGroup from "@mui/material/FormGroup";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import Logo from "../../assets/logo.jsx";
 import { useRouter } from "next/navigation";
-import { logout } from "../../../server actions/session.js";
 import { signOutUser } from "../../login/authentication.js";
 import { observer } from "mobx-react-lite";
 import user from "@/store/user.js";
@@ -40,12 +28,12 @@ const Layout = observer(({ children }) => {
   const router = useRouter();
 
   React.useEffect(() => {
-    const persist = async () => {
-      const auth = getAuth(app);
-      await setPersistence(auth, browserLocalPersistence);
-      user.setUserid(auth.currentUser.uid);
-    };
-    persist();
+    // const persist = async () => {
+    //   const auth = getAuth(app);
+    //   await setPersistence(auth, browserLocalPersistence);
+    //   user.setUserid(auth.currentUser.uid);
+    // };
+    // persist();
   }, []);
 
   const handleChange = (event) => {
@@ -56,8 +44,8 @@ const Layout = observer(({ children }) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
-    signOutUser();
+  const handleClose = async () => {
+    await signOutUser();
     router.push(`/login/`);
   };
 

@@ -5,8 +5,9 @@ import { DataGrid } from "@mui/x-data-grid";
 import { Box } from "@mui/material";
 import Link from "@mui/material/Link";
 import { RiImageEditFill } from "react-icons/ri";
-import stn from "@/app/constants";
+import stn from "@/globals/constants";
 import useSurvFilesGrid2VC from "./survFilesGridVC";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
 export default function SurvFilesGrid2({
   setCurrRow,
@@ -23,7 +24,7 @@ export default function SurvFilesGrid2({
   });
 
   const columns = [
-    { field: "id", headerName: "id", width: 130 },
+    // { field: "id", headerName: "id", width: 130 },
     // { field: "name", headerName: "Файл", flex: 1, minwidth: 230 },
     // { field: "type", headerName: "Type", flex: 1, minwidth: 230 },
     {
@@ -57,6 +58,20 @@ export default function SurvFilesGrid2({
       headerName: "Дата изменения",
       width: 200,
       type: "dateTime",
+    },
+
+    {
+      field: "copyid",
+      type: "actions",
+      width: 60,
+      getActions: (params) => [
+        <GridActionsCellItem
+          key="Copyid"
+          label="View"
+          icon={<ContentCopyIcon sx={{ fontSize: 40 }} />}
+          onClick={() => navigator.clipboard.writeText(surveyid)}
+        />,
+      ],
     },
   ];
 

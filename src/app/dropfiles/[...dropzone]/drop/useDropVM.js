@@ -1,9 +1,9 @@
-import { mergeAllImages } from "../../../utils/imageUtils";
-import { compressFiles } from "../../../utils/fileUtils";
-import stn from "@/app/constants";
+import { mergeAllImages } from "../../../../globals/utils/imageUtils";
+import { compressFiles } from "../../../../globals/utils/fileUtils";
+import stn from "@/globals/constants";
 import { UploadFile } from "@/app/data model/client actions/storagedb";
 import { updateDocFieldsInCollectionById } from "@/app/data model/client actions/datamodel";
-import { fileToBuffer } from "@/app/utils/fileUtils";
+import { fileToBuffer } from "@/globals/utils/fileUtils";
 import { addDataToIndex } from "@/app/admin/adminVC";
 
 const useDropVM = () => {

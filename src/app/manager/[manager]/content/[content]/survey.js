@@ -10,7 +10,7 @@ import { Qr } from "./components/qr.js";
 import Progress from "@/components/progress.js";
 import progress from "@/store/progress.js";
 import { observer } from "mobx-react-lite";
-import stn from "@/app/constants.js";
+import stn from "@/globals/constants.js";
 
 const Content = observer(({ surveyid, setSurveyVisible, surveyname }) => {
   const [currRow, setCurrRow] = useState();
@@ -43,12 +43,6 @@ const Content = observer(({ surveyid, setSurveyVisible, surveyname }) => {
         visible={noteVisible}
         action={() => setNoteVisible((state) => !state)}
         position={{ bottom: 16, left: 16 }}
-      />
-      <FabAnimated
-        icon="close"
-        visible={noteVisible}
-        action={() => setSurveyVisible(false)}
-        position={{ top: 16, left: 16 }}
       />
 
       <Box

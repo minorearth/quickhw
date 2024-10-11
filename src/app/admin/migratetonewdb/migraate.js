@@ -7,7 +7,7 @@ import {
   updateDocFieldsInCollectionById,
 } from "./datamodel";
 
-import { getJimpFileByUrl } from "../../utils/imageUtils";
+import { getJimpFileByUrl } from "../../../globals/utils/imageUtils";
 
 import { UploadFile } from "./storagedb";
 

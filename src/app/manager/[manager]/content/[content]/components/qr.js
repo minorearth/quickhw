@@ -7,7 +7,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FabAnimated from "@/components/fabAnimated/fabAnimated";
 import user from "@/store/user";
 import Picktype from "../components/typepicker/typepicker.js";
-import stn from "@/app/constants";
+import stn from "@/globals/constants";
 
 export const Qr = ({
   surveyid,

@@ -1,6 +1,6 @@
 "use client";
 import { Inter } from "next/font/google";
-import "@/app/globals.css";
+import "@/globals/globals.css";
 import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import CssBaseline from "@mui/material/CssBaseline";

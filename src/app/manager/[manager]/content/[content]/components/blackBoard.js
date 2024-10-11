@@ -7,7 +7,7 @@ import {
   updateDocFieldsInCollectionById,
   getDocFromCollectionById,
 } from "../../../../../data model/client actions/datamodel";
-import stn from "@/app/constants";
+import stn from "@/globals/constants";
 
 const roboto = Roboto({
   weight: "900",

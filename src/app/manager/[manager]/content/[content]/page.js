@@ -10,7 +10,7 @@ import { Qr } from "./components/qr.js";
 import Progress from "@/components/progress.js";
 import progress from "@/store/progress.js";
 import { observer } from "mobx-react-lite";
-import stn from "@/app/constants.js";
+import stn from "@/globals/constants.js";
 import Survey from "./survey.js";
 
 const Content = ({ params }) => {

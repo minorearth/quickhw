@@ -6,7 +6,7 @@ import TextField from "@mui/material/TextField";
 import EmailIcon from "@mui/icons-material/Email";
 import useDropZone from "./useDropVC";
 import { observer } from "mobx-react-lite";
-import stn from "@/app/constants";
+import stn from "@/globals/constants";
 
 const Drop = observer(({ surveyid, type, manager, surveyname }) => {
   const { actions, state } = useDropZone({

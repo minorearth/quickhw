@@ -6,6 +6,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import IconButton from "@mui/material/IconButton";
 import PreviewIcon from "@mui/icons-material/Preview";
 import LinkIcon from "@mui/icons-material/Link";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import useSurveyGridVC from "./useSurveygridVC";
 import SearchIcon from "@mui/icons-material/Search";
 
@@ -73,7 +74,7 @@ export default function SurveyGrid({
         <GridActionsCellItem
           key="Copyid"
           label="View"
-          icon={<LinkIcon sx={{ fontSize: 40 }} />}
+          icon={<ContentCopyIcon sx={{ fontSize: 40 }} />}
           onClick={() => navigator.clipboard.writeText(params.id)}
         />,
       ],

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import useSurveyGridVM from "./useSurveygridVM";
-import stn from "@/app/constants";
+import stn from "@/globals/constants";
 import { app } from "../../../data model/client actions/firebaseapp";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { searchInIndex } from "@/app/admin/adminVC";

@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { useEffect } from "react";
-import { getImageDimensions } from "@/app/utils/imageUtils";
+import { getImageDimensions } from "@/globals/utils/imageUtils";
 import useMeasure from "react-use-measure";
 import progress from "@/store/progress";
 import useMediaCardVM from "./mediaCardVM";

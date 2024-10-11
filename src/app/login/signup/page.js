@@ -12,7 +12,7 @@ import { SignUpUser } from "../authentication";
 import AlertDialog from "@/components/dialog";
 import { useRouter } from "next/navigation";
 import dialog from "@/store/dialog";
-import stn from "@/app/constants";
+import stn from "@/globals/constants";
 
 export default function SignUp() {
   const [dialogVisible, setDialogVisible] = React.useState(false);
@@ -96,13 +96,6 @@ export default function SignUp() {
       }}
     >
       <AlertDialog />
-      {/* <Typography
-        component="h1"
-        variant="h4"
-        sx={{ width: "100%", fontSize: "clamp(2rem, 10vw, 2.15rem)" }}
-      >
-        Зарегистрироваться
-      </Typography> */}
       <FormControl>
         <TextField
           autoComplete="name"

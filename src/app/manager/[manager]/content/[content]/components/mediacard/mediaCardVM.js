@@ -1,4 +1,4 @@
-import { rotateImage, Base64DataUrlToFile2 } from "@/app/utils/imageUtils";
+import { rotateImage, Base64DataUrlToFile2 } from "@/globals/utils/imageUtils";
 import { UploadFile } from "@/app/data model/client actions/storagedb";
 
 const useMediaCardVM = () => {

@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { resetPsw } from "../authentication";
 import { observer } from "mobx-react-lite";
 import alertdialog from "@/store/dialog";
-import stn from "@/app/constants";
+import stn from "@/globals/constants";
 
 const SignUp = observer(({ params }) => {
   const router = useRouter();

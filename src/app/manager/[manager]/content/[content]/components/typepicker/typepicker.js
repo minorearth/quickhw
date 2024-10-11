@@ -6,7 +6,7 @@ import Modal from "@mui/material/Modal";
 import MuiToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { styled } from "@mui/material/styles";
-import stn from "@/app/constants";
+import stn from "@/globals/constants";
 
 const style = {
   position: "absolute",
@@ -39,10 +39,13 @@ const ModalForm = ({
   const handleChange = (event, nextView) => {
     if (nextView !== null) {
       setFileType(nextView);
-      setTimeout(() => {
-        setModalVisible(false);
-      }, 500);
     }
+  };
+
+  const handleClick = (event, nextView) => {
+    setTimeout(() => {
+      setModalVisible(false);
+    }, 500);
   };
 
   return (
@@ -66,6 +69,7 @@ const ModalForm = ({
           value={fileType}
           exclusive
           onChange={handleChange}
+          onClick={handleClick}
           sx={{ width: "100%" }}
         >
           <ToggleButton aria-label="list" value={stn.files.droptypes.IMAGES}>

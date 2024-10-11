@@ -32,6 +32,7 @@ export const removeSurvey = async (syrveyid, userid) => {
   updateDocFieldsInCollectionById(surveysColl, userid, managerSurv);
   deleteDocFromCollection(surveysresultsColl, syrveyid);
   deleteAllFileFromDir(`/capture/${userid}/${syrveyid}`);
+  deleteAllRecordsFromIndex(userid, syrveyid);
 };
 
 const extractusername = (filename) => {
@@ -41,40 +42,29 @@ const extractusername = (filename) => {
 export const removeFileFromSurvey = async (manager, syrveyid, filename) => {
   const surveysresultsColl = "surveysresults";
   const username = extractusername(filename);
-  console.log(username);
-  const survveyRessult = await getDocDataFromCollectionById(
-    surveysresultsColl,
-    syrveyid
-  );
+  // console.log(username);
+  // const survveyRessult = await getDocDataFromCollectionById(
+  //   surveysresultsColl,
+  //   syrveyid
+  // );
 
-  delete survveyRessult.data.files[username];
-  updateDocFieldsInCollectionById(
-    surveysresultsColl,
-    syrveyid,
-    survveyRessult.data
-  );
-  deleteFile(`/capture/${manager}/${syrveyid}/${filename}`);
+  // delete survveyRessult.data.files[username];
+  // updateDocFieldsInCollectionById(
+  //   surveysresultsColl,
+  //   syrveyid,
+  //   survveyRessult.data
+  // );
+  // deleteFile(`/capture/${manager}/${syrveyid}/${filename}`);
+  deleteUserSurveyFromIndex(manager, syrveyid, username);
 };
 
 export const createIndex = async (manager) => {
   let currindex = await getCurrIndexDocID(manager);
-
   const surveysresultsColl = "surveysresults";
   const querySnapshot = await getAllDocs(surveysresultsColl);
-  //   const docs = await getDocDataFromCollectionById(
-  //     "surveysresults",
-  //     "5G9X9JCZKDQyNU2SvKSJ"
-  //   );
-  //   const querySnapshot = [docs];
-
-  //   for (let i = 0; i < 1; i++) {
   for (let i = 0; i < querySnapshot.docs.length; i++) {
     const data = querySnapshot.docs[i].data();
     const id = querySnapshot.docs[i].id;
-    // const data = querySnapshot[0].data;
-    // const id = querySnapshot[0].id;
-    console.log(id);
-
     const surveyname = !!data?.surveyname ? data?.surveyname : false;
     if (!surveyname) {
       console.log(id, "Не указан опрос");
@@ -86,7 +76,6 @@ export const createIndex = async (manager) => {
       break;
     }
     const keys = Object.keys(data.files);
-
     for (let j = 0; j < keys.length; j++) {
       const user = keys[j].toUpperCase();
       const userData = data.files[keys[j]];
@@ -120,18 +109,12 @@ export const createIndex = async (manager) => {
 
 export const createIndexspealout = async (manager) => {
   let currindex = await getCurrIndexDocID(manager);
-
   const surveysresultsColl = "surveysresults";
   const querySnapshot = await getAllDocs(surveysresultsColl);
-
   let cnt = 0;
-
   for (let i = 0; i < querySnapshot.docs.length; i++) {
     const data = querySnapshot.docs[i].data();
     const id = querySnapshot.docs[i].id;
-
-    console.log(id);
-
     const surveyname = !!data?.surveyname ? data?.surveyname : false;
     if (!surveyname) {
       console.log(id, "Не указан опрос");
@@ -143,7 +126,6 @@ export const createIndexspealout = async (manager) => {
       break;
     }
     const keys = Object.keys(data.files);
-
     for (let j = 0; j < keys.length; j++) {
       const user = keys[j].toUpperCase();
       const userData = data.files[keys[j]];
@@ -177,14 +159,6 @@ export const createIndexspealout = async (manager) => {
         if (e.message.includes("exceeds the maximum allowed size")) {
           currindex = await increaseIndexCurrInCollection(manager);
         }
-        // e.code == "not-found" &&
-        //   (await setDocInCollection(
-        //     "index",
-        //     {
-        //       results: { [user]: newUserData },
-        //     },
-        //     manager + "_1"
-        //   ));
       }
     }
   }
@@ -193,6 +167,55 @@ export const createIndexspealout = async (manager) => {
 const replaceDate = (datetime) => {
   const date = new Date(datetime.seconds * 1000);
   return date;
+};
+
+export const deleteAllRecordsFromIndex = async (manager, surveyid) => {
+  const maxindex = await getCurrIndex(manager);
+  let rows = [];
+  for (let i = 0; i <= maxindex; i++) {
+    const currindex = `${manager}_${i}`;
+    const doc = await getDocDataFromCollectionById("index", currindex);
+    const data = doc.data;
+    const names = Object.keys(data.results);
+    for (let j = 0; j < names.length; j++) {
+      const userData = data.results[names[j]];
+      userData.forEach((row, id) => {
+        if (row.surveyid == surveyid) {
+          userData.splice(id, 1);
+        }
+      });
+    }
+    await updateDocFieldsInCollectionById("index", currindex, data);
+  }
+  console.log(rows);
+};
+
+export const deleteUserSurveyFromIndex = async (
+  manager,
+  surveyid,
+  username
+) => {
+  const user = username.toUpperCase();
+  console.log(manager, surveyid, user);
+  const maxindex = await getCurrIndex(manager);
+  let rows = [];
+  for (let i = 0; i <= maxindex; i++) {
+    const currindex = `${manager}_${i}`;
+    const doc = await getDocDataFromCollectionById("index", currindex);
+    const data = doc.data;
+    const names = Object.keys(data.results);
+    for (let j = 0; j < names.length; j++) {
+      const userData = data.results[names[j]];
+      if (names[j] == user) {
+        userData.forEach((row, id) => {
+          if (row.surveyid == surveyid) {
+            userData.splice(id, 1);
+          }
+        });
+      }
+    }
+    await updateDocFieldsInCollectionById("index", currindex, data);
+  }
 };
 
 export const searchInIndex = async (

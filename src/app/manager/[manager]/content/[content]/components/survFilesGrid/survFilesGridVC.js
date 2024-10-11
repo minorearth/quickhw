@@ -5,7 +5,7 @@ import { getDocFromCollectionByIdUpdates } from "../../../../../../api/apiDB";
 
 import { getDocFromCollectionByIdRealtime } from "../../../../../../data model/client actions/datamodel";
 
-import { ObjtoArr } from "@/app/utils/objectUtils";
+import { ObjtoArr } from "@/globals/utils/objectUtils";
 
 const useSurvFilesGrid2VC = ({
   setCurrRow,

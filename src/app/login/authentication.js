@@ -15,7 +15,7 @@ import { login, logout } from "../../server actions/session";
 import { app } from "../data model/client actions/firebaseapp";
 import { createNewUser } from "../data model/client actions/indexUtils";
 // const key = new TextEncoder().encode(secretKey);
-import stn from "../constants";
+import stn from "../../globals/constants";
 
 export async function signInTeacher(email, password) {
   const auth = getAuth(app);
@@ -65,9 +65,9 @@ export const SignUpUser = async (email, password) => {
   }
 };
 
-export const signOutUser = () => {
+export const signOutUser = async () => {
   const auth = getAuth(app);
-  signOut(auth)
+  await signOut(auth)
     .then(() => {
       logout();
     })
