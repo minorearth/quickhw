@@ -14,7 +14,7 @@ import CancelSharpIcon from "@mui/icons-material/CancelSharp";
 import CloseIcon from "@mui/icons-material/Close";
 import { styled } from "@mui/material/styles";
 
-const ModalBar = observer(({ closeAction }) => {
+const ModalBar = observer(({ closeAction, caption = "" }) => {
   const router = useRouter();
 
   const handleClose = () => {
@@ -32,7 +32,12 @@ const ModalBar = observer(({ closeAction }) => {
     // <AppBar position="static">
     <AppBar
       position="static"
-      sx={{ boxShadow: "none", backgroundColor: "#FFAEBE" }}
+      sx={{
+        boxShadow: "none",
+        backgroundColor: "#8719a6",
+        overflow: "hidden",
+        borderRadius: "15px 15px 0px 0px",
+      }}
     >
       <Toolbar>
         <IconButton
@@ -43,6 +48,9 @@ const ModalBar = observer(({ closeAction }) => {
         >
           <CloseIcon sx={{ fontSize: 30 }} />
         </IconButton>
+        <Typography sx={{ ml: 2 }} variant="h6">
+          {caption}
+        </Typography>
       </Toolbar>
     </AppBar>
   );

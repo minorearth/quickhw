@@ -23,7 +23,6 @@ export async function signInTeacher(email, password) {
   await signInWithEmailAndPassword(auth, email, password);
   const getid = new Promise((resolved, rejected) => {
     onAuthStateChanged(auth, async (user) => {
-      console.log("signinuser", user);
       if (user) {
         auth.languageCode = "ru";
         if (user.emailVerified) {
@@ -43,7 +42,6 @@ export async function signInTeacher(email, password) {
 
 export async function resetPsw(email) {
   const auth = getAuth(app);
-
   // sendPasswordResetEmail(auth, email);
 }
 

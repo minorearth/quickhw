@@ -248,6 +248,7 @@ export const searchInIndex = async (
 };
 
 export const addDataToIndex = async (managerid, studentname, data) => {
+  console.log("пщпщпээ", managerid, studentname, data);
   let currindex = await getCurrIndexDocID(managerid);
   try {
     await updateDocFieldsInCollectionById("index", currindex, {

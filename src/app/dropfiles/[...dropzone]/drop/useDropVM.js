@@ -7,16 +7,17 @@ import { fileToBuffer } from "@/globals/utils/fileUtils";
 import { addDataToIndex } from "@/app/admin/adminVC";
 
 const useDropVM = () => {
-  const UploadFileAndRefreshcollection = async (
+  const UploadFileAndRefreshcollection = async ({
     file,
     surveyid,
     filename,
     type,
     username,
     manager,
-    surveyname
-  ) => {
+    surveyname,
+  }) => {
     // const buffer = await fileToBuffer(file);
+    console.log("surveyname", surveyname);
     const path = await UploadFile({
       file,
       folder: `${manager}/${surveyid}`,
@@ -41,7 +42,7 @@ const useDropVM = () => {
       type,
       datetime: today,
       surveyid,
-      surveyname: decodeURI(surveyname),
+      surveyname,
       username,
     });
   };
@@ -60,16 +61,15 @@ const useDropVM = () => {
       type == stn.files.droptypes.IMAGES
         ? await mergeAllImages(files, filename)
         : await compressFiles(files, filename);
-    console.log(file);
-    UploadFileAndRefreshcollection(
+    UploadFileAndRefreshcollection({
       file,
       surveyid,
       filename,
       type,
       username,
       manager,
-      surveyname
-    );
+      surveyname,
+    });
   };
 
   return {

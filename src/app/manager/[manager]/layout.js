@@ -28,6 +28,9 @@ const Layout = observer(({ children }) => {
   const router = useRouter();
 
   React.useEffect(() => {
+    const auth = getAuth(app);
+    user.setUserid(auth.currentUser.uid);
+
     // const persist = async () => {
     //   const auth = getAuth(app);
     //   await setPersistence(auth, browserLocalPersistence);

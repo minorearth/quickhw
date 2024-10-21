@@ -25,7 +25,9 @@ export const Qr = ({
 
   useEffect(() => {
     setQrLink(
-      `${process.env.NEXT_PUBLIC_DOMAIN}/dropfiles/${fileType}/${surveyid}/${user.userid}/${surveyname}`
+      `${process.env.NEXT_PUBLIC_DOMAIN}/dropfiles/${fileType}/${surveyid}/${
+        user.userid
+      }/${encodeURI(surveyname)}`
     );
     return () => {
       console.log("qr unmounted");
@@ -40,13 +42,10 @@ export const Qr = ({
     <Box
       sx={{
         flex: 1,
-        height: "auto",
-        maxHeight: "100%",
-        maxWidth: "100%",
         width: "100%",
+        height: "100%",
         display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-around",
+        justifyContent: "center",
         alignItems: "center",
       }}
     >
@@ -77,32 +76,11 @@ export const Qr = ({
       <QRCode
         style={{
           flex: 1,
-          height: "auto",
-          maxHeight: "100%",
-          maxWidth: "100%",
-          width: "100%",
+          width: "85%",
+          height: "100%",
         }}
         value={qrLink}
       />
-      {/* <RadioGroup
-        row
-        aria-labelledby="demo-controlled-radio-buttons-group"
-        name="controlled-radio-buttons-group"
-        value={fileType}
-        onChange={handleChange}
-        sx={{ marginBottom: "20px" }}
-      >
-        <FormControlLabel
-          value={stn.files.droptypes.IMAGES}
-          control={<Radio />}
-          label="собрать изображения"
-        />
-        <FormControlLabel
-          value={stn.files.droptypes.FILES}
-          control={<Radio />}
-          label="собрать файлы"
-        />
-      </RadioGroup> */}
     </Box>
   );
 };

@@ -18,7 +18,6 @@ const Content = observer(({ surveyid, setSurveyVisible, surveyname }) => {
   const [qrVisible, setQrVisible] = useState(false);
   const [noteVisible, setNoteVisible] = useState(false);
   const [mediacardVisible, setMediacardVisible] = useState(false);
-  // const [open, setOpen] = React.useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [fileType, setFileType] = useState(stn.files.droptypes.IMAGES);
 
@@ -26,8 +25,8 @@ const Content = observer(({ surveyid, setSurveyVisible, surveyname }) => {
     <Box
       sx={{
         display: "flex",
-        direction: "row",
-        height: "100%",
+        flex: 1,
+        overflow: "auto",
         width: "100%",
       }}
     >
@@ -49,11 +48,8 @@ const Content = observer(({ surveyid, setSurveyVisible, surveyname }) => {
         sx={{
           display: "flex",
           flexDirection: "column",
-          height: "100%",
           width: "100%",
           minWidth: "30%",
-          width: "100%",
-          height: "100%",
           flex: 1,
         }}
       >

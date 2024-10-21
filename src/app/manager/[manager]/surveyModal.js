@@ -9,6 +9,8 @@ import ModalBar from "@/components/modalBar";
 
 const style = {
   position: "absolute",
+  display: "flex",
+  flexDirection: "column",
   top: "3px",
   left: "3px",
   bottom: "3px",
@@ -17,9 +19,10 @@ const style = {
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 0,
-  flex: 1,
+  // flex: 1,
   // overflow: "auto",
-  borderRadius: "15px 15px 0px 0px",
+  // height: "95%",
+  borderRadius: "17px 17px 0px 0px",
 
   // p: "4px",
 };
@@ -42,7 +45,7 @@ const ModalForm = ({ modalVisible, setModalVisible, surveyid, surveyname }) => {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <ModalBar closeAction={handleClose} />
+        <ModalBar closeAction={handleClose} caption={surveyname} />
         <Survey
           surveyid={surveyid}
           setSurveyVisible={setModalVisible}

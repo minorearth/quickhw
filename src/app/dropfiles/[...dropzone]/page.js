@@ -12,7 +12,7 @@ export default function Home({ params }) {
       type={params.dropzone[0]}
       surveyid={params.dropzone[1]}
       manager={params.dropzone[2]}
-      surveyname={params.dropzone[3]}
+      surveyname={decodeURI(params.dropzone[3])}
     />
   );
 }

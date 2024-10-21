@@ -19,7 +19,6 @@ const useSurvFilesGrid2VC = ({
   };
 
   useEffect(() => {
-    console.log("render2", surveyid);
     if (!surveyid) return;
     getDocFromCollectionByIdRealtime("surveysresults", surveyid, (data) => {
       setRowsx(ObjtoArr(data.files));
