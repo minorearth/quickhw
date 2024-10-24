@@ -19,12 +19,7 @@ const style = {
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 0,
-  // flex: 1,
-  // overflow: "auto",
-  // height: "95%",
-  borderRadius: "17px 17px 0px 0px",
-
-  // p: "4px",
+  borderRadius: "10px 10px 0px 0px",
 };
 
 const ToggleButton = styled(MuiToggleButton)({

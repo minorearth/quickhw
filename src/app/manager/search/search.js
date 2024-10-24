@@ -20,6 +20,8 @@ import ModalBar from "@/components/modalBar.js";
 
 const style = {
   position: "absolute",
+  display: "flex",
+  flexDirection: "column",
   top: "3px",
   left: "3px",
   bottom: "3px",
@@ -29,10 +31,7 @@ const style = {
   border: "2px solid #000",
   boxShadow: "none",
   flex: 1,
-  // overflow: "auto",
-  borderRadius: "15px 15px 0px 0px",
-  flexDirection: "column",
-  display: "flex",
+  borderRadius: "10px 10px 0px 0px",
 };
 
 const SearchCard = observer(
@@ -92,8 +91,9 @@ const SearchCard = observer(
             sx={{
               display: "flex",
               direction: "row",
-              height: "100%",
+              flex: 1,
               width: "100%",
+              overflow: "auto",
             }}
           >
             <Progress open={progress.showProgress} />
@@ -104,10 +104,7 @@ const SearchCard = observer(
                 height: "100%",
                 width: "100%",
                 minWidth: "30%",
-                width: "100%",
-                height: "100%",
                 flex: 1,
-                // maxHeight: "300px",
               }}
             >
               <SearchGrid

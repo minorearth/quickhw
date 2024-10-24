@@ -13,6 +13,7 @@ import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import CancelSharpIcon from "@mui/icons-material/CancelSharp";
 import CloseIcon from "@mui/icons-material/Close";
 import { styled } from "@mui/material/styles";
+import WestRoundedIcon from "@mui/icons-material/WestRounded";
 
 const ModalBar = observer(({ closeAction, caption = "" }) => {
   const router = useRouter();
@@ -22,10 +23,10 @@ const ModalBar = observer(({ closeAction, caption = "" }) => {
   };
 
   const IconButton = styled(IconButtonMUI)({
-    "&.MuiIconButton-root:hover": {
-      color: "white",
-      backgroundColor: "#757575",
-    },
+    // "&.MuiIconButton-root:hover": {
+    //   color: "white",
+    //   backgroundColor: "#757575",
+    // },
   });
 
   return (
@@ -34,9 +35,12 @@ const ModalBar = observer(({ closeAction, caption = "" }) => {
       position="static"
       sx={{
         boxShadow: "none",
-        backgroundColor: "#8719a6",
+        // backgroundColor: "#8719a6",
+        backgroundColor: "white",
         overflow: "hidden",
-        borderRadius: "15px 15px 0px 0px",
+        borderRadius: "10px 10px 0px 0px",
+        margin: "5px",
+        width: "90%",
       }}
     >
       <Toolbar>
@@ -46,9 +50,10 @@ const ModalBar = observer(({ closeAction, caption = "" }) => {
           onClick={handleClose}
           sx={{ backgroundColor: "white" }}
         >
-          <CloseIcon sx={{ fontSize: 30 }} />
+          {/* <CloseIcon sx={{ fontSize: 30 }} /> */}
+          <WestRoundedIcon sx={{ fontSize: 30 }} />
         </IconButton>
-        <Typography sx={{ ml: 2 }} variant="h6">
+        <Typography sx={{ ml: 2, color: "#757575" }} variant="h6">
           {caption}
         </Typography>
       </Toolbar>

@@ -16,6 +16,7 @@ export const revalidate = 0; //revalidate api every 1 second
 import { deleteAllDocsInCollection } from "./apiDB";
 
 export async function GET() {
-  const res = await deleteAllDocsInCollection("surveys", 3);
+  // const res = await deleteAllDocsInCollection("surveys", 3);
+  const res = { job: "done" };
   return NextResponse.json(res);
 }
