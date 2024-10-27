@@ -14,7 +14,7 @@ const useDropVM = () => {
     type,
     username,
     manager,
-    surveyname,
+    // surveyname,
   }) => {
     const path = await UploadFile({
       file,
@@ -52,7 +52,7 @@ const useDropVM = () => {
     surveyid,
     type,
     manager,
-    surveyname,
+    // surveyname,
   }) => {
     const extension = type == stn.files.droptypes.IMAGES ? ".jpg" : ".zip";
     const filename = `${username}${extension}`;
@@ -67,7 +67,7 @@ const useDropVM = () => {
       type,
       username,
       manager,
-      surveyname,
+      // surveyname,
     });
   };
 

@@ -13,7 +13,7 @@ const Drop = observer(({ surveyid, type, manager, surveyname }) => {
     surveyid,
     type,
     manager,
-    surveyname,
+    // surveyname,
   });
   return (
     <Box

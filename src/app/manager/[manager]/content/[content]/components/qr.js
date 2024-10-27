@@ -25,9 +25,7 @@ export const Qr = ({
 
   useEffect(() => {
     setQrLink(
-      `${process.env.NEXT_PUBLIC_DOMAIN}/dropfiles/${fileType}/${surveyid}/${
-        user.userid
-      }/${encodeURI(surveyname)}`
+      `${process.env.NEXT_PUBLIC_DOMAIN}/df/${fileType}/${surveyid}/${user.userid}`
     );
     return () => {
       console.log("qr unmounted");
