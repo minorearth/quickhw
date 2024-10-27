@@ -34,6 +34,7 @@ export default function useSurveyGridVC({
       files: {},
       manager: user,
       surveyname: stn.defaults.NEW_SURVEY,
+      indexed: false,
     }).then((id) => {
       const data = {
         title: stn.defaults.NEW_SURVEY,

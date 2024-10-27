@@ -75,6 +75,7 @@ export const updateDocFieldsInCollectionById = async (
   id,
   data
 ) => {
+  console.log(collectionName, id, data);
   await updateDoc(doc(db, collectionName, id), data);
   console.log("updated");
 };
@@ -96,11 +97,11 @@ export const deleteDocFromCollection = async (collectionName, id) => {
   deleteDoc(doc(db, collectionName, id));
 };
 
-// export const getDocsKeyValue = async (collectionName, key, value) => {
-//   const q = query(collection(db, collectionName), where(key, "==", value));
-//   const docs = await getDocs(q);
-//   return DBDocsToObject(docs);
-// };
+export const getDocsKeyValue = async (collectionName, key, value) => {
+  const q = query(collection(db, collectionName), where(key, "==", value));
+  const docs = await getDocs(q);
+  return docs;
+};
 
 // const DBDocsToObject = (docs) => {
 //   let ret = [];

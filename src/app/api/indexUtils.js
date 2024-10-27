@@ -1,4 +1,4 @@
-"use client";
+"use server";
 import {
   collection,
   getDocs,
@@ -20,9 +20,9 @@ import {
 
 import { getAuth } from "firebase/auth";
 
-import { setDocInCollection } from "./datamodel";
+import { setDocInCollection } from "../data model/client actions/datamodel";
 
-import { app } from "./firebaseapp";
+import { app } from "../data model/client actions/firebaseapp";
 
 const db = initializeFirestore(app, {
   experimentalForceLongPolling: true,

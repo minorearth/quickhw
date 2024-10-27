@@ -13,7 +13,7 @@ import {
 } from "firebase/auth";
 import { login, logout } from "../../server actions/session";
 import { app } from "../data model/client actions/firebaseapp";
-import { createNewUser } from "../data model/client actions/indexUtils";
+import { createNewUser } from "../api/indexUtils";
 // const key = new TextEncoder().encode(secretKey);
 import stn from "../../globals/constants";
 

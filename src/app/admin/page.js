@@ -6,9 +6,11 @@ import { Button } from "@mui/material";
 import {
   removeSurvey,
   removeFileFromSurvey,
+  createIndex2,
   createIndex,
   createIndexspealout,
   searchInIndex,
+  setAllIndexed,
 } from "./adminVC";
 import TextField from "@mui/material/TextField";
 
@@ -16,7 +18,8 @@ export default function SurveyGrid() {
   const migrate = () => {
     // searchInIndex("3a5nHnKXJFTMM0eCooHqKefECTj1", "Девяткин");
     // copyAllDocs();
-    // createIndex("3a5nHnKXJFTMM0eCooHqKefECTj1");
+    // setAllIndexed(true);
+    createIndex("3a5nHnKXJFTMM0eCooHqKefECTj1");
     // createIndexspealout("3a5nHnKXJFTMM0eCooHqKefECTj1");
     // migrateAllfiles('253TkIzjr2IKgj8U81Bz');
   };

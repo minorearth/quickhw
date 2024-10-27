@@ -3,6 +3,7 @@ import {
   getDocFromCollectionById,
   setDocInCollection,
   getAllDocs,
+  getDocsKeyValue,
   updateDocFieldsInCollectionById,
   getDocDataFromCollectionById,
   deleteDocFromCollection,
@@ -12,7 +13,7 @@ import {
   getCurrIndexDocID,
   increaseIndexCurrInCollection,
   getCurrIndex,
-} from "../data model/client actions/indexUtils";
+} from "../api/indexUtils";
 
 import { deleteAllFileFromDir, deleteFile } from "./storagedb";
 
@@ -58,12 +59,28 @@ export const removeFileFromSurvey = async (manager, syrveyid, filename) => {
   deleteUserSurveyFromIndex(manager, syrveyid, username);
 };
 
-export const createIndex = async (manager) => {
-  let currindex = await getCurrIndexDocID(manager);
+export const setAllIndexed = async (indexed) => {
   const surveysresultsColl = "surveysresults";
   const querySnapshot = await getAllDocs(surveysresultsColl);
   for (let i = 0; i < querySnapshot.docs.length; i++) {
+    const data = { ...querySnapshot.docs[i].data(), indexed };
+    const id = querySnapshot.docs[i].id;
+    await updateDocFieldsInCollectionById(surveysresultsColl, id, data);
+  }
+};
+
+export const createIndex = async () => {
+  const surveysresultsColl = "surveysresults";
+  // const querySnapshot = await getAllDocs(surveysresultsColl);
+  const querySnapshot = await getDocsKeyValue(
+    surveysresultsColl,
+    "indexed",
+    false
+  );
+  for (let i = 0; i < querySnapshot.docs.length; i++) {
     const data = querySnapshot.docs[i].data();
+    let currindex = await getCurrIndexDocID(data.manager);
+
     const id = querySnapshot.docs[i].id;
     const surveyname = !!data?.surveyname ? data?.surveyname : false;
     if (!surveyname) {
@@ -76,6 +93,7 @@ export const createIndex = async (manager) => {
       break;
     }
     const keys = Object.keys(data.files);
+    let res = [];
     for (let j = 0; j < keys.length; j++) {
       const user = keys[j].toUpperCase();
       const userData = data.files[keys[j]];
@@ -89,23 +107,96 @@ export const createIndex = async (manager) => {
         surveyname,
         username: user,
       };
-      try {
-        await updateDocFieldsInCollectionById("index", currindex, {
-          [`results.${user}`]: arrayUnion(newUserData),
-        });
-      } catch (e) {
-        e.code == "not-found" &&
-          (await setDocInCollection(
-            "index",
-            {
-              results: { [user]: newUserData },
-            },
-            manager + "_1"
-          ));
-      }
+      res.push(newUserData);
+    }
+    try {
+      await updateDocFieldsInCollectionById("index", currindex, {
+        results: arrayUnion(...res),
+      });
+    } catch (e) {
+      e.code == "not-found" &&
+        (await setDocInCollection(
+          "index",
+          {
+            results: { [user]: newUserData },
+          },
+          manager + "_0"
+        ));
     }
   }
 };
+
+// export const createIndex2 = async (manager) => {
+//   const maxindex = await getCurrIndex(manager);
+//   const currindex = `${manager}_${maxindex}`;
+//   const doc = await getDocDataFromCollectionById("index", currindex);
+//   const indexData = doc.data;
+
+//   const surveysresultsColl = "surveysresults";
+//   // const querySnapshot = await getAllDocs(surveysresultsColl);
+//   const querySnapshot = await getDocsKeyValue(
+//     surveysresultsColl,
+//     "indexed",
+//     false
+//   );
+
+//   let results = {};
+//   for (let i = 0; i < querySnapshot.docs.length; i++) {
+//     const data = querySnapshot.docs[i].data();
+//     const id = querySnapshot.docs[i].id;
+//     const surveyname = !!data?.surveyname ? data?.surveyname : false;
+//     if (!surveyname) {
+//       console.log(id, "Не указан опрос");
+//       break;
+//     }
+//     const manager = !!data?.manager ? data?.manager : false;
+//     if (!surveyname) {
+//       console.log(id, "Не указан менеджер");
+//       break;
+//     }
+//     const keys = Object.keys(data.files);
+//     for (let j = 0; j < keys.length; j++) {
+//       const user = keys[j].toUpperCase();
+//       const userData = data.files[keys[j]];
+//       const newUserData = {
+//         datetime: userData.datetime,
+//         id: userData.id,
+//         path: userData.path,
+//         name: userData.name,
+//         type: userData.type,
+//         surveyid: id,
+//         surveyname,
+//         username: user,
+//       };
+//       results[user] = !results[user]
+//         ? [newUserData]
+//         : [...results[user], newUserData];
+//     }
+
+//     // console.log("indexData", indexData);
+//     // try {
+//     //   await updateDocFieldsInCollectionById("index", currindex, {
+//     //     [`results.${user}`]: arrayUnion(newUserData),
+//     //   });
+//     // } catch (e) {
+//     //   e.code == "not-found" &&
+//     //     (await setDocInCollection(
+//     //       "index",
+//     //       {
+//     //         results: { [user]: newUserData },
+//     //       },
+//     //       manager + "_1"
+//     //     ));
+//     // }
+//   }
+//   console.log("res", results);
+//   Object.keys(results).forEach((key) => {
+//     if (!indexData.results[key]) {
+//       indexData.results[key] = [];
+//     }
+//     indexData.results[key].push(...results[key]);
+//   });
+// };
 
 export const createIndexspealout = async (manager) => {
   let currindex = await getCurrIndexDocID(manager);
@@ -224,27 +315,19 @@ export const searchInIndex = async (
   setSearchRows = () => {}
 ) => {
   setSearchRows([]);
-
   const maxindex = await getCurrIndex(manager);
   let rows = [];
   for (let i = 0; i <= maxindex; i++) {
     const doc = await getDocDataFromCollectionById("index", `${manager}_${i}`);
     const data = doc.data;
-    const names = Object.keys(data.results);
-    for (let j = 0; j < names.length; j++) {
-      if (names[j].includes(userpart)) {
-        const userData = data.results[names[j]];
-        console.log(userData);
-        userData.forEach((row, id) => {
-          row.id = `${i}${j}${id}`;
-          row.datetime = replaceDate(row.datetime);
-        });
-        setSearchRows((rows) => [...rows, ...userData]);
-        // setSearchRows(userData);
+    data.results.forEach((row, id) => {
+      if (row.username.includes(userpart)) {
+        row.id = `${i}${id}`;
+        row.datetime = replaceDate(row.datetime);
+        setSearchRows((rows) => [...rows, row]);
       }
-    }
+    });
   }
-  console.log(rows);
 };
 
 export const addDataToIndex = async (managerid, studentname, data) => {
@@ -264,3 +347,52 @@ export const addDataToIndex = async (managerid, studentname, data) => {
     });
   }
 };
+
+// export const createIndex = async (manager) => {
+//   let currindex = await getCurrIndexDocID(manager);
+//   const surveysresultsColl = "surveysresults";
+//   const querySnapshot = await getAllDocs(surveysresultsColl);
+//   for (let i = 0; i < querySnapshot.docs.length; i++) {
+//     const data = querySnapshot.docs[i].data();
+//     const id = querySnapshot.docs[i].id;
+//     const surveyname = !!data?.surveyname ? data?.surveyname : false;
+//     if (!surveyname) {
+//       console.log(id, "Не указан опрос");
+//       break;
+//     }
+//     const manager = !!data?.manager ? data?.manager : false;
+//     if (!surveyname) {
+//       console.log(id, "Не указан менеджер");
+//       break;
+//     }
+//     const keys = Object.keys(data.files);
+//     for (let j = 0; j < keys.length; j++) {
+//       const user = keys[j].toUpperCase();
+//       const userData = data.files[keys[j]];
+//       const newUserData = {
+//         datetime: userData.datetime,
+//         id: userData.id,
+//         path: userData.path,
+//         name: userData.name,
+//         type: userData.type,
+//         surveyid: id,
+//         surveyname,
+//         username: user,
+//       };
+//       try {
+//         await updateDocFieldsInCollectionById("index", currindex, {
+//           [`results.${user}`]: arrayUnion(newUserData),
+//         });
+//       } catch (e) {
+//         e.code == "not-found" &&
+//           (await setDocInCollection(
+//             "index",
+//             {
+//               results: { [user]: newUserData },
+//             },
+//             manager + "_1"
+//           ));
+//       }
+//     }
+//   }
+// };
