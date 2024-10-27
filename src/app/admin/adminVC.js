@@ -69,66 +69,6 @@ export const setAllIndexed = async (indexed) => {
   }
 };
 
-export const createIndex = async () => {
-  const surveysresultsColl = "surveysresults";
-  // const querySnapshot = await getAllDocs(surveysresultsColl);
-  const querySnapshot = await getDocsKeyValue(
-    surveysresultsColl,
-    "indexed",
-    false
-  );
-
-  for (let i = 0; i < querySnapshot.docs.length; i++) {
-    const data = querySnapshot.docs[i].data();
-    let currindex = await getCurrIndexDocID(data.manager);
-    const id = querySnapshot.docs[i].id;
-    const surveyname = !!data?.surveyname ? data?.surveyname : false;
-    if (!surveyname) {
-      console.log(id, "Не указан опрос");
-      break;
-    }
-    const manager = !!data?.manager ? data?.manager : false;
-    if (!surveyname) {
-      console.log(id, "Не указан менеджер");
-      break;
-    }
-    const keys = Object.keys(data.files);
-    let res = [];
-    for (let j = 0; j < keys.length; j++) {
-      const user = keys[j].toUpperCase();
-      const userData = data.files[keys[j]];
-      const newUserData = {
-        datetime: userData.datetime,
-        id: userData.id,
-        path: userData.path,
-        name: userData.name,
-        type: userData.type,
-        surveyid: id,
-        surveyname,
-        username: user,
-      };
-      res.push(newUserData);
-    }
-    try {
-      await updateDocFieldsInCollectionById("index", currindex, {
-        results: arrayUnion(...res),
-      });
-      await updateDocFieldsInCollectionById("surveysresults", id, {
-        indexed: true,
-      });
-    } catch (e) {
-      e.code == "not-found" &&
-        (await setDocInCollection(
-          "index",
-          {
-            results: { [user]: newUserData },
-          },
-          manager + "_0"
-        ));
-    }
-  }
-};
-
 // export const createIndex2 = async (manager) => {
 //   const maxindex = await getCurrIndex(manager);
 //   const currindex = `${manager}_${maxindex}`;

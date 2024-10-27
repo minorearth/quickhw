@@ -29,14 +29,19 @@ const Layout = observer(({ children }) => {
 
   React.useEffect(() => {
     const auth = getAuth(app);
-    user.setUserid(auth.currentUser.uid);
+    if (auth.currentUser === null) {
+      router.push(`/login/`);
+    } else {
+      console.log(auth.currentUser === null);
+      user.setUserid(auth.currentUser.uid);
 
-    // const persist = async () => {
-    //   const auth = getAuth(app);
-    //   await setPersistence(auth, browserLocalPersistence);
-    //   user.setUserid(auth.currentUser.uid);
-    // };
-    // persist();
+      const persist = async () => {
+        const auth = getAuth(app);
+        await setPersistence(auth, browserLocalPersistence);
+        user.setUserid(auth.currentUser.uid);
+      };
+      persist();
+    }
   }, []);
 
   const handleChange = (event) => {
