@@ -77,10 +77,10 @@ export const createIndex = async () => {
     "indexed",
     false
   );
+
   for (let i = 0; i < querySnapshot.docs.length; i++) {
     const data = querySnapshot.docs[i].data();
     let currindex = await getCurrIndexDocID(data.manager);
-
     const id = querySnapshot.docs[i].id;
     const surveyname = !!data?.surveyname ? data?.surveyname : false;
     if (!surveyname) {
@@ -112,6 +112,9 @@ export const createIndex = async () => {
     try {
       await updateDocFieldsInCollectionById("index", currindex, {
         results: arrayUnion(...res),
+      });
+      await updateDocFieldsInCollectionById("surveysresults", id, {
+        indexed: true,
       });
     } catch (e) {
       e.code == "not-found" &&

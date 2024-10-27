@@ -16,8 +16,6 @@ const useDropVM = () => {
     manager,
     surveyname,
   }) => {
-    // const buffer = await fileToBuffer(file);
-    console.log("surveyname", surveyname);
     const path = await UploadFile({
       file,
       folder: `${manager}/${surveyid}`,
@@ -33,18 +31,19 @@ const useDropVM = () => {
         type,
         datetime: today,
       },
+      indexed: false,
     });
 
-    await addDataToIndex(manager, username.toUpperCase(), {
-      path,
-      id: file.name,
-      name: file.name,
-      type,
-      datetime: today,
-      surveyid,
-      surveyname,
-      username,
-    });
+    // await addDataToIndex(manager, username.toUpperCase(), {
+    //   path,
+    //   id: file.name,
+    //   name: file.name,
+    //   type,
+    //   datetime: today,
+    //   surveyid,
+    //   surveyname,
+    //   username,
+    // });
   };
 
   const sendFilesDB = async ({

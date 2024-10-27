@@ -18,8 +18,9 @@ export default function SurveyGrid() {
   const migrate = () => {
     // searchInIndex("3a5nHnKXJFTMM0eCooHqKefECTj1", "Девяткин");
     // copyAllDocs();
-    // setAllIndexed(true);
-    createIndex("3a5nHnKXJFTMM0eCooHqKefECTj1");
+    setAllIndexed(false);
+    // createIndex("3a5nHnKXJFTMM0eCooHqKefECTj1");
+    // createIndex();
     // createIndexspealout("3a5nHnKXJFTMM0eCooHqKefECTj1");
     // migrateAllfiles('253TkIzjr2IKgj8U81Bz');
   };

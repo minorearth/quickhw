@@ -96,6 +96,9 @@ export const createIndex = async () => {
       await updateDocFieldsInCollectionById("index", currindex, {
         results: arrayUnion(...res),
       });
+      await updateDocFieldsInCollectionById("surveysresults", id, {
+        indexed: true,
+      });
     } catch (e) {
       e.code == "not-found" &&
         (await setDocInCollection(
