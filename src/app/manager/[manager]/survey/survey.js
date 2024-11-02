@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import MediaCard from "./components/mediacard/mediaCard.js";
-import SurvFilesGrid2 from "./components/survFilesGrid/survFilesGri.js";
+import SurvFilesGrid from "./components/survFilesGrid/survFilesGrid.js";
 import { Box } from "@mui/material";
 import BlackBoard from "./components/blackBoard.js";
 import FabAnimated from "@/components/fabAnimated/fabAnimated.js";
@@ -10,16 +10,13 @@ import { Qr } from "./components/qr.js";
 import Progress from "@/components/progress.js";
 import progress from "@/store/progress.js";
 import { observer } from "mobx-react-lite";
-import stn from "@/globals/constants.js";
+import survey from "@/store/survey.js";
 
-const Content = observer(({ surveyid, setSurveyVisible, surveyname }) => {
+const Content = observer(({ rows, setRowsx, mode }) => {
   const [currRow, setCurrRow] = useState();
-  const [rows, setRowsx] = useState([]);
   const [qrVisible, setQrVisible] = useState(false);
   const [noteVisible, setNoteVisible] = useState(false);
   const [mediacardVisible, setMediacardVisible] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [fileType, setFileType] = useState(stn.files.droptypes.IMAGES);
 
   return (
     <Box
@@ -31,18 +28,22 @@ const Content = observer(({ surveyid, setSurveyVisible, surveyname }) => {
       }}
     >
       <Progress open={progress.showProgress} />
-      <FabAnimated
-        icon="qr"
-        visible={qrVisible}
-        action={() => setQrVisible((state) => !state)}
-        position={{ top: 16, right: 16 }}
-      />
-      <FabAnimated
-        icon="note"
-        visible={noteVisible}
-        action={() => setNoteVisible((state) => !state)}
-        position={{ bottom: 16, left: 16 }}
-      />
+      {mode != "search" && (
+        <FabAnimated
+          icon="qr"
+          visible={qrVisible}
+          action={() => setQrVisible((state) => !state)}
+          position={{ top: 16, right: 16 }}
+        />
+      )}
+      {mode != "search" && (
+        <FabAnimated
+          icon="note"
+          visible={noteVisible}
+          action={() => setNoteVisible((state) => !state)}
+          position={{ bottom: 16, left: 16 }}
+        />
+      )}
 
       <Box
         sx={{
@@ -53,13 +54,12 @@ const Content = observer(({ surveyid, setSurveyVisible, surveyname }) => {
           flex: 1,
         }}
       >
-        {noteVisible && <BlackBoard surveyid={surveyid} />}
-        <SurvFilesGrid2
+        {noteVisible && <BlackBoard surveyid={survey.surveySelectedId} />}
+        <SurvFilesGrid
           setCurrRow={setCurrRow}
           rows={rows}
-          setRowsx={setRowsx}
-          surveyid={surveyid}
           setMediacardVisible={setMediacardVisible}
+          mode={mode}
         />
       </Box>
       {mediacardVisible && !!currRow && (
@@ -67,19 +67,12 @@ const Content = observer(({ surveyid, setSurveyVisible, surveyname }) => {
           setCurrRow={setCurrRow}
           setMediacardVisible={setMediacardVisible}
           currRow={currRow}
-          surveyid={surveyid}
+          surveyid={survey.surveySelectedId}
           setRowsx={setRowsx}
         />
       )}
-      {qrVisible && (
-        <Qr
-          surveyid={surveyid}
-          modalVisible={modalVisible}
-          setModalVisible={setModalVisible}
-          fileType={fileType}
-          setFileType={setFileType}
-          surveyname={surveyname}
-        />
+      {qrVisible && mode != "search" && (
+        <Qr surveyid={survey.surveySelectedId} />
       )}
     </Box>
   );

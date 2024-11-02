@@ -48,7 +48,7 @@ const DropZone = observer(({ setFiles, files, type }) => {
   const [accept, setAcceptFiles] = useState();
 
   useEffect(() => {
-    type == stn.files.droptypes.IMAGES
+    type == stn.files.PICKER.droptypes[0].type
       ? setAcceptFiles({
           "image/png": stn.files.ALLOWED_IMG,
         })

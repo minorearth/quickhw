@@ -1,18 +1,11 @@
 "use client";
-
 import { useState, useEffect } from "react";
-import { getDocFromCollectionByIdUpdates } from "../../../../../../api/apiDB";
-
-import { getDocFromCollectionByIdRealtime } from "../../../../../../data model/client actions/datamodel";
-
+import { getDocFromCollectionByIdRealtime } from "../../../data model/client actions/datamodel";
 import { ObjtoArr } from "@/globals/utils/objectUtils";
 
-const useSurvFilesGrid2VC = ({
-  setCurrRow,
-  surveyid,
-  setRowsx,
-  setMediacardVisible,
-}) => {
+const useSurvFilesGrid2VC = ({ setCurrRow, surveyid, setMediacardVisible }) => {
+  const [rows, setRowsx] = useState([]);
+
   const setCardVisible = (row) => {
     setMediacardVisible(true);
     setCurrRow(row);
@@ -33,7 +26,7 @@ const useSurvFilesGrid2VC = ({
     };
   }, [surveyid]);
 
-  return { setCardVisible };
+  return { rows, setRowsx };
 };
 
 export default useSurvFilesGrid2VC;

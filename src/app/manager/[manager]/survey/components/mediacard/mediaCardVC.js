@@ -5,7 +5,7 @@ import useMeasure from "react-use-measure";
 import progress from "@/store/progress";
 import useMediaCardVM from "./mediaCardVM";
 import { getAuth } from "firebase/auth";
-import { app } from "../../../../../../data model/client actions/firebaseapp";
+import { app } from "../../../../../data model/client actions/firebaseapp";
 import user from "@/store/user";
 
 const useMediaCardVC = ({ currRow, surveyid, setRowsx, setCurrRow }) => {

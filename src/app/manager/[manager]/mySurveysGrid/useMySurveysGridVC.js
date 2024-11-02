@@ -1,33 +1,19 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import useSurveyGridVM from "./useSurveygridVM";
+import useSurveyGridVM from "./useMySurveysGridVM";
 import stn from "@/globals/constants";
-import { app } from "../../../data model/client actions/firebaseapp";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { searchInIndex } from "@/app/admin/adminVC";
+import survey from "@/store/survey";
 
-export default function useSurveyGridVC({
-  setModalVisible,
-  setSearchVisible,
-  user,
-  setSurveyid,
-  setSearchRows,
-  setSurveyname,
-}) {
-  const {
-    addDocInCollection,
-    getGridData,
-    updateDocFieldsInCollectionById,
-    getGridDataMigration,
-  } = useSurveyGridVM();
-  // const apiRef = useGridApiRef();
+export default function useSurveyGridVC({ setSearchVisible, user }) {
+  const { addDocInCollection, getGridData, updateDocFieldsInCollectionById } =
+    useSurveyGridVM();
 
   const router = useRouter();
   const [rows, setRows] = useState([]);
   const [currSurvey, setCurrSurvey] = useState([]);
 
-  const addrow = () => {
+  const addrow = (type) => {
     var today = new Date();
 
     addDocInCollection("surveysresults", {
@@ -35,10 +21,12 @@ export default function useSurveyGridVC({
       manager: user,
       surveyname: stn.defaults.NEW_SURVEY,
       indexed: false,
+      type,
     }).then((id) => {
       const data = {
         title: stn.defaults.NEW_SURVEY,
         datetime: today,
+        type,
       };
       updateDocFieldsInCollectionById("surveys", user, {
         [`surveys.${id}`]: data,
@@ -49,7 +37,6 @@ export default function useSurveyGridVC({
 
   const startSearch = () => {
     setSearchVisible(true);
-    // searchInIndex("3a5nHnKXJFTMM0eCooHqKefECTj1", "ЕВЯТКИН", setSearchRows);
   };
 
   useEffect(() => {
@@ -59,10 +46,16 @@ export default function useSurveyGridVC({
     });
   }, []);
 
-  const showSurvey = (surveyid, surveyname) => {
-    setModalVisible(true);
-    setSurveyid(surveyid);
-    setSurveyname(surveyname);
+  const showSurvey = (surveyid, surveyname, surveytype) => {
+    // setModalVisible(true);
+    // setSurveyid(surveyid);
+    // setSurveyname(surveyname);
+
+    survey.setSurveySelected({
+      surveySelectedId: surveyid,
+      surveySelectedName: surveyname,
+      surveySelectedType: surveytype,
+    });
   };
 
   const processEdit = (newRow) => {

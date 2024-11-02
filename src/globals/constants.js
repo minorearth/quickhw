@@ -29,9 +29,15 @@ const stn = {
     MAX_SIZE: 10 * 1024 * 1024,
     UPLOAD_TEXT:
       " Максимальный размер файла 10 мегабайт, файл не появится в списке на загрузку, если он больше 10 мегабайт",
-    droptypes: {
-      IMAGES: "img",
-      FILES: "zip",
+    PICKER: {
+      droptypes: [
+        { type: "img", caption: "Изображения" },
+        { type: "zip", caption: "Файлы" },
+      ],
+      surveytypes: [
+        { type: "task", caption: "Проверка знаний" },
+        { type: "collection", caption: "Простой сбор файлов" },
+      ],
     },
     NAME_CLEANUP_INTERVAL: 5 * 60 * 1000,
   },

@@ -4,8 +4,11 @@ import Modal from "@mui/material/Modal";
 import MuiToggleButton from "@mui/material/ToggleButton";
 import { styled } from "@mui/material/styles";
 import stn from "@/globals/constants";
-import Survey from "../[manager]/content/[content]/survey";
+import Survey from "./survey";
 import ModalBar from "@/components/modalBar";
+import { observer } from "mobx-react-lite";
+import survey from "@/store/survey";
+import useSurvFilesGrid2VC from "./surveyVC";
 
 const style = {
   position: "absolute",
@@ -29,26 +32,28 @@ const ToggleButton = styled(MuiToggleButton)({
   },
 });
 
-const ModalForm = ({ modalVisible, setModalVisible, surveyid, surveyname }) => {
-  const handleClose = () => setModalVisible(false);
+const ModalForm = observer(() => {
+  const handleClose = () => survey.setShowSurvey(false);
+  const { rows, setRowsx } = useSurvFilesGrid2VC({
+    surveyid: survey.surveySelectedId,
+  });
 
   return (
     <Modal
-      open={modalVisible}
+      open={survey.showSurvey}
       onClose={handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <ModalBar closeAction={handleClose} caption={surveyname} />
-        <Survey
-          surveyid={surveyid}
-          setSurveyVisible={setModalVisible}
-          surveyname={surveyname}
+        <ModalBar
+          closeAction={handleClose}
+          caption={survey.surveySelectedName}
         />
+        <Survey rows={rows} setRowsx={setRowsx} />
       </Box>
     </Modal>
   );
-};
+});
 
 export default ModalForm;

@@ -7,6 +7,7 @@ import MuiToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { styled } from "@mui/material/styles";
 import stn from "@/globals/constants";
+import { useState } from "react";
 
 const style = {
   position: "absolute",
@@ -31,14 +32,19 @@ const ModalForm = ({
   modalVisible,
   setModalVisible,
   children,
-  setFileType,
-  fileType,
+  action,
+  caption,
+  variants,
+  picked,
 }) => {
+  const [state, setState] = useState(picked);
+
   const handleClose = () => setModalVisible(false);
 
   const handleChange = (event, nextView) => {
     if (nextView !== null) {
-      setFileType(nextView);
+      action(nextView);
+      setState(nextView);
     }
   };
 
@@ -62,22 +68,27 @@ const ModalForm = ({
           component="h2"
           sx={{ mb: "10px" }}
         >
-          Что будем собирать?
+          {caption}
         </Typography>
         <ToggleButtonGroup
           orientation="vertical"
-          value={fileType}
+          value={state}
           exclusive
           onChange={handleChange}
           onClick={handleClick}
           sx={{ width: "100%" }}
         >
-          <ToggleButton aria-label="list" value={stn.files.droptypes.IMAGES}>
+          {variants.map((variant, id) => (
+            <ToggleButton key={id} aria-label="list" value={variant.type}>
+              {variant.caption}
+            </ToggleButton>
+          ))}
+          {/* <ToggleButton aria-label="list" value={stn.files.droptypes.IMAGES}>
             Изображения
           </ToggleButton>
           <ToggleButton aria-label="module" value={stn.files.droptypes.FILES}>
             Файлы
-          </ToggleButton>
+          </ToggleButton> */}
         </ToggleButtonGroup>
         {children}
       </Box>

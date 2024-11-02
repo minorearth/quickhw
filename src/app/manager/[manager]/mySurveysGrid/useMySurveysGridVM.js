@@ -12,6 +12,7 @@ const ETL = (doc) => {
       id: doc,
       title: data[doc].title,
       datetime: date,
+      type: data[doc].type,
     };
   });
   return { rows: docsFormatted, id: doc.id };

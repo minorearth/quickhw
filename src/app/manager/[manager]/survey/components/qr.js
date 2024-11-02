@@ -6,22 +6,13 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FabAnimated from "@/components/fabAnimated/fabAnimated";
 import user from "@/store/user";
-import Picktype from "../components/typepicker/typepicker.js";
+import Picktype from "../../../../../components/typepicker/typepicker.js";
 import stn from "@/globals/constants";
 
-export const Qr = ({
-  surveyid,
-  modalVisible,
-  setModalVisible,
-  fileType,
-  setFileType,
-  surveyname,
-}) => {
+export const Qr = ({ surveyid }) => {
   const [qrLink, setQrLink] = useState([]);
-
-  const handleChange = (event) => {
-    setFileType(event.target.value);
-  };
+  const [pickTypeModalVisible, setPickTypeModalVisible] = useState(false);
+  const [fileType, setFileType] = useState(stn.files.PICKER.droptypes[0].type);
 
   useEffect(() => {
     setQrLink(
@@ -33,7 +24,7 @@ export const Qr = ({
   }, [fileType, surveyid]);
 
   useEffect(() => {
-    setModalVisible(true);
+    setPickTypeModalVisible(true);
   }, []);
 
   return (
@@ -47,12 +38,14 @@ export const Qr = ({
         alignItems: "center",
       }}
     >
-      {modalVisible && (
+      {pickTypeModalVisible && (
         <Picktype
-          modalVisible={modalVisible}
-          setModalVisible={setModalVisible}
-          setFileType={setFileType}
-          fileType={fileType}
+          modalVisible={pickTypeModalVisible}
+          setModalVisible={setPickTypeModalVisible}
+          action={(state) => setFileType(state)}
+          variants={stn.files.PICKER.droptypes}
+          picked={fileType}
+          caption={"Что будем собирать?"}
         />
       )}
 
@@ -66,7 +59,7 @@ export const Qr = ({
         icon="pickFileType"
         visible={true}
         action={() => {
-          setModalVisible(true);
+          setPickTypeModalVisible(true);
         }}
         position={{ top: 16, right: 164 }}
       />
