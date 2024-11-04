@@ -6,22 +6,11 @@ import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import DownloadForOfflineOutlinedIcon from "@mui/icons-material/DownloadForOfflineOutlined";
 import Link from "@mui/material/Link";
 import survey from "@/store/survey";
+import BackupOutlinedIcon from "@mui/icons-material/BackupOutlined";
+import Tooltip from "@mui/material/Tooltip";
 
 export const useColumns = ({ actions, mode }) => {
   let columns = [
-    // { field: "id", headerName: "id", width: 130 },
-    // { field: "name", headerName: "Файл", flex: 1, minwidth: 230 },
-    // { field: "type", headerName: "Type", flex: 1, minwidth: 230 },
-
-    {
-      field: "name",
-      headerName: "Файл",
-      width: 200,
-      // renderCell: (params) => (
-      //   <Link href={params.row.path}>{params.row.name}</Link>
-      // ),
-    },
-
     {
       field: "download",
       type: "actions",
@@ -31,16 +20,18 @@ export const useColumns = ({ actions, mode }) => {
         <GridActionsCellItem
           label="download"
           icon={
-            params.row.type != stn.files.PICKER.droptypes[0].type ? (
-              <DownloadForOfflineOutlinedIcon style={{ fontSize: 40 }} />
-            ) : (
-              <VisibilityOutlinedIcon style={{ fontSize: 40 }} />
-            )
+            <Tooltip title="Скачать файл">
+              <BackupOutlinedIcon style={{ fontSize: 40 }} />
+            </Tooltip>
           }
           onClick={() => window.open(params.row.path, "_blank")}
         />,
       ],
     },
+    // { field: "id", headerName: "id", width: 130 },
+    { field: "name", headerName: "Файл", flex: 1, minwidth: 230 },
+    // { field: "type", headerName: "Type", flex: 1, minwidth: 230 },
+
     {
       field: "view",
       type: "actions",
@@ -49,10 +40,7 @@ export const useColumns = ({ actions, mode }) => {
         // eslint-disable-next-line react/jsx-key
         <GridActionsCellItem
           sx={{
-            display:
-              params.row.type != stn.files.PICKER.droptypes[0].type
-                ? "none"
-                : "inherit",
+            display: params.row.type != "img" ? "none" : "inherit",
           }}
           label="View"
           icon={<RiImageEditFill style={{ fontSize: 40 }} />}
@@ -66,21 +54,19 @@ export const useColumns = ({ actions, mode }) => {
       width: 200,
       type: "dateTime",
     },
-
-    {
-      field: "copyid",
-      type: "actions",
-      width: 60,
-      getActions: (params) => [
-        <GridActionsCellItem
-          key="Copyid"
-          label="View"
-          icon={<ContentCopyIcon sx={{ fontSize: 40 }} />}
-          onClick={() => navigator.clipboard.writeText(surveyid)}
-        />,
-      ],
-    },
   ];
+
+  if (survey.surveySelectedType == "task") {
+    columns = [
+      ...columns,
+      {
+        field: "tasknumber",
+        headerName: "Вариант",
+        width: 250,
+        editable: true,
+      },
+    ];
+  }
 
   if (mode == "search") {
     columns = [
@@ -106,6 +92,23 @@ export const useColumns = ({ actions, mode }) => {
       },
     ];
   }
+
+  columns = [
+    ...columns,
+    {
+      field: "copyid",
+      type: "actions",
+      width: 60,
+      getActions: (params) => [
+        <GridActionsCellItem
+          key="Copyid"
+          label="View"
+          icon={<ContentCopyIcon sx={{ fontSize: 40 }} />}
+          onClick={() => navigator.clipboard.writeText(survey.surveySelectedId)}
+        />,
+      ],
+    },
+  ];
 
   return { columns };
 };

@@ -157,6 +157,7 @@ export const mergeAllImages = async (files, filename) => {
         filesPrepared.images.forEach((img) => {
           image.blit(img.jimpimg, 0, img.y);
         });
+        // image.quality(10).grayscale();
 
         image.getBuffer(Jimp.AUTO, (err, res) => {
           const file = new File([res], filename, {

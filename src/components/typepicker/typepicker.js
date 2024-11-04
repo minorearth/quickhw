@@ -43,6 +43,7 @@ const ModalForm = ({
 
   const handleChange = (event, nextView) => {
     if (nextView !== null) {
+      console.log("nextView", nextView);
       action(nextView);
       setState(nextView);
     }
@@ -79,16 +80,10 @@ const ModalForm = ({
           sx={{ width: "100%" }}
         >
           {variants.map((variant, id) => (
-            <ToggleButton key={id} aria-label="list" value={variant.type}>
+            <ToggleButton key={id} aria-label="list" value={variant.name}>
               {variant.caption}
             </ToggleButton>
           ))}
-          {/* <ToggleButton aria-label="list" value={stn.files.droptypes.IMAGES}>
-            Изображения
-          </ToggleButton>
-          <ToggleButton aria-label="module" value={stn.files.droptypes.FILES}>
-            Файлы
-          </ToggleButton> */}
         </ToggleButtonGroup>
         {children}
       </Box>

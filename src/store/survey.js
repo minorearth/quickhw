@@ -5,6 +5,7 @@ class survey {
   surveySelectedId = 0;
   surveySelectedName = "";
   surveySelectedType = "";
+  filetype = "img";
 
   constructor() {
     makeAutoObservable(this);
@@ -13,6 +14,12 @@ class survey {
   setShowSurvey(visible) {
     this.showSurvey = visible;
   }
+
+  setSurveyFileType(filetype) {
+    console.log("changed", filetype);
+    this.filetype = filetype;
+  }
+
   setSurveySelected({
     surveySelectedId,
     surveySelectedName,

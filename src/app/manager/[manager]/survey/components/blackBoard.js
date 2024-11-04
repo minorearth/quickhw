@@ -14,8 +14,6 @@ const roboto = Roboto({
   subsets: ["latin"],
 });
 
-const myFont = localFont({ src: "../../../../fonts/overdozesans.ttf" });
-
 const BlackBoard = ({ surveyid }) => {
   const handleSaveNote = async () => {
     console.log(surveyid);

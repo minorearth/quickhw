@@ -11,6 +11,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import Picktype from "@/components/typepicker/typepicker";
 import stn from "@/globals/constants";
 import { useColumns } from "./useColumns";
+import { getSubKeyValues } from "@/globals/utils/objectUtils";
 
 export default function SurveyGrid({ user, setSearchVisible }) {
   const [pickTypeModalVisible, setPickTypeModalVisible] = React.useState(false);
@@ -41,8 +42,7 @@ export default function SurveyGrid({ user, setSearchVisible }) {
           action={(type) => {
             actions.addrow(type);
           }}
-          // picked={stn.files.PICKER.surveytypes[0].type}
-          variants={stn.files.PICKER.surveytypes}
+          variants={getSubKeyValues(stn.surveys.surveytypes)}
         />
       )}
       <IconButton

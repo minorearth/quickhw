@@ -1,5 +1,3 @@
-import { Splash } from "next/font/google";
-
 const stn = {
   msg: {
     snack: {
@@ -24,21 +22,48 @@ const stn = {
     BLACKBOARD_TEXT:
       "ЗАДАНИЕ[шаблон]\n\n1)Скачай файл из задания\n2)Заполни файл\n3)Перейди с телефона по ссылке в QR-коде, нажми на область загрузки файлов. Выбери файлы и отправь учителю\n\nили\n\nПерейди с телефона по ссылке в QR-коде, нажми на область загрузки файлов. Cфотографируй документ с монитора, так чтобы был виден номер ПК и отправь учителю\n\nили\n\nОткрой ссылку на компьютере,выбери файлы и отправь их учителю\n\nУдачи!!!",
   },
+  surveys: {
+    filetypes: {
+      img: {
+        name: "img",
+        allowed_ext: {
+          "image/png": [".png", ".jpg", ".jpeg", ".bmp", ".gif"],
+        },
+        SHORTNAME: "i",
+        caption: "Изображения",
+        save_ext: ".jpg",
+        multiple: true,
+      },
+      zip: {
+        name: "zip",
+        allowed_ext: {},
+        SHORTNAME: "z",
+        caption: "Любые файлы",
+        save_ext: ".zip",
+        multiple: true,
+      },
+      anyfile: {
+        name: "anyfile",
+        allowed_ext: {},
+        SHORTNAME: "a",
+        caption: "Один любой файл",
+        save_ext: "",
+        multiple: false,
+      },
+    },
+    surveytypes: {
+      task: { name: "task", caption: "Проверка знаний", SHORTNAME: "t" },
+      collection: {
+        name: "collection",
+        caption: "Простой сбор файлов",
+        SHORTNAME: "c",
+      },
+    },
+  },
   files: {
-    ALLOWED_IMG: [".png", ".jpg", ".jpeg", ".bmp", ".gif"],
     MAX_SIZE: 10 * 1024 * 1024,
     UPLOAD_TEXT:
       " Максимальный размер файла 10 мегабайт, файл не появится в списке на загрузку, если он больше 10 мегабайт",
-    PICKER: {
-      droptypes: [
-        { type: "img", caption: "Изображения" },
-        { type: "zip", caption: "Файлы" },
-      ],
-      surveytypes: [
-        { type: "task", caption: "Проверка знаний" },
-        { type: "collection", caption: "Простой сбор файлов" },
-      ],
-    },
     NAME_CLEANUP_INTERVAL: 5 * 60 * 1000,
   },
   SPLASH_DURATION: 2000,

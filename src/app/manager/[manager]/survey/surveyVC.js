@@ -6,11 +6,6 @@ import { ObjtoArr } from "@/globals/utils/objectUtils";
 const useSurvFilesGrid2VC = ({ setCurrRow, surveyid, setMediacardVisible }) => {
   const [rows, setRowsx] = useState([]);
 
-  const setCardVisible = (row) => {
-    setMediacardVisible(true);
-    setCurrRow(row);
-  };
-
   useEffect(() => {
     if (!surveyid) return;
     getDocFromCollectionByIdRealtime("surveysresults", surveyid, (data) => {

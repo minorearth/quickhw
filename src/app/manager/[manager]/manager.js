@@ -20,7 +20,7 @@ export default function Manager({ user }) {
       )}
       {closeSplash && (
         <>
-          <SurveyModal />
+          <SurveyModal mode={"survey"} />
           <SearchCard
             user={user}
             searchVisible={searchVisible}

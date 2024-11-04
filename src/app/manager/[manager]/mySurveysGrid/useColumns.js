@@ -32,13 +32,13 @@ export const useColumns = ({ actions }) => {
       minwidth: 230,
       editable: true,
     },
-    {
-      field: "type",
-      headerName: "Тип",
-      flex: 1,
-      minwidth: 230,
-      editable: true,
-    },
+    // {
+    //   field: "type",
+    //   headerName: "Тип",
+    //   flex: 1,
+    //   minwidth: 230,
+    //   editable: true,
+    // },
     {
       field: "datetime",
       headerName: "Дата и время",

@@ -5,16 +5,17 @@ import { Box } from "@mui/material";
 import useSurvFilesGrid2VC from "./survFilesGridVC";
 import { useColumns } from "./useColumns";
 import { observer } from "mobx-react-lite";
-import survey from "@/store/survey";
+import { useState } from "react";
 
 const SurvFilesGrid2 = observer(
   ({ setCurrRow, rows, setMediacardVisible, mode }) => {
-    const { setCardVisible } = useSurvFilesGrid2VC({
+    const { actions, state } = useSurvFilesGrid2VC({
       setCurrRow,
       setMediacardVisible,
+      rows,
     });
 
-    const { columns } = useColumns({ actions: { setCardVisible }, mode });
+    const { columns } = useColumns({ actions, mode });
 
     return (
       <Box
@@ -36,12 +37,17 @@ const SurvFilesGrid2 = observer(
             },
           }}
           onRowSelectionModelChange={(newRowSelectionModel) => {
-            setMediacardVisible(false);
+            actions.setCardVisible(false);
           }}
+          processRowUpdate={(updatedRow, originalRow) =>
+            actions.processEdit(updatedRow)
+          }
+          onProcessRowUpdateError={() => {}}
           slotProps={{
             pagination: { labelRowsPerPage: "Строчек на странице" },
           }}
           localeText={{ noRowsLabel: "Нет данных" }}
+          rowSelectionModel={state.rowSelectionModel}
         />
       </Box>
     );

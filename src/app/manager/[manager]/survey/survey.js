@@ -6,7 +6,7 @@ import SurvFilesGrid from "./components/survFilesGrid/survFilesGrid.js";
 import { Box } from "@mui/material";
 import BlackBoard from "./components/blackBoard.js";
 import FabAnimated from "@/components/fabAnimated/fabAnimated.js";
-import { Qr } from "./components/qr.js";
+import Qr from "./components/qr.js";
 import Progress from "@/components/progress.js";
 import progress from "@/store/progress.js";
 import { observer } from "mobx-react-lite";

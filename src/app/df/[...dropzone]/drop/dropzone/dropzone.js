@@ -5,9 +5,7 @@ import { Box } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import UploadFileIcon from "@mui/icons-material/UploadFile";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import Progress from "@/components/progress";
 import progress from "@/store/progress";
@@ -48,16 +46,13 @@ const DropZone = observer(({ setFiles, files, type }) => {
   const [accept, setAcceptFiles] = useState();
 
   useEffect(() => {
-    type == stn.files.PICKER.droptypes[0].type
-      ? setAcceptFiles({
-          "image/png": stn.files.ALLOWED_IMG,
-        })
-      : {};
-  }, []);
+    !!type && setAcceptFiles(stn.surveys.filetypes[type].allowed_ext);
+  }, [type]);
 
   const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } =
     useDropzone({
       accept,
+      multiple: stn.surveys.filetypes[type].multiple,
       maxSize: stn.files.MAX_SIZE,
       onDrop: (acceptedFiles) => {
         setFiles((files) => [...files, ...acceptedFiles]);

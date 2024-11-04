@@ -1,27 +1,40 @@
 import { useState, useEffect } from "react";
 import QRCode from "react-qr-code";
 import { Box } from "@mui/material";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import FabAnimated from "@/components/fabAnimated/fabAnimated";
 import user from "@/store/user";
 import Picktype from "../../../../../components/typepicker/typepicker.js";
 import stn from "@/globals/constants";
+import survey from "@/store/survey.js";
+import { observer } from "mobx-react-lite";
+import { autorun } from "mobx";
+import { getSubKeyValues } from "@/globals/utils/objectUtils.js";
 
-export const Qr = ({ surveyid }) => {
+const encodeTypes = (fileType, type) => {
+  return (
+    stn.surveys.filetypes[fileType].SHORTNAME +
+    stn.surveys.surveytypes[!type ? "task" : type].SHORTNAME
+  );
+};
+
+const Qr = observer(({ surveyid }) => {
   const [qrLink, setQrLink] = useState([]);
   const [pickTypeModalVisible, setPickTypeModalVisible] = useState(false);
-  const [fileType, setFileType] = useState(stn.files.PICKER.droptypes[0].type);
+
+  // autorun(() => {
+  //   console.log("Energy level:", survey.filetype);
+  // });
 
   useEffect(() => {
+    const dropType = encodeTypes(survey.filetype, survey.surveySelectedType);
+    console.log(dropType);
     setQrLink(
-      `${process.env.NEXT_PUBLIC_DOMAIN}/df/${fileType}/${surveyid}/${user.userid}`
+      `${process.env.NEXT_PUBLIC_DOMAIN}/df/${dropType}/${surveyid}/${user.userid}`
     );
     return () => {
       console.log("qr unmounted");
     };
-  }, [fileType, surveyid]);
+  }, [survey.filetype, survey.surveySelectedType, surveyid]);
 
   useEffect(() => {
     setPickTypeModalVisible(true);
@@ -42,9 +55,9 @@ export const Qr = ({ surveyid }) => {
         <Picktype
           modalVisible={pickTypeModalVisible}
           setModalVisible={setPickTypeModalVisible}
-          action={(state) => setFileType(state)}
-          variants={stn.files.PICKER.droptypes}
-          picked={fileType}
+          action={(state) => survey.setSurveyFileType(state)}
+          variants={getSubKeyValues(stn.surveys.filetypes)}
+          picked={survey.filetype}
           caption={"Что будем собирать?"}
         />
       )}
@@ -74,4 +87,6 @@ export const Qr = ({ surveyid }) => {
       />
     </Box>
   );
-};
+});
+
+export default Qr;

@@ -7,14 +7,28 @@ import EmailIcon from "@mui/icons-material/Email";
 import useDropZone from "./useDropVC";
 import { observer } from "mobx-react-lite";
 import stn from "@/globals/constants";
+import { flipObject, getKeyBySubKeyValue } from "@/globals/utils/objectUtils";
+import { useEffect, useState } from "react";
 
-const Drop = observer(({ surveyid, type, manager, surveyname }) => {
+const Drop = observer(({ surveyid, typeEncoded, manager }) => {
+  const [surveytype, setSurveytype] = useState("img");
+  const [fileType, setFileType] = useState("img");
+  useEffect(() => {
+    setSurveytype(
+      getKeyBySubKeyValue(stn.surveys.surveytypes, "SHORTNAME", typeEncoded[1])
+    );
+    setFileType(
+      getKeyBySubKeyValue(stn.surveys.filetypes, "SHORTNAME", typeEncoded[0])
+    );
+  }, []);
+
   const { actions, state } = useDropZone({
     surveyid,
-    type,
+    type: fileType,
     manager,
-    // surveyname,
+    surveytype,
   });
+
   return (
     <Box
       sx={{
@@ -46,6 +60,18 @@ const Drop = observer(({ surveyid, type, manager, surveyname }) => {
           fullWidth
           InputProps={{ sx: { borderRadius: 5 } }}
         />
+        {surveytype == "task" && (
+          <TextField
+            id="outlined-basic"
+            label={"Введи номер задания или вариант"}
+            variant="outlined"
+            sx={{ margin: "10px" }}
+            onChange={(e) => actions.changeTaskNumber(e)}
+            value={state.tasknum}
+            fullWidth
+            InputProps={{ sx: { borderRadius: 5 } }}
+          />
+        )}
         <IconButton aria-label="delete" onClick={actions.sendFiles}>
           <EmailIcon sx={{ fontSize: 50 }} color="primary" />
         </IconButton>
@@ -60,7 +86,11 @@ const Drop = observer(({ surveyid, type, manager, surveyname }) => {
           height: "auto",
         }}
       >
-        <DropZone files={state.files} setFiles={actions.setFiles} type={type} />
+        <DropZone
+          files={state.files}
+          setFiles={actions.setFiles}
+          type={fileType}
+        />
       </Box>
     </Box>
   );
