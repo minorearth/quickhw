@@ -1,6 +1,7 @@
 import mergeImages from "merge-images";
 
 import "jimp";
+// import Jimp from "jimp";
 
 export async function getImageDimensions(file) {
   return new Promise(function (resolved, rejected) {
@@ -157,14 +158,15 @@ export const mergeAllImages = async (files, filename) => {
         filesPrepared.images.forEach((img) => {
           image.blit(img.jimpimg, 0, img.y);
         });
-        // image.quality(10).grayscale();
-
-        image.getBuffer(Jimp.AUTO, (err, res) => {
+        // image.grayscale();
+        image.quality(80);
+        image.getBuffer("image/jpeg", (err, res) => {
           const file = new File([res], filename, {
-            type: "image/png",
+            type: "image/jpeg",
           });
           resolved(file);
         });
+
         // image.getBase64(Jimp.AUTO, (err, res) => {
         //   const filename = `${username}.jpg`;
         //   b64URItoFile(res, filename).then((file) => {

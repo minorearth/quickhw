@@ -55,7 +55,9 @@ const DropZone = observer(({ setFiles, files, type }) => {
       multiple: stn.surveys.filetypes[type].multiple,
       maxSize: stn.files.MAX_SIZE,
       onDrop: (acceptedFiles) => {
-        setFiles((files) => [...files, ...acceptedFiles]);
+        type == "anyfile"
+          ? setFiles([...acceptedFiles])
+          : setFiles((files) => [...files, ...acceptedFiles]);
       },
     });
 

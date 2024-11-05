@@ -54,7 +54,6 @@ const useDropVM = () => {
         return await mergeAllImages(files, `${username}${extension}`);
       case type == "zip":
         return await compressFiles(files, `${username}${extension}`);
-
       case type == "anyfile":
         function renameFile(originalFile, newName) {
           return new File([originalFile], newName, {
