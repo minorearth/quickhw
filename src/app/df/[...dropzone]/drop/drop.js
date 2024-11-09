@@ -9,10 +9,16 @@ import { observer } from "mobx-react-lite";
 import stn from "@/globals/constants";
 import { flipObject, getKeyBySubKeyValue } from "@/globals/utils/objectUtils";
 import { useEffect, useState } from "react";
+import Button from "@mui/material/Button";
 
 const Drop = observer(({ surveyid, typeEncoded, manager }) => {
   const [surveytype, setSurveytype] = useState("img");
   const [fileType, setFileType] = useState("img");
+  const [note, setNote] = useState("");
+  const changeNote = (e) => {
+    setNote(e.target.value);
+  };
+
   useEffect(() => {
     setSurveytype(
       getKeyBySubKeyValue(stn.surveys.surveytypes, "SHORTNAME", typeEncoded[1])
@@ -27,6 +33,7 @@ const Drop = observer(({ surveyid, typeEncoded, manager }) => {
     type: fileType,
     manager,
     surveytype,
+    note,
   });
 
   return (
@@ -46,35 +53,64 @@ const Drop = observer(({ surveyid, typeEncoded, manager }) => {
           display: "flex",
           flexDirection: "row",
           width: "100%",
-          height: "100px",
+          height: surveytype == "task" ? "200px" : "100px",
           alignItems: "center",
+          alignContent: "center",
+          // backgroundColor: "green",
         }}
       >
-        <TextField
-          id="outlined-basic"
-          label={stn.caption.ENTER_NAME}
-          variant="outlined"
-          sx={{ margin: "10px" }}
-          onChange={(e) => actions.changeName(e)}
-          value={state.name}
-          fullWidth
-          InputProps={{ sx: { borderRadius: 5 } }}
-        />
-        {surveytype == "task" && (
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+            height: "100%",
+            alignItems: "center",
+            justifyContent: "center",
+            // backgroundColor: "yellow",
+          }}
+        >
           <TextField
             id="outlined-basic"
-            label={"Введи номер задания или вариант"}
+            label={stn.caption.ENTER_NAME}
             variant="outlined"
             sx={{ margin: "10px" }}
-            onChange={(e) => actions.changeTaskNumber(e)}
-            value={state.tasknum}
+            onChange={(e) => actions.changeName(e)}
+            value={state.name}
             fullWidth
             InputProps={{ sx: { borderRadius: 5 } }}
           />
-        )}
-        <IconButton aria-label="delete" onClick={actions.sendFiles}>
-          <EmailIcon sx={{ fontSize: 50 }} color="primary" />
-        </IconButton>
+          {surveytype == "task" && (
+            <TextField
+              id="outlined-basic"
+              label={"Введи номер задания или вариант"}
+              variant="outlined"
+              sx={{ margin: "10px" }}
+              onChange={(e) => actions.changeTaskNumber(e)}
+              value={state.tasknum}
+              fullWidth
+              InputProps={{ sx: { borderRadius: 5 } }}
+            />
+          )}
+        </Box>
+        {/* <Box
+          sx={{
+            // backgroundColor: "red",
+            display: "flex",
+            width: surveytype == "task" ? "200px" : "100px",
+            height: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <IconButton
+            sx={{ display: "block" }}
+            aria-label="delete"
+            onClick={actions.sendFiles}
+          >
+            
+          </IconButton>
+        </Box> */}
       </Box>
       <Box
         sx={{
@@ -86,12 +122,89 @@ const Drop = observer(({ surveyid, typeEncoded, manager }) => {
           height: "auto",
         }}
       >
-        <DropZone
-          files={state.files}
-          setFiles={actions.setFiles}
-          type={fileType}
-        />
+        {fileType != "text" ? (
+          <DropZone
+            files={state.files}
+            setFiles={actions.setFiles}
+            type={fileType}
+          />
+        ) : (
+          <TextField
+            id="plainText"
+            onCut={(e) => {
+              e.preventDefault();
+            }}
+            onCopy={(e) => {
+              e.preventDefault();
+            }}
+            onPaste={(e) => {
+              e.preventDefault();
+            }}
+            onKeyDown={(e) => {
+              const { value } = e.target;
+
+              if (e.key === "Tab") {
+                e.preventDefault();
+
+                const cursorPosition = e.target.selectionStart;
+                const cursorEndPosition = e.target.selectionEnd;
+                const tab = "\t";
+
+                e.target.value =
+                  value.substring(0, cursorPosition) +
+                  tab +
+                  value.substring(cursorEndPosition);
+                e.target.selectionStart = cursorPosition + 1;
+                e.target.selectionEnd = cursorPosition + 1;
+              }
+            }}
+            inputProps={{
+              style: {
+                color: "#BDBDBD",
+                fontSize: 20,
+                flex: 5,
+                // fontStyle: "italic",
+                // fontWeight: "bold",
+                // fontFamily: myFont.style.fontFamily,
+              },
+            }}
+            sx={{
+              m: "10px",
+              backgroundColor: "#f4f2f1",
+              borderRadius: "20px",
+              flex: 1,
+
+              "& .MuiOutlinedInput-root": {
+                borderRadius: "20px",
+                borderWidth: "10px",
+              },
+              "& .MuiInputBase-root": {
+                borderRadius: "20px",
+                borderWidth: "10px",
+                height: "100%",
+                alignItems: "start",
+              },
+            }}
+            multiline
+            value={note}
+            // rows={20}
+            onChange={(e) => changeNote(e)}
+          />
+        )}
       </Box>
+      <Button
+        sx={{ mt: 3, mb: 3 }}
+        variant="contained"
+        aria-label="delete"
+        onClick={actions.sendFiles}
+        endIcon={
+          <EmailIcon
+          // sx={{ fontSize: surveytype == "task" ? 100 : 80 }}
+          />
+        }
+      >
+        Отправить
+      </Button>
     </Box>
   );
 });

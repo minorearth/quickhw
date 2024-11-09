@@ -81,7 +81,7 @@ export const createIndex = async () => {
       const user = keys[j].toUpperCase();
       const userData = data.files[keys[j]];
       const newUserData = {
-        datetime: userData.datetime,
+        // datetime: userData.datetime,
         id: userData.id,
         path: userData.path,
         name: userData.name,

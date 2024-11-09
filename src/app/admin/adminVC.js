@@ -43,19 +43,18 @@ const extractusername = (filename) => {
 export const removeFileFromSurvey = async (manager, syrveyid, filename) => {
   const surveysresultsColl = "surveysresults";
   const username = extractusername(filename);
-  // console.log(username);
-  // const survveyRessult = await getDocDataFromCollectionById(
-  //   surveysresultsColl,
-  //   syrveyid
-  // );
+  const survveyRessult = await getDocDataFromCollectionById(
+    surveysresultsColl,
+    syrveyid
+  );
 
-  // delete survveyRessult.data.files[username];
-  // updateDocFieldsInCollectionById(
-  //   surveysresultsColl,
-  //   syrveyid,
-  //   survveyRessult.data
-  // );
-  // deleteFile(`/capture/${manager}/${syrveyid}/${filename}`);
+  delete survveyRessult.data.files[username];
+  updateDocFieldsInCollectionById(
+    surveysresultsColl,
+    syrveyid,
+    survveyRessult.data
+  );
+  deleteFile(`/capture/${manager}/${syrveyid}/${filename}`);
   deleteUserSurveyFromIndex(manager, syrveyid, username);
 };
 
@@ -210,19 +209,32 @@ export const deleteAllRecordsFromIndex = async (manager, surveyid) => {
     const currindex = `${manager}_${i}`;
     const doc = await getDocDataFromCollectionById("index", currindex);
     const data = doc.data;
-    const names = Object.keys(data.results);
-    for (let j = 0; j < names.length; j++) {
-      const userData = data.results[names[j]];
-      userData.forEach((row, id) => {
-        if (row.surveyid == surveyid) {
-          userData.splice(id, 1);
-        }
-      });
-    }
+    data.results = data.results.filter((row) => row.surveyid != surveyid);
     await updateDocFieldsInCollectionById("index", currindex, data);
   }
   console.log(rows);
 };
+
+// export const deleteAllRecordsFromIndex = async (manager, surveyid) => {
+//   const maxindex = await getCurrIndex(manager);
+//   let rows = [];
+//   for (let i = 0; i <= maxindex; i++) {
+//     const currindex = `${manager}_${i}`;
+//     const doc = await getDocDataFromCollectionById("index", currindex);
+//     const data = doc.data;
+//     const names = Object.keys(data.results);
+//     for (let j = 0; j < names.length; j++) {
+//       const userData = data.results[names[j]];
+//       userData.forEach((row, id) => {
+//         if (row.surveyid == surveyid) {
+//           userData.splice(id, 1);
+//         }
+//       });
+//     }
+//     await updateDocFieldsInCollectionById("index", currindex, data);
+//   }
+//   console.log(rows);
+// };
 
 export const deleteUserSurveyFromIndex = async (
   manager,
@@ -230,24 +242,15 @@ export const deleteUserSurveyFromIndex = async (
   username
 ) => {
   const user = username.toUpperCase();
-  console.log(manager, surveyid, user);
   const maxindex = await getCurrIndex(manager);
   let rows = [];
   for (let i = 0; i <= maxindex; i++) {
     const currindex = `${manager}_${i}`;
     const doc = await getDocDataFromCollectionById("index", currindex);
     const data = doc.data;
-    const names = Object.keys(data.results);
-    for (let j = 0; j < names.length; j++) {
-      const userData = data.results[names[j]];
-      if (names[j] == user) {
-        userData.forEach((row, id) => {
-          if (row.surveyid == surveyid) {
-            userData.splice(id, 1);
-          }
-        });
-      }
-    }
+    data.results = data.results.filter(
+      (row) => !(row.surveyid == surveyid && row.username == user)
+    );
     await updateDocFieldsInCollectionById("index", currindex, data);
   }
 };

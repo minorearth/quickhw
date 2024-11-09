@@ -50,6 +50,14 @@ const stn = {
         save_ext: "",
         multiple: false,
       },
+      text: {
+        name: "text",
+        allowed_ext: {},
+        SHORTNAME: "t",
+        caption: "Текст",
+        save_ext: ".txt",
+        multiple: false,
+      },
     },
     surveytypes: {
       task: { name: "task", caption: "Проверка знаний", SHORTNAME: "t" },

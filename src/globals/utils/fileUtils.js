@@ -1,7 +1,14 @@
 import JSZip from "jszip";
+import mime from "mime-types";
 
 export const extractFileExtension = (filename) => {
   return filename.split(".").pop();
+};
+
+export const mimeExtension = (file) => {
+  const fileExtension = mime.extension(file.type);
+  console.log("fileExtension", fileExtension);
+  return fileExtension;
 };
 
 export const compressFiles = async (files, filename) => {

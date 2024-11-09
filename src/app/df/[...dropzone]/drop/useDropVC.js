@@ -5,7 +5,7 @@ import snack from "@/store/snack";
 import stn from "@/globals/constants";
 import useDropVM from "./useDropVM";
 
-const useDropVC = ({ surveyid, type, manager, surveytype }) => {
+const useDropVC = ({ surveyid, type, manager, surveytype, note }) => {
   const [files, setFiles] = useState([]);
   const [username, setUserName] = useState("");
   const [taskNumber, setTaskNumber] = useState("");
@@ -16,10 +16,13 @@ const useDropVC = ({ surveyid, type, manager, surveytype }) => {
   }, []);
 
   const validateFields = () => {
-    console.log(surveytype);
     switch (true) {
       case surveytype == "task":
-        if (!files.length) {
+        if (!note && type == "text") {
+          snack.showSnack("вбей любой текст");
+          return false;
+        }
+        if (!files.length && type != "text") {
           snack.showSnack(stn.msg.snack.PICK_FILES);
           return false;
         }
@@ -32,8 +35,13 @@ const useDropVC = ({ surveyid, type, manager, surveytype }) => {
           return false;
         }
         return true;
+
       case surveytype == "collection":
-        if (!files.length) {
+        if (!note && type == "text") {
+          snack.showSnack("вбей любой текст");
+          return false;
+        }
+        if (!files.length && type != "text") {
           snack.showSnack(stn.msg.snack.PICK_FILES);
           return false;
         }
@@ -42,16 +50,23 @@ const useDropVC = ({ surveyid, type, manager, surveytype }) => {
           return false;
         }
         return true;
+
       default:
         return false;
     }
   };
 
+  const makeTextFile = () => {
+    const file = new Blob([note], { type: "text/plain;charset=UTF-8" });
+    return [file];
+  };
+
   const sendFiles = async () => {
     if (validateFields()) {
       progress.setShowProgress(true);
+      const filesToSend = type != "text" ? files : makeTextFile();
       await sendFilesDB({
-        files,
+        files: filesToSend,
         username,
         surveyid,
         type,
