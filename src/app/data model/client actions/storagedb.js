@@ -43,3 +43,8 @@ export const getAllFiles = async (relativePath) => {
   const res = await listAll(Ref);
   return res;
 };
+
+export const deleteFile = async (relativePath) => {
+  const Ref = ref(storage, relativePath);
+  deleteObject(Ref);
+};

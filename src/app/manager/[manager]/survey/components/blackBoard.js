@@ -3,10 +3,9 @@ import FabAnimated from "../../../../../components/fabAnimated/fabAnimated";
 import { Roboto } from "next/font/google";
 import localFont from "next/font/local";
 import { useEffect, useState } from "react";
-import {
-  updateDocFieldsInCollectionById,
-  getDocFromCollectionById,
-} from "../../../../data model/client actions/datamodel";
+import { getDocFromCollectionById } from "../../../../data model/client actions/datamodel";
+
+import { updateDocFieldsInCollectionByIdClient } from "@/app/data model/domain";
 import stn from "@/globals/constants";
 
 const roboto = Roboto({
@@ -18,7 +17,7 @@ const BlackBoard = ({ surveyid }) => {
   const handleSaveNote = async () => {
     console.log(surveyid);
 
-    await updateDocFieldsInCollectionById("surveysresults", surveyid, {
+    await updateDocFieldsInCollectionByIdClient("surveysresults", surveyid, {
       note: note,
     });
   };

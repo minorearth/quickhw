@@ -1,8 +1,9 @@
 import {
-  updateDocFieldsInCollectionById,
   addDocInCollection,
   getDocFromCollectionById,
 } from "../../../data model/client actions/datamodel";
+
+import { updateDocFieldsInCollectionByIdClient } from "@/app/data model/domain";
 
 const ETL = (doc) => {
   const data = doc.surveys;
@@ -28,6 +29,6 @@ export default function useSurveyGridVM() {
   return {
     addDocInCollection,
     getGridData,
-    updateDocFieldsInCollectionById,
+    updateDocFieldsInCollectionByIdClient,
   };
 }

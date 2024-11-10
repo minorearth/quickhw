@@ -26,13 +26,10 @@ import {
   getCurrIndex,
 } from "./indexUtils";
 
-import { deleteAllFileFromDir } from "./apiStoragedb";
-import { app } from "./firebaseapp";
+import { updateDocFieldsInCollectionByIdAPI } from "./domain";
 
-const db = initializeFirestore(app, {
-  experimentalForceLongPolling: true,
-  useFetchStreams: false,
-});
+import { deleteAllFileFromDir } from "./apiStoragedb";
+import { app, db } from "./firebaseapp";
 
 // export const deleteAllDocsInCollection = async (collectionName, timeLag) => {
 //   let th = new Date();
@@ -81,7 +78,8 @@ export const createIndex = async () => {
       const user = keys[j].toUpperCase();
       const userData = data.files[keys[j]];
       const newUserData = {
-        // datetime: userData.datetime,
+        datetime: userData.datetime,
+        // datetime: data.datetime,
         id: userData.id,
         path: userData.path,
         name: userData.name,
@@ -93,10 +91,10 @@ export const createIndex = async () => {
       res.push(newUserData);
     }
     try {
-      await updateDocFieldsInCollectionById("index", currindex, {
+      await updateDocFieldsInCollectionByIdAPI("index", currindex, {
         results: arrayUnion(...res),
       });
-      await updateDocFieldsInCollectionById("surveysresults", id, {
+      await updateDocFieldsInCollectionByIdAPI("surveysresults", id, {
         indexed: true,
       });
     } catch (e) {
@@ -116,15 +114,6 @@ export const getDocsKeyValue = async (collectionName, key, value) => {
   const q = query(collection(db, collectionName), where(key, "==", value));
   const docs = await getDocs(q);
   return docs;
-};
-
-export const updateDocFieldsInCollectionById = async (
-  collectionName,
-  id,
-  data
-) => {
-  console.log("here i am");
-  await updateDoc(doc(db, collectionName, id), data);
 };
 
 export const setDocInCollection = async (collectionName, data, id) => {

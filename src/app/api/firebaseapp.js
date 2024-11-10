@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app";
+import { initializeFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_API_KEY,
@@ -11,3 +12,8 @@ const firebaseConfig = {
 };
 
 export const app = initializeApp(firebaseConfig, "serverside");
+
+export const db = initializeFirestore(app, {
+  experimentalForceLongPolling: true,
+  useFetchStreams: false,
+});

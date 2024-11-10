@@ -14,7 +14,6 @@ import {
   updateDoc,
   writeBatch,
   getAll,
-  initializeFirestore,
   onSnapshot,
 } from "firebase/firestore";
 
@@ -24,12 +23,7 @@ import {
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 
-import { app } from "./firebaseapp";
-
-const db = initializeFirestore(app, {
-  experimentalForceLongPolling: true,
-  useFetchStreams: false,
-});
+import { app, db } from "./firebaseapp";
 
 getAuth(app);
 
@@ -68,24 +62,6 @@ export const getDocFromCollectionByIdRealtime = async (
 export const addDocInCollection = async (collectionName, data) => {
   const doc = await addDoc(collection(db, collectionName), data);
   return doc.id;
-};
-
-export const updateDocFieldsInCollectionById = async (
-  collectionName,
-  id,
-  data
-) => {
-  console.log(collectionName, id, data);
-  await updateDoc(doc(db, collectionName, id), data);
-  console.log("updated");
-};
-
-export const updateDocFieldsInCollectionByIdCheck = async (
-  collectionName,
-  id,
-  data
-) => {
-  await updateDoc(doc(db, collectionName, id), data);
 };
 
 export const getAllDocs = async (collectionName) => {

@@ -6,8 +6,11 @@ import stn from "@/globals/constants";
 import survey from "@/store/survey";
 
 export default function useSurveyGridVC({ setSearchVisible, user }) {
-  const { addDocInCollection, getGridData, updateDocFieldsInCollectionById } =
-    useSurveyGridVM();
+  const {
+    addDocInCollection,
+    getGridData,
+    updateDocFieldsInCollectionByIdClient,
+  } = useSurveyGridVM();
 
   const router = useRouter();
   const [rows, setRows] = useState([]);
@@ -28,7 +31,7 @@ export default function useSurveyGridVC({ setSearchVisible, user }) {
         datetime: today,
         type,
       };
-      updateDocFieldsInCollectionById("surveys", user, {
+      updateDocFieldsInCollectionByIdClient("surveys", user, {
         [`surveys.${id}`]: data,
       });
       setRows((oldRows) => [{ id, ...data }, ...oldRows]);
@@ -58,11 +61,12 @@ export default function useSurveyGridVC({ setSearchVisible, user }) {
   };
 
   const processEdit = (newRow) => {
-    updateDocFieldsInCollectionById("surveys", currSurvey, {
+    updateDocFieldsInCollectionByIdClient("surveys", currSurvey, {
       [`surveys.${newRow.id}.title`]: newRow.title,
     });
-    updateDocFieldsInCollectionById("surveysresults", newRow.id, {
+    updateDocFieldsInCollectionByIdClient("surveysresults", newRow.id, {
       [`surveyname`]: newRow.title,
+      [`datetime`]: newRow.datetime,
     });
     rows.filter((row) => row.id == newRow.id)[0].title = newRow.title;
     return newRow;

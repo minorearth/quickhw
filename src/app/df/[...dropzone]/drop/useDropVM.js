@@ -2,7 +2,7 @@ import { mergeAllImages } from "../../../../globals/utils/imageUtils";
 import { compressFiles } from "../../../../globals/utils/fileUtils";
 import stn from "@/globals/constants";
 import { UploadFile } from "@/app/data model/client actions/storagedb";
-import { updateDocFieldsInCollectionById } from "@/app/data model/client actions/datamodel";
+import { updateDocFieldsInCollectionByIdClient } from "@/app/data model/domain";
 import { addDataToIndex } from "@/app/admin/adminVC";
 import { extractFileExtension, mimeExtension } from "@/globals/utils/fileUtils";
 
@@ -23,7 +23,7 @@ const useDropVM = () => {
     // const fileMeta = await getMetadata(fileDB);
     // const dateFormatted = formatDate(fileMeta.updated);
     var today = new Date();
-    await updateDocFieldsInCollectionById("surveysresults", surveyid, {
+    await updateDocFieldsInCollectionByIdClient("surveysresults", surveyid, {
       [`files.${username}`]: {
         path,
         id: file.name,
