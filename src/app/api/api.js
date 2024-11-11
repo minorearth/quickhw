@@ -31,24 +31,6 @@ import { updateDocFieldsInCollectionByIdAPI } from "./domain";
 import { deleteAllFileFromDir } from "./apiStoragedb";
 import { app, db } from "./firebaseapp";
 
-// export const deleteAllDocsInCollection = async (collectionName, timeLag) => {
-//   let th = new Date();
-//   th.setDate(th.getDate() - timeLag);
-//   const thresold = Timestamp.fromDate(th);
-//   const col = collection(db, collectionName);
-//   const q = query(col, where("datetime", "<=", thresold));
-//   const docs = await getDocs(q);
-//   let log = { len: docs.docs.length, date: th.toString(), vers: "4" };
-//   await Promise.all(
-//     docs.docs.map(async (docS) => {
-//       deleteAllFileFromDir(`/capture/${docS.id}`);
-//       log = { ...log, [docS.id]: docS.id };
-//       await deleteDoc(doc(db, collectionName, docS.id));
-//     })
-//   );
-//   return log;
-// };
-
 export const createIndex = async () => {
   const surveysresultsColl = "surveysresults";
   // const querySnapshot = await getAllDocs(surveysresultsColl);
@@ -119,3 +101,21 @@ export const getDocsKeyValue = async (collectionName, key, value) => {
 export const setDocInCollection = async (collectionName, data, id) => {
   await setDoc(doc(db, collectionName, id), data);
 };
+
+// export const deleteAllDocsInCollection = async (collectionName, timeLag) => {
+//   let th = new Date();
+//   th.setDate(th.getDate() - timeLag);
+//   const thresold = Timestamp.fromDate(th);
+//   const col = collection(db, collectionName);
+//   const q = query(col, where("datetime", "<=", thresold));
+//   const docs = await getDocs(q);
+//   let log = { len: docs.docs.length, date: th.toString(), vers: "4" };
+//   await Promise.all(
+//     docs.docs.map(async (docS) => {
+//       deleteAllFileFromDir(`/capture/${docS.id}`);
+//       log = { ...log, [docS.id]: docS.id };
+//       await deleteDoc(doc(db, collectionName, docS.id));
+//     })
+//   );
+//   return log;
+// };
