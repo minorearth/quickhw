@@ -1,9 +1,8 @@
 import {
-  addDocInCollection,
-  getDocFromCollectionById,
-} from "../../../data model/client actions/datamodel";
-
-import { updateDocFieldsInCollectionByIdClient } from "@/app/data model/domain";
+  addDocInCollectionClient,
+  getDocFromCollectionByIdClient,
+  updateDocFieldsInCollectionByIdClient,
+} from "@/app/data model/domain";
 
 const ETL = (doc) => {
   const data = doc.surveys;
@@ -21,13 +20,13 @@ const ETL = (doc) => {
 
 export default function useSurveyGridVM() {
   const getGridData = async (user) => {
-    const doc = await getDocFromCollectionById("surveys", user);
+    const doc = await getDocFromCollectionByIdClient("surveys", user);
     return ETL(doc);
     // return ETL(JSON.parse(doc));
   };
 
   return {
-    addDocInCollection,
+    addDocInCollection: addDocInCollectionClient,
     getGridData,
     updateDocFieldsInCollectionByIdClient,
   };

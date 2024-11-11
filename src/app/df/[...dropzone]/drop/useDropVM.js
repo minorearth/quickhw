@@ -1,10 +1,9 @@
 import { mergeAllImages } from "../../../../globals/utils/imageUtils";
 import { compressFiles } from "../../../../globals/utils/fileUtils";
 import stn from "@/globals/constants";
-import { UploadFile } from "@/app/data model/client actions/storagedb";
+import { UploadFileClient } from "@/app/data model/domain";
 import { updateDocFieldsInCollectionByIdClient } from "@/app/data model/domain";
-import { addDataToIndex } from "@/app/admin/adminVC";
-import { extractFileExtension, mimeExtension } from "@/globals/utils/fileUtils";
+import { mimeExtension } from "@/globals/utils/fileUtils";
 
 const useDropVM = () => {
   const UploadFileAndRefreshcollection = async ({
@@ -16,7 +15,7 @@ const useDropVM = () => {
     taskNumber,
     // surveyname,
   }) => {
-    const path = await UploadFile({
+    const path = await UploadFileClient({
       file,
       folder: `${manager}/${surveyid}`,
     });

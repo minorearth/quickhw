@@ -14,21 +14,14 @@ import { useRouter } from "next/navigation";
 import { signOutUser } from "../../login/authentication.js";
 import { observer } from "mobx-react-lite";
 import user from "@/store/user.js";
-import {
-  getAuth,
-  setPersistence,
-  browserSessionPersistence,
-  browserLocalPersistence,
-} from "firebase/auth";
-import { app } from "../../data model/client actions/firebaseapp.js";
+import { setPersistence, browserLocalPersistence } from "firebase/auth";
+import { auth } from "@/app/data model/client actions/firebaseapp.js";
 
 const Layout = observer(({ children }) => {
-  const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const router = useRouter();
 
   React.useEffect(() => {
-    const auth = getAuth(app);
     if (auth.currentUser === null) {
       router.push(`/login/`);
     } else {
@@ -36,17 +29,13 @@ const Layout = observer(({ children }) => {
       user.setUserid(auth.currentUser.uid);
 
       const persist = async () => {
-        const auth = getAuth(app);
         await setPersistence(auth, browserLocalPersistence);
         user.setUserid(auth.currentUser.uid);
+        console.log(auth.currentUser.uid);
       };
       persist();
     }
   }, []);
-
-  const handleChange = (event) => {
-    setAuth(event.target.checked);
-  };
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);

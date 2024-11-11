@@ -13,7 +13,7 @@ import {
 } from "firebase/auth";
 import { login, logout } from "../../server actions/session";
 import { app } from "../data model/client actions/firebaseapp";
-import { createNewUser } from "../api/indexUtils";
+import { createNewUserClient } from "@/app/data model/domain";
 // const key = new TextEncoder().encode(secretKey);
 import stn from "../../globals/constants";
 
@@ -55,7 +55,7 @@ export const SignUpUser = async (email, password) => {
     );
     const userid = userCredential.user.uid;
     sendEmailVerification(userCredential.user).then(() => {});
-    createNewUser(userid);
+    createNewUserClient(userid);
     return userCredential.user.uid;
   } catch (error) {
     const errorCode = error.code;

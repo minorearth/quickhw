@@ -6,7 +6,7 @@ import stn from "@/globals/constants.js";
 import * as React from "react";
 import Modal from "@mui/material/Modal";
 import IconButton from "@mui/material/IconButton";
-import { searchInIndex } from "@/app/admin/adminVC.js";
+import { searchInIndexClient } from "@/app/data model/domain";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
 import ModalBar from "@/components/modalBar.js";
@@ -31,7 +31,7 @@ const SearchCard = observer(({ searchVisible, setSearchVisible, user }) => {
   const [searchRows, setSearchRows] = useState([]);
 
   const handleSearch = () => {
-    searchInIndex(user, searchString.toUpperCase(), setSearchRows);
+    searchInIndexClient(user, searchString.toUpperCase(), setSearchRows);
   };
 
   const [searchString, setSearchString] = useState("");

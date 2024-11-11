@@ -1,4 +1,3 @@
-"use client";
 import {
   collection,
   getDocs,
@@ -14,38 +13,47 @@ import {
   updateDoc,
   writeBatch,
   getAll,
+  initializeFirestore,
   onSnapshot,
+  arrayUnion,
 } from "firebase/firestore";
 
-import {
-  getAuth,
-  sendSignInLinkToEmail,
-  createUserWithEmailAndPassword,
-} from "firebase/auth";
+export const updateDocFieldsInCollectionById = async (
+  db,
+  collectionName,
+  id,
+  data
+) => {
+  console.log("here i am");
+  await updateDoc(doc(db, collectionName, id), data);
+};
 
-import { app, db } from "./firebaseapp";
+export const getDocsKeyValue = async (db, collectionName, key, value) => {
+  const q = query(collection(db, collectionName), where(key, "==", value));
+  const docs = await getDocs(q);
+  return docs;
+};
 
-getAuth(app);
-
-export const setDocInCollection = async (collectionName, data, id) => {
+export const setDocInCollection = async (db, collectionName, data, id) => {
   await setDoc(doc(db, collectionName, id), data);
 };
 
-export const getDocFromCollectionById = async (collectionName, id) => {
-  const docSnap = await getDoc(doc(db, collectionName, id));
-  const data = docSnap.data();
-  return { id: docSnap.id, ...data };
-  // return JSON.stringify({ id: docSnap.id, ...data });
-};
-
-export const getDocDataFromCollectionById = async (collectionName, id) => {
+export const getDocDataFromCollectionById = async (db, collectionName, id) => {
   const docSnap = await getDoc(doc(db, collectionName, id));
   const data = docSnap.data();
   return { id: docSnap.id, data };
   // return JSON.stringify({ id: docSnap.id, ...data });
 };
 
+export const getDocFromCollectionById = async (db, collectionName, id) => {
+  const docSnap = await getDoc(doc(db, collectionName, id));
+  const data = docSnap.data();
+  return { id: docSnap.id, ...data };
+  // return JSON.stringify({ id: docSnap.id, ...data });
+};
+
 export const getDocFromCollectionByIdRealtime = async (
+  db,
   collectionName,
   id,
   refreshdata
@@ -59,24 +67,18 @@ export const getDocFromCollectionByIdRealtime = async (
   return { data: { id: docSnap.id, ...data }, unsubscribe };
 };
 
-export const addDocInCollection = async (collectionName, data) => {
+export const addDocInCollection = async (db, collectionName, data) => {
   const doc = await addDoc(collection(db, collectionName), data);
   return doc.id;
 };
 
-export const getAllDocs = async (collectionName) => {
+export const getAllDocs = async (db, collectionName) => {
   const querySnapshot = await getDocs(collection(db, collectionName));
   return querySnapshot;
 };
 
-export const deleteDocFromCollection = async (collectionName, id) => {
+export const deleteDocFromCollection = async (db, collectionName, id) => {
   deleteDoc(doc(db, collectionName, id));
-};
-
-export const getDocsKeyValue = async (collectionName, key, value) => {
-  const q = query(collection(db, collectionName), where(key, "==", value));
-  const docs = await getDocs(q);
-  return docs;
 };
 
 // const DBDocsToObject = (docs) => {

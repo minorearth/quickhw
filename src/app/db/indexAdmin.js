@@ -1,78 +1,31 @@
-import {
-  getAllDocs,
-  updateDocFieldsInCollectionById,
-  getDocDataFromCollectionById,
-  deleteDocFromCollection,
-} from "../data model/client actions/datamodel";
+import { arrayUnion } from "firebase/firestore";
 
-import { updateDocFieldsInCollectionByIdClient } from "@/app/data model/domain";
-
-import {
-  doc,
-  updateDoc,
-  arrayUnion,
-  arrayRemove,
-  initializeFirestore,
-} from "firebase/firestore";
 import {
   getCurrIndexDocID,
   increaseIndexCurrInCollection,
   getCurrIndex,
-} from "../api/indexUtils";
+} from "./indexActions";
 
 import {
-  deleteAllFileFromDir,
-  deleteFile,
-} from "@/app/data model/client actions/storagedb";
+  getAllDocs,
+  getDocDataFromCollectionById,
+  updateDocFieldsInCollectionById,
+} from "@/app/db/dataModel";
 
-export const removeSurvey = async (syrveyid, userid) => {
-  const surveysColl = "surveys";
-  const surveysresultsColl = "surveysresults";
-  const dc = await getDocDataFromCollectionById(surveysColl, userid);
-  const managerSurv = dc.data;
-  delete managerSurv.surveys[syrveyid];
-  updateDocFieldsInCollectionByIdClient(surveysColl, userid, managerSurv);
-  deleteDocFromCollection(surveysresultsColl, syrveyid);
-  deleteAllFileFromDir(`/capture/${userid}/${syrveyid}`);
-  deleteAllRecordsFromIndex(userid, syrveyid);
-};
-
-const extractusername = (filename) => {
-  return filename.slice(0, filename.lastIndexOf("."));
-};
-
-export const removeFileFromSurvey = async (manager, syrveyid, filename) => {
-  const surveysresultsColl = "surveysresults";
-  const username = extractusername(filename);
-  const survveyRessult = await getDocDataFromCollectionById(
-    surveysresultsColl,
-    syrveyid
-  );
-
-  delete survveyRessult.data.files[username];
-  updateDocFieldsInCollectionByIdClient(
-    surveysresultsColl,
-    syrveyid,
-    survveyRessult.data
-  );
-  deleteFile(`/capture/${manager}/${syrveyid}/${filename}`);
-  deleteUserSurveyFromIndex(manager, syrveyid, username);
-};
-
-export const setAllIndexed = async (indexed) => {
+export const setAllIndexed = async (db, indexed) => {
   const surveysresultsColl = "surveysresults";
   const querySnapshot = await getAllDocs(surveysresultsColl);
   for (let i = 0; i < querySnapshot.docs.length; i++) {
     const data = { ...querySnapshot.docs[i].data(), indexed };
     const id = querySnapshot.docs[i].id;
-    await updateDocFieldsInCollectionByIdClient(surveysresultsColl, id, data);
+    await updateDocFieldsInCollectionById(db, surveysresultsColl, id, data);
   }
 };
 
-export const createIndexspealout = async (manager) => {
-  let currindex = await getCurrIndexDocID(manager);
+export const createIndexspealout = async (db, manager) => {
+  let currindex = await getCurrIndexDocID(db, manager);
   const surveysresultsColl = "surveysresults";
-  const querySnapshot = await getAllDocs(surveysresultsColl);
+  const querySnapshot = await getAllDocs(db, surveysresultsColl);
   let cnt = 0;
   for (let i = 0; i < querySnapshot.docs.length; i++) {
     const data = querySnapshot.docs[i].data();
@@ -114,89 +67,64 @@ export const createIndexspealout = async (manager) => {
       cnt += limit;
 
       try {
-        await updateDocFieldsInCollectionByIdClient("index", currindex, {
+        await updateDocFieldsInCollectionById(db, "index", currindex, {
           [`results.${user}`]: arrayUnion(...batch),
         });
       } catch (e) {
         if (e.message.includes("exceeds the maximum allowed size")) {
-          currindex = await increaseIndexCurrInCollection(manager);
+          currindex = await increaseIndexCurrInCollection(db, manager);
         }
       }
     }
   }
 };
 
-const replaceDate = (datetime) => {
-  const date = new Date(datetime.seconds * 1000);
-  return date;
-};
-
-export const deleteAllRecordsFromIndex = async (manager, surveyid) => {
-  const maxindex = await getCurrIndex(manager);
+export const deleteAllRecordsFromIndex = async (db, manager, surveyid) => {
+  const maxindex = await getCurrIndex(db, manager);
   let rows = [];
   for (let i = 0; i <= maxindex; i++) {
     const currindex = `${manager}_${i}`;
-    const doc = await getDocDataFromCollectionById("index", currindex);
+    const doc = await getDocDataFromCollectionById(db, "index", currindex);
     const data = doc.data;
     data.results = data.results.filter((row) => row.surveyid != surveyid);
-    await updateDocFieldsInCollectionByIdClient("index", currindex, data);
+    await updateDocFieldsInCollectionById(db, "index", currindex, data);
   }
   console.log(rows);
 };
 
 export const deleteUserSurveyFromIndex = async (
+  db,
   manager,
   surveyid,
   username
 ) => {
   const user = username.toUpperCase();
-  const maxindex = await getCurrIndex(manager);
+  const maxindex = await getCurrIndex(db, manager);
   let rows = [];
   for (let i = 0; i <= maxindex; i++) {
     const currindex = `${manager}_${i}`;
-    const doc = await getDocDataFromCollectionById("index", currindex);
+    const doc = await getDocDataFromCollectionById(db, "index", currindex);
     const data = doc.data;
     data.results = data.results.filter(
       (row) => !(row.surveyid == surveyid && row.username == user)
     );
-    await updateDocFieldsInCollectionByIdClient("index", currindex, data);
+    await updateDocFieldsInCollectionById(db, "index", currindex, data);
   }
 };
 
-export const searchInIndex = async (
-  manager,
-  userpart,
-  setSearchRows = () => {}
-) => {
-  setSearchRows([]);
-  const maxindex = await getCurrIndex(manager);
-  let rows = [];
-  for (let i = 0; i <= maxindex; i++) {
-    const doc = await getDocDataFromCollectionById("index", `${manager}_${i}`);
-    const data = doc.data;
-    data.results.forEach((row, id) => {
-      if (row.username.includes(userpart)) {
-        row.id = `${i}${id}`;
-        row.datetime = replaceDate(row.datetime);
-        setSearchRows((rows) => [...rows, row]);
-      }
-    });
-  }
-};
-
-export const addDataToIndex = async (managerid, studentname, data) => {
+export const addDataToIndex = async (db, managerid, studentname, data) => {
   console.log("пщпщпээ", managerid, studentname, data);
-  let currindex = await getCurrIndexDocID(managerid);
+  let currindex = await getCurrIndexDocID(db, managerid);
   try {
-    await updateDocFieldsInCollectionByIdClient("index", currindex, {
+    await updateDocFieldsInCollectionById(db, "index", currindex, {
       [`results.${studentname}`]: arrayUnion(data),
     });
   } catch (e) {
     console.log("тута");
     if (e.message.includes("exceeds the maximum allowed size")) {
-      currindex = await increaseIndexCurrInCollection(managerid);
+      currindex = await increaseIndexCurrInCollection(db, managerid);
     }
-    await updateDocFieldsInCollectionByIdClient("index", currindex, {
+    await updateDocFieldsInCollectionById(db, "index", currindex, {
       [`results.${studentname}`]: arrayUnion(data),
     });
   }
@@ -234,7 +162,7 @@ export const addDataToIndex = async (managerid, studentname, data) => {
 //         username: user,
 //       };
 //       try {
-//         await updateDocFieldsInCollectionByIdClient("index", currindex, {
+//         await updateDocFieldsInCollectionById("index", currindex, {
 //           [`results.${user}`]: arrayUnion(newUserData),
 //         });
 //       } catch (e) {
@@ -267,7 +195,7 @@ export const addDataToIndex = async (managerid, studentname, data) => {
 //         }
 //       });
 //     }
-//     await updateDocFieldsInCollectionByIdClient("index", currindex, data);
+//     await updateDocFieldsInCollectionById("index", currindex, data);
 //   }
 //   console.log(rows);
 // };
@@ -321,7 +249,7 @@ export const addDataToIndex = async (managerid, studentname, data) => {
 
 //     // console.log("indexData", indexData);
 //     // try {
-//     //   await updateDocFieldsInCollectionByIdClient("index", currindex, {
+//     //   await updateDocFieldsInCollectionById("index", currindex, {
 //     //     [`results.${user}`]: arrayUnion(newUserData),
 //     //   });
 //     // } catch (e) {

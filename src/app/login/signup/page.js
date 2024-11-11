@@ -7,7 +7,6 @@ import FormControl from "@mui/material/FormControl";
 import Link from "@mui/material/Link";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import { sendmail } from "../../data model/client actions/datamodel";
 import { SignUpUser } from "../authentication";
 import AlertDialog from "@/components/dialog";
 import { useRouter } from "next/navigation";

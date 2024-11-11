@@ -3,39 +3,31 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import { Button } from "@mui/material";
+
 import {
-  removeSurvey,
-  removeFileFromSurvey,
-  createIndex2,
-  createIndex,
-  createIndexspealout,
-  searchInIndex,
-  setAllIndexed,
-} from "./adminVC";
+  removeSurveyClient,
+  removeFileFromSurveyClient,
+  setAllIndexedClient,
+} from "@/app/data model/domain";
+
 import TextField from "@mui/material/TextField";
 
 export default function SurveyGrid() {
   const migrate = () => {
-    // searchInIndex("3a5nHnKXJFTMM0eCooHqKefECTj1", "Девяткин");
-    // copyAllDocs();
-    setAllIndexed(false);
-    // createIndex("3a5nHnKXJFTMM0eCooHqKefECTj1");
-    // createIndex();
-    // createIndexspealout("3a5nHnKXJFTMM0eCooHqKefECTj1");
-    // migrateAllfiles('253TkIzjr2IKgj8U81Bz');
+    setAllIndexedClient(false);
   };
 
   const removeSurveyASAP = () => {
     const usertodelete = document.getElementById("usertodelete").value;
     const surveytodelete = document.getElementById("surveytodelete").value;
-    removeSurvey(surveytodelete, usertodelete);
+    removeSurveyClient(surveytodelete, usertodelete);
   };
 
   const removeFileFromSurveyASAP = () => {
     const usertodelete = document.getElementById("usertodelete").value;
     const surveytodelete = document.getElementById("surveytodelete").value;
     const filename = document.getElementById("file").value;
-    removeFileFromSurvey(usertodelete, surveytodelete, filename);
+    removeFileFromSurveyClient(usertodelete, surveytodelete, filename);
   };
 
   return (

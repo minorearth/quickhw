@@ -1,5 +1,5 @@
 import { rotateImage, Base64DataUrlToFile2 } from "@/globals/utils/imageUtils";
-import { UploadFile } from "@/app/data model/client actions/storagedb";
+import { UploadFileClient } from "@/app/data model/domain";
 
 const useMediaCardVM = () => {
   const rotateAndRefresh = async ({
@@ -10,7 +10,7 @@ const useMediaCardVM = () => {
   }) => {
     const file = await rotateImage(imagePath, filename);
     // const buffer = await fileToBuffer(file);
-    const path = await UploadFile({
+    const path = await UploadFileClient({
       file,
       folder: `${userid}/${surveyid}`,
     });
@@ -25,7 +25,7 @@ const useMediaCardVM = () => {
   }) => {
     const file = await Base64DataUrlToFile2(imageBase64DataUrl, filename);
     // const buffer = await fileToBuffer(file);
-    const path = await UploadFile({
+    const path = await UploadFileClient({
       file,
       folder: `${userid}/${surveyid}`,
     });

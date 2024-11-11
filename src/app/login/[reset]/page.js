@@ -5,7 +5,6 @@ import Button from "@mui/material/Button";
 
 import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
-import { sendmail } from "../../data model/client actions/datamodel";
 import AlertDialog from "@/components/dialog";
 import { useRouter } from "next/navigation";
 import { resetPsw } from "../authentication";

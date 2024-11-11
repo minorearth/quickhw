@@ -3,9 +3,12 @@ import FabAnimated from "../../../../../components/fabAnimated/fabAnimated";
 import { Roboto } from "next/font/google";
 import localFont from "next/font/local";
 import { useEffect, useState } from "react";
-import { getDocFromCollectionById } from "../../../../data model/client actions/datamodel";
 
-import { updateDocFieldsInCollectionByIdClient } from "@/app/data model/domain";
+import {
+  updateDocFieldsInCollectionByIdClient,
+  getDocFromCollectionByIdClient,
+} from "@/app/data model/domain";
+
 import stn from "@/globals/constants";
 
 const roboto = Roboto({
@@ -25,10 +28,12 @@ const BlackBoard = ({ surveyid }) => {
   const [note, setNote] = useState(stn.defaults.BLACKBOARD_TEXT);
 
   useEffect(() => {
-    getDocFromCollectionById("surveysresults", surveyid).then((docData) => {
-      console.log(docData?.note, surveyid);
-      !!docData?.note && setNote(docData?.note);
-    });
+    getDocFromCollectionByIdClient("surveysresults", surveyid).then(
+      (docData) => {
+        console.log(docData?.note, surveyid);
+        !!docData?.note && setNote(docData?.note);
+      }
+    );
   }, []);
 
   const changeNote = (e) => {
