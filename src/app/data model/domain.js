@@ -1,4 +1,4 @@
-import { app, db, storage, auth } from "./client actions/firebaseapp";
+import { app, db, storage } from "./client actions/firebaseapp";
 
 import {
   updateDocFieldsInCollectionById,
