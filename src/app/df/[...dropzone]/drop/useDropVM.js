@@ -3,7 +3,7 @@ import { compressFiles } from "../../../../globals/utils/fileUtils";
 import stn from "@/globals/constants";
 import { UploadFileClient } from "@/app/data model/domain";
 import { updateDocFieldsInCollectionByIdClient } from "@/app/data model/domain";
-import { mimeExtension } from "@/globals/utils/fileUtils";
+import { fileExtension } from "@/globals/utils/fileUtils";
 
 const useDropVM = () => {
   const UploadFileAndRefreshcollection = async ({
@@ -67,7 +67,8 @@ const useDropVM = () => {
             // lastModified: originalFile.lastModified,
           });
         }
-        return renameFile(files[0], `${username}.${mimeExtension(files[0])}`);
+        const ext = fileExtension(files[0]);
+        return renameFile(files[0], `${username}.${ext}`);
       default:
         return undefined;
     }

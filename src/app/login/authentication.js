@@ -14,8 +14,6 @@ import {
 import { login, logout } from "../../server actions/session";
 import { app } from "../data model/client actions/firebaseapp";
 import { createNewUserClient } from "@/app/data model/domain";
-// const key = new TextEncoder().encode(secretKey);
-import stn from "../../globals/constants";
 
 export async function signInTeacher(email, password) {
   const auth = getAuth(app);

@@ -12,6 +12,8 @@ import progress from "@/store/progress";
 import stn from "@/globals/constants";
 import stnd from "@/globals/constantsDyn";
 import { observer } from "mobx-react-lite";
+import snack from "@/store/snack";
+import { fileExtension } from "@/globals/utils/fileUtils";
 
 const baseStyle = {
   display: "flex",
@@ -55,9 +57,20 @@ const DropZone = observer(({ setFiles, files, type }) => {
       multiple: stn.surveys.filetypes[type].multiple,
       maxSize: stn.files.MAX_SIZE,
       onDrop: (acceptedFiles) => {
-        type == "anyfile"
-          ? setFiles([...acceptedFiles])
-          : setFiles((files) => [...files, ...acceptedFiles]);
+        if (type == "anyfile") {
+          console.log("ext");
+          const ext = fileExtension(acceptedFiles[0]);
+          if (!ext) {
+            snack.showSnack(
+              "файл не поддерживается, возможно нужно добавить расширение"
+            );
+            setFiles([]);
+            return;
+          }
+          setFiles([...acceptedFiles]);
+        } else {
+          setFiles((files) => [...files, ...acceptedFiles]);
+        }
       },
     });
 
