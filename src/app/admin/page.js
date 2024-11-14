@@ -8,7 +8,9 @@ import {
   removeSurveyClient,
   removeFileFromSurveyClient,
   setAllIndexedClient,
-} from "@/app/data model/domain";
+  createIndexspealout,
+  сopyDocClient,
+} from "@/app/domain/domain";
 
 import TextField from "@mui/material/TextField";
 
@@ -23,6 +25,12 @@ export default function SurveyGrid() {
     removeSurveyClient(surveytodelete, usertodelete);
   };
 
+  const incIndex = () => {
+    const usertodelete = document.getElementById("usertodelete").value;
+    const slice = document.getElementById("IncIndex").value;
+    createIndexspealout(usertodelete, slice);
+  };
+
   const removeFileFromSurveyASAP = () => {
     const usertodelete = document.getElementById("usertodelete").value;
     const surveytodelete = document.getElementById("surveytodelete").value;
@@ -30,19 +38,28 @@ export default function SurveyGrid() {
     removeFileFromSurveyClient(usertodelete, surveytodelete, filename);
   };
 
+  const сopyIndexASAP = () => {
+    const oldindex = document.getElementById("index").value;
+    const newindex = document.getElementById("newIndex").value;
+    сopyDocClient("index", oldindex, newindex);
+  };
+
   return (
     <Box sx={{ width: "100%" }}>
       <Button sx={{ fontSize: 20 }} onClick={() => migrate()}>
-        Мигрировать
+        Проиндексировать заново
       </Button>
-      <TextField
-        id="usertodelete"
-        label="Пользователь"
-        defaultValue="3a5nHnKXJFTMM0eCooHqKefECTj1"
-        sx={{ margin: "4px" }}
-        fullWidth
-        InputProps={{ sx: { borderRadius: 5 } }}
-      />
+
+      <Box sx={{ display: "flex", flexDirection: "row" }}>
+        <TextField
+          id="usertodelete"
+          label="Пользователь"
+          defaultValue="3a5nHnKXJFTMM0eCooHqKefECTj1"
+          sx={{ margin: "4px" }}
+          fullWidth
+          InputProps={{ sx: { borderRadius: 5 } }}
+        />
+      </Box>
       <TextField
         id="surveytodelete"
         label="Опрос"
@@ -59,6 +76,14 @@ export default function SurveyGrid() {
         fullWidth
         InputProps={{ sx: { borderRadius: 5 } }}
       />
+      <TextField
+        id="IncIndex"
+        label="Увеличить индекс"
+        defaultValue="100"
+        sx={{ margin: "4px" }}
+        fullWidth
+        InputProps={{ sx: { borderRadius: 5 } }}
+      />
 
       <Button sx={{ fontSize: 20 }} onClick={() => removeSurveyASAP()}>
         Удалить опрос
@@ -66,6 +91,31 @@ export default function SurveyGrid() {
       <Button sx={{ fontSize: 20 }} onClick={() => removeFileFromSurveyASAP()}>
         Удалить файл
       </Button>
+      <Button sx={{ fontSize: 20 }} onClick={() => incIndex()}>
+        Увеличить индекс(тестирвоание)
+      </Button>
+
+      <Box sx={{ display: "flex", flexDirection: "row" }}>
+        <TextField
+          id="index"
+          label="Старый индекс"
+          defaultValue=""
+          sx={{ margin: "4px" }}
+          fullWidth
+          InputProps={{ sx: { borderRadius: 5 } }}
+        />
+        <TextField
+          id="newIndex"
+          label="Новый индекс"
+          defaultValue="100"
+          sx={{ margin: "4px" }}
+          fullWidth
+          InputProps={{ sx: { borderRadius: 5 } }}
+        />
+        <Button sx={{ fontSize: 20 }} onClick={() => сopyIndexASAP()}>
+          Копировать
+        </Button>
+      </Box>
     </Box>
   );
 }

@@ -1,3 +1,4 @@
+"use server";
 import { app, db } from "./firebaseapp";
 import {
   updateDocFieldsInCollectionById,

@@ -1,5 +1,5 @@
 import { rotateImage, Base64DataUrlToFile2 } from "@/globals/utils/imageUtils";
-import { UploadFileClient } from "@/app/data model/domain";
+import { UploadFileClient } from "@/app/domain/domain";
 
 const useMediaCardVM = () => {
   const rotateAndRefresh = async ({

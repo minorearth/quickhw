@@ -2,7 +2,7 @@ import {
   addDocInCollectionClient,
   getDocFromCollectionByIdClient,
   updateDocFieldsInCollectionByIdClient,
-} from "@/app/data model/domain";
+} from "@/app/domain/domain";
 
 const ETL = (doc) => {
   const data = doc.surveys;

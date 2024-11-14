@@ -1,4 +1,4 @@
-import { app, db, storage } from "./client actions/firebaseapp";
+import { app, db, storage } from "./firebaseapp";
 
 import {
   updateDocFieldsInCollectionById,
@@ -9,6 +9,7 @@ import {
   addDocInCollection,
   getAllDocs,
   deleteDocFromCollection,
+  copyDoc,
 } from "@/app/db/dataModel";
 
 import {
@@ -19,7 +20,7 @@ import {
   deleteFile,
 } from "@/app/db/storage";
 
-import { setAllIndexed } from "@/app/db/indexAdmin";
+import { setAllIndexed, createIndexspealout2 } from "@/app/db/indexAdmin";
 
 import {
   increaseIndexCurrInCollection,
@@ -143,4 +144,12 @@ export const deleteFileClient = async (relativePath) => {
 
 export const createNewUserClient = async (userId) => {
   return await createNewUser(db, userId);
+};
+
+export const createIndexspealout = async (manager, slice) => {
+  await createIndexspealout2(db, manager, slice);
+};
+
+export const сopyDocClient = async (collection, oldindex, newindex) => {
+  await copyDoc(db, collection, oldindex, newindex);
 };

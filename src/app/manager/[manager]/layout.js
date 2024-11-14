@@ -15,7 +15,7 @@ import { signOutUser } from "../../login/authentication.js";
 import { observer } from "mobx-react-lite";
 import user from "@/store/user.js";
 import { setPersistence, browserLocalPersistence } from "firebase/auth";
-import { auth } from "@/app/data model/client actions/firebaseapp.js";
+import { auth } from "@/app/domain/firebaseapp.js";
 
 const Layout = observer(({ children }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);

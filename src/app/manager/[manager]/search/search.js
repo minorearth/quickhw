@@ -6,7 +6,7 @@ import stn from "@/globals/constants.js";
 import * as React from "react";
 import Modal from "@mui/material/Modal";
 import IconButton from "@mui/material/IconButton";
-import { searchInIndexClient } from "@/app/data model/domain";
+import { searchInIndexClient } from "@/app/domain/domain";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
 import ModalBar from "@/components/modalBar.js";

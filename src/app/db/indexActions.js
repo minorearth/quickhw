@@ -15,8 +15,8 @@ import {
   getAll,
   initializeFirestore,
   onSnapshot,
+  arrayUnion,
 } from "firebase/firestore";
-// import { getAuth } from "firebase/auth";
 
 import {
   updateDocFieldsInCollectionById,
@@ -24,6 +24,8 @@ import {
   setDocInCollection,
   getDocDataFromCollectionById,
 } from "./dataModel";
+
+import { deleteAllRecordsFromSpecificIndex } from "@/app/db/indexAdmin";
 
 // const db = initializeFirestore(app, {
 //   experimentalForceLongPolling: true,
@@ -49,7 +51,9 @@ export const increaseIndexCurrInCollection = async (db, userId) => {
   const data = docSnap.data();
   const ci = data.currindex;
   await updateDoc(doc(db, INDEXCURR_COL, userId), { currindex: ci + 1 });
-  await setDoc(doc(db, INDEX_COL, userId + `_${ci + 1}`), {});
+  await setDoc(doc(db, INDEX_COL, userId + `_${ci + 1}`), {
+    results: [],
+  });
   return userId + `_${ci + 1}`;
 };
 
@@ -68,28 +72,35 @@ export const getCurrIndex = async (db, userId) => {
   return ci;
 };
 
+const addDataToIndex = async (db, currindex, surveyid, res) => {
+  await updateDocFieldsInCollectionById(db, "index", currindex, {
+    results: arrayUnion(...res),
+  });
+  await updateDocFieldsInCollectionById(db, "surveysresults", surveyid, {
+    indexed: true,
+  });
+};
+
 export const createIndex = async (db) => {
   const surveysresultsColl = "surveysresults";
-  // const querySnapshot = await getAllDocs(surveysresultsColl);
-  const querySnapshot = await getDocsKeyValue(
+  const notIndexedDocs = await getDocsKeyValue(
     db,
     surveysresultsColl,
     "indexed",
     false
   );
-  for (let i = 0; i < querySnapshot.docs.length; i++) {
-    const data = querySnapshot.docs[i].data();
+  for (let i = 0; i < notIndexedDocs.docs.length; i++) {
+    const data = notIndexedDocs.docs[i].data();
     let currindex = await getCurrIndexDocID(db, data.manager);
-
-    const id = querySnapshot.docs[i].id;
+    const surveyid = notIndexedDocs.docs[i].id;
     const surveyname = !!data?.surveyname ? data?.surveyname : false;
     if (!surveyname) {
-      console.log(id, "Не указан опрос");
+      console.log(surveyid, "Не указан опрос");
       break;
     }
     const manager = !!data?.manager ? data?.manager : false;
     if (!surveyname) {
-      console.log(id, "Не указан менеджер");
+      console.log(surveyid, "Не указан менеджер");
       break;
     }
     const keys = Object.keys(data.files);
@@ -101,32 +112,38 @@ export const createIndex = async (db) => {
         datetime: userData.datetime,
         // datetime: data.datetime,
         id: userData.id,
-        path: userData.path,
+        path: !userData.path ? "" : userData.path,
         name: userData.name,
         type: userData.type,
-        surveyid: id,
+        surveyid,
         surveyname,
         username: user,
       };
       res.push(newUserData);
     }
+    console.log(res);
     try {
-      await updateDocFieldsInCollectionById(db, "index", currindex, {
-        results: arrayUnion(...res),
-      });
-      await updateDocFieldsInCollectionById(db, "surveysresults", id, {
-        indexed: true,
-      });
+      await addDataToIndex(db, currindex, surveyid, res);
+      console.log("success");
     } catch (e) {
-      e.code == "not-found" &&
-        (await setDocInCollection(
-          db,
-          "index",
-          {
-            results: { [user]: newUserData },
-          },
-          manager + "_0"
-        ));
+      console.log(e, e.message);
+      if (e.message.includes("exceeds the maximum allowed size")) {
+        await deleteAllRecordsFromSpecificIndex(db, surveyid, currindex);
+        const newindexId = await increaseIndexCurrInCollection(db, manager);
+        await addDataToIndex(db, newindexId, surveyid, res);
+      }
+      if (e.code == "not-found") {
+        console.log(e, e.message);
+
+        // await setDocInCollection(
+        //   db,
+        //   "index",
+        //   {
+        //     results: { [user]: newUserData },
+        //   },
+        //   manager + "_0"
+        // );
+      }
     }
   }
 };

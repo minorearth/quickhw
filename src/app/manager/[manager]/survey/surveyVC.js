@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { getDocFromCollectionByIdRealtimeClient } from "@/app/data model/domain";
+import { getDocFromCollectionByIdRealtimeClient } from "@/app/domain/domain";
 import { ObjtoArr } from "@/globals/utils/objectUtils";
 
 const useSurvFilesGrid2VC = ({ setCurrRow, surveyid, setMediacardVisible }) => {

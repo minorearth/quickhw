@@ -12,8 +12,8 @@ import {
   signOut,
 } from "firebase/auth";
 import { login, logout } from "../../server actions/session";
-import { app } from "../data model/client actions/firebaseapp";
-import { createNewUserClient } from "@/app/data model/domain";
+import { app } from "../domain/firebaseapp";
+import { createNewUserClient } from "@/app/domain/domain";
 
 export async function signInTeacher(email, password) {
   const auth = getAuth(app);

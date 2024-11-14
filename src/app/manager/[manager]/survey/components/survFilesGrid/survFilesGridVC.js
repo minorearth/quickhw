@@ -1,5 +1,5 @@
 "use client";
-import { updateDocFieldsInCollectionByIdClient } from "@/app/data model/domain";
+import { updateDocFieldsInCollectionByIdClient } from "@/app/domain/domain";
 import survey from "@/store/survey";
 import { useState } from "react";
 

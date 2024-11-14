@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import {
   updateDocFieldsInCollectionByIdClient,
   getDocFromCollectionByIdClient,
-} from "@/app/data model/domain";
+} from "@/app/domain/domain";
 
 import stn from "@/globals/constants";
 

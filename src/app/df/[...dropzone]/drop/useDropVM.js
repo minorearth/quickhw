@@ -1,8 +1,8 @@
 import { mergeAllImages } from "../../../../globals/utils/imageUtils";
 import { compressFiles } from "../../../../globals/utils/fileUtils";
 import stn from "@/globals/constants";
-import { UploadFileClient } from "@/app/data model/domain";
-import { updateDocFieldsInCollectionByIdClient } from "@/app/data model/domain";
+import { UploadFileClient } from "@/app/domain/domain";
+import { updateDocFieldsInCollectionByIdClient } from "@/app/domain/domain";
 import { fileExtension } from "@/globals/utils/fileUtils";
 
 const useDropVM = () => {

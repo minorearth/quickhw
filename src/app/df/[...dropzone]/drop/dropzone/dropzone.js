@@ -58,7 +58,6 @@ const DropZone = observer(({ setFiles, files, type }) => {
       maxSize: stn.files.MAX_SIZE,
       onDrop: (acceptedFiles) => {
         if (type == "anyfile") {
-          console.log("ext");
           const ext = fileExtension(acceptedFiles[0]);
           if (!ext) {
             snack.showSnack(

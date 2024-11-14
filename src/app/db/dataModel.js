@@ -81,6 +81,12 @@ export const deleteDocFromCollection = async (db, collectionName, id) => {
   deleteDoc(doc(db, collectionName, id));
 };
 
+export const copyDoc = async (db, collection, oldindex, newindex) => {
+  const res = await getDoc(doc(db, collection, oldindex));
+  const data = res.data();
+  setDoc(doc(db, collection, newindex), data);
+};
+
 // const DBDocsToObject = (docs) => {
 //   let ret = [];
 //   docs.forEach((item) => {
