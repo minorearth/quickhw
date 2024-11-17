@@ -11,6 +11,8 @@ import { autorun } from "mobx";
 import { getSubKeyValues } from "@/globals/utils/objectUtils.js";
 
 const encodeTypes = (fileType, type) => {
+  console.log(fileType, type);
+
   return (
     stn.surveys.filetypes[fileType].SHORTNAME +
     stn.surveys.surveytypes[!type ? "task" : type].SHORTNAME

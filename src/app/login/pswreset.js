@@ -7,20 +7,21 @@ import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 import AlertDialog from "@/components/dialog";
 import { useRouter } from "next/navigation";
-import { resetPsw } from "../authentication";
+import { resetPswClient } from "@/app/domain/domain";
 import { observer } from "mobx-react-lite";
 import alertdialog from "@/store/dialog";
 import stn from "@/globals/constants";
+import authenticationForm from "@/store/authentication";
 
-const SignUp = observer(({ params }) => {
+const PswReset = observer(() => {
   const router = useRouter();
   const handleForgetPswSubmit = () => {
-    resetPsw(params.reset);
+    resetPswClient(authenticationForm.email);
     alertdialog.showDialog(
       stn.msg.alert.PSW_RECOVERY_TITLE,
       stn.msg.alert.PSW_RECOVERY_TEXT,
       () => {
-        router.push(`/login`);
+        authenticationForm.showSignIn();
       }
     );
   };
@@ -50,7 +51,13 @@ const SignUp = observer(({ params }) => {
       <Typography sx={{ textAlign: "center" }}>
         Вспомнил!{" "}
         <span>
-          <Link href="/login" sx={{ alignSelf: "center" }}>
+          <Link
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              authenticationForm.showSignIn();
+            }}
+            sx={{ alignSelf: "center" }}
+          >
             Войти
           </Link>
         </span>
@@ -59,4 +66,4 @@ const SignUp = observer(({ params }) => {
   );
 });
 
-export default SignUp;
+export default PswReset;

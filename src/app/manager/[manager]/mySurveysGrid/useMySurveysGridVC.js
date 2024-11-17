@@ -49,7 +49,7 @@ export default function useSurveyGridVC({ setSearchVisible, user }) {
     });
   }, []);
 
-  const showSurvey = (surveyid, surveyname, surveytype) => {
+  const showSurvey = (surveyid, surveyname, surveytype, filetype) => {
     // setModalVisible(true);
     // setSurveyid(surveyid);
     // setSurveyname(surveyname);

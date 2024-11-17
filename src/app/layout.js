@@ -5,8 +5,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Быстрёнок",
-  description:
-    "Быстрёнок-самый быстрый способ собрать фото и файлы в аудитории",
+  description: "Быстрёнок-самый быстрый способ собрать фото и файлы",
 };
 
 export default function RootLayout({ children }) {

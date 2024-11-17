@@ -38,8 +38,9 @@ const INDEX_COL = "index";
 const INDEXCURR_COL = "indexcurr";
 
 //New user
-export const createNewUser = async (db, userId) => {
-  await setDocInCollection("surveys", { surveys: {} }, userId);
+export const createNewUser = async (db, userId, name, company) => {
+  await setDocInCollection(db, "surveys", { surveys: {} }, userId);
+  await setDocInCollection(db, "usermeta", { company, name }, userId);
   await setDoc(doc(db, INDEX_COL, userId + "_0"), {});
   await setDoc(doc(db, INDEXCURR_COL, userId), { currindex: 0 });
   return doc.id;
@@ -60,9 +61,9 @@ export const increaseIndexCurrInCollection = async (db, userId) => {
 export const getCurrIndexDocID = async (db, userId) => {
   const docSnap = await getDoc(doc(db, INDEXCURR_COL, userId));
   const data = docSnap.data();
-  const ci = data.currindex;
+  const ci = data?.currindex;
   const docSnap2 = await getDoc(doc(db, INDEX_COL, userId + `_${ci}`));
-  return docSnap2.id;
+  return docSnap2?.id;
 };
 
 export const getCurrIndex = async (db, userId) => {
@@ -82,6 +83,8 @@ const addDataToIndex = async (db, currindex, surveyid, res) => {
 };
 
 export const createIndex = async (db) => {
+  console.log("d", "notIndexedDocs.docs.length");
+
   const surveysresultsColl = "surveysresults";
   const notIndexedDocs = await getDocsKeyValue(
     db,
@@ -92,8 +95,13 @@ export const createIndex = async (db) => {
   for (let i = 0; i < notIndexedDocs.docs.length; i++) {
     const data = notIndexedDocs.docs[i].data();
     let currindex = await getCurrIndexDocID(db, data.manager);
+    if (!currindex) {
+      continue;
+    }
     const surveyid = notIndexedDocs.docs[i].id;
     const surveyname = !!data?.surveyname ? data?.surveyname : false;
+    const type = !!data?.type ? data?.type : false;
+
     if (!surveyname) {
       console.log(surveyid, "Не указан опрос");
       break;
@@ -115,6 +123,7 @@ export const createIndex = async (db) => {
         path: !userData.path ? "" : userData.path,
         name: userData.name,
         type: userData.type,
+        surveytype: type,
         surveyid,
         surveyname,
         username: user,

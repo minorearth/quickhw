@@ -11,7 +11,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import Logo from "../../assets/logo.jsx";
 import { useRouter } from "next/navigation";
-import { signOutUser } from "../../login/authentication.js";
+import { signOutUserClient } from "@/app/domain/domain.js";
 import { observer } from "mobx-react-lite";
 import user from "@/store/user.js";
 import { setPersistence, browserLocalPersistence } from "firebase/auth";
@@ -42,7 +42,7 @@ const Layout = observer(({ children }) => {
   };
 
   const handleClose = async () => {
-    await signOutUser();
+    await signOutUserClient();
     router.push(`/login/`);
   };
 

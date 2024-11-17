@@ -30,7 +30,8 @@ export const useColumns = ({ actions, mode }) => {
     },
     // { field: "id", headerName: "id", width: 130 },
     { field: "name", headerName: "Файл", flex: 1, minwidth: 230 },
-    // { field: "type", headerName: "Type", flex: 1, minwidth: 230 },
+    { field: "type", headerName: "Type", flex: 1, minwidth: 230 },
+    { field: "surveytype", headerName: "Type", flex: 1, minwidth: 230 },
 
     {
       field: "view",
@@ -79,10 +80,11 @@ export const useColumns = ({ actions, mode }) => {
           <Link
             sx={{ cursor: "default" }}
             onClick={() => {
+              survey.setSurveyFileType("img");
               survey.setSurveySelected({
                 surveySelectedId: params.row.surveyid,
                 surveySelectedName: params.row.surveyname,
-                surveySelectedType: params.row.type,
+                surveySelectedType: params.row.surveytype,
               });
             }}
           >

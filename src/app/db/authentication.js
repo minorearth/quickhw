@@ -1,23 +1,25 @@
-"use client";
 import {
-  getAuth,
   signInWithEmailAndPassword,
   onAuthStateChanged,
-  setPersistence,
   browserSessionPersistence,
   browserLocalPersistence,
   createUserWithEmailAndPassword,
   sendEmailVerification,
   sendPasswordResetEmail,
   signOut,
+  setPersistence,
 } from "firebase/auth";
-import { login, logout } from "../../server actions/session";
-import { app } from "../domain/firebaseapp";
+
+import { login, logout } from "@/server actions/session";
 import { createNewUserClient } from "@/app/domain/domain";
 
-export async function signInTeacher(email, password) {
-  const auth = getAuth(app);
+export const setPersistenceDB = async (auth) => {
   await setPersistence(auth, browserSessionPersistence);
+};
+
+export const signInTeacher = async (auth, email, password) => {
+  await logout();
+  await setPersistenceDB(auth);
   await signInWithEmailAndPassword(auth, email, password);
   const getid = new Promise((resolved, rejected) => {
     onAuthStateChanged(auth, async (user) => {
@@ -36,15 +38,13 @@ export async function signInTeacher(email, password) {
   });
   const uid = await getid;
   return uid;
-}
+};
 
-export async function resetPsw(email) {
-  const auth = getAuth(app);
-  // sendPasswordResetEmail(auth, email);
-}
+export const resetPsw = (auth, email) => {
+  sendPasswordResetEmail(auth, email);
+};
 
-export const SignUpUser = async (email, password) => {
-  const auth = getAuth(app);
+export const SignUpUser = async (auth, email, password, name, company) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(
       auth,
@@ -53,7 +53,7 @@ export const SignUpUser = async (email, password) => {
     );
     const userid = userCredential.user.uid;
     sendEmailVerification(userCredential.user).then(() => {});
-    createNewUserClient(userid);
+    createNewUserClient(userid, name, company);
     return userCredential.user.uid;
   } catch (error) {
     const errorCode = error.code;
@@ -61,8 +61,7 @@ export const SignUpUser = async (email, password) => {
   }
 };
 
-export const signOutUser = async () => {
-  const auth = getAuth(app);
+export const signOutUser = async (auth) => {
   await signOut(auth)
     .then(() => {
       logout();

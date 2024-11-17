@@ -33,10 +33,13 @@ const ToggleButton = styled(MuiToggleButton)({
 });
 
 const ModalForm = observer(({ mode }) => {
-  const handleClose = () => survey.setShowSurvey(false);
   const { rows, setRowsx } = useSurvFilesGrid2VC({
     surveyid: survey.surveySelectedId,
   });
+  const handleClose = () => {
+    survey.setShowSurvey(false);
+    setRowsx([]);
+  };
 
   return (
     <Modal

@@ -1,5 +1,4 @@
 "use client";
-import { Inter } from "next/font/google";
 import "@/globals/globals.css";
 import * as React from "react";
 import Avatar from "@mui/material/Avatar";
@@ -11,10 +10,6 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import { useRouter } from "next/navigation";
-import { observer } from "mobx-react-lite";
-// import AlertDialog from "@/components/dialog";
-
-const inter = Inter({ subsets: ["latin"] });
 
 function Copyright(props) {
   return (

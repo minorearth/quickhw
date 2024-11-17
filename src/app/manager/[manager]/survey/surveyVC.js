@@ -2,12 +2,14 @@
 import { useState, useEffect } from "react";
 import { getDocFromCollectionByIdRealtimeClient } from "@/app/domain/domain";
 import { ObjtoArr } from "@/globals/utils/objectUtils";
+import survey from "@/store/survey";
 
 const useSurvFilesGrid2VC = ({ setCurrRow, surveyid, setMediacardVisible }) => {
   const [rows, setRowsx] = useState([]);
 
   useEffect(() => {
     if (!surveyid) return;
+    if (!survey.showSurvey) return;
     getDocFromCollectionByIdRealtimeClient(
       "surveysresults",
       surveyid,
@@ -23,7 +25,7 @@ const useSurvFilesGrid2VC = ({ setCurrRow, surveyid, setMediacardVisible }) => {
     return () => {
       console.log("grid unmounted");
     };
-  }, [surveyid]);
+  }, [surveyid, survey.showSurvey]);
 
   return { rows, setRowsx };
 };

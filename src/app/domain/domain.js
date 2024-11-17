@@ -1,4 +1,4 @@
-import { app, db, storage } from "./firebaseapp";
+import { db, storage, auth } from "./firebaseapp";
 
 import {
   updateDocFieldsInCollectionById,
@@ -21,6 +21,13 @@ import {
 } from "@/app/db/storage";
 
 import { setAllIndexed, createIndexspealout2 } from "@/app/db/indexAdmin";
+import {
+  setPersistenceDB,
+  signInTeacher,
+  resetPsw,
+  SignUpUser,
+  signOutUser,
+} from "@/app/db/authentication";
 
 import {
   increaseIndexCurrInCollection,
@@ -142,8 +149,8 @@ export const deleteFileClient = async (relativePath) => {
   await deleteFile(storage, relativePath);
 };
 
-export const createNewUserClient = async (userId) => {
-  return await createNewUser(db, userId);
+export const createNewUserClient = async (userId, name, company) => {
+  return await createNewUser(db, userId, name, company);
 };
 
 export const createIndexspealout = async (manager, slice) => {
@@ -152,4 +159,24 @@ export const createIndexspealout = async (manager, slice) => {
 
 export const сopyDocClient = async (collection, oldindex, newindex) => {
   await copyDoc(db, collection, oldindex, newindex);
+};
+
+export const setPersistenceClient = async () => {
+  await setPersistenceDB(auth);
+};
+
+export const signInTeacherClient = async (email, password) => {
+  return await signInTeacher(auth, email, password);
+};
+
+export const resetPswClient = (email) => {
+  resetPsw(auth, email);
+};
+
+export const SignUpUserClient = async (email, password, name, company) => {
+  await SignUpUser(auth, email, password, name, company);
+};
+
+export const signOutUserClient = async () => {
+  await signOutUser(auth);
 };

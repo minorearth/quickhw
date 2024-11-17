@@ -8,6 +8,7 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 export const useColumns = ({ actions }) => {
   const columns = [
     // { field: "id", headerName: "id", width: 130 },
+    // { field: "type", headerName: "type", width: 130 },
     // { field: "user", headerName: "ПОльзователь", width: 130 },
 
     {
