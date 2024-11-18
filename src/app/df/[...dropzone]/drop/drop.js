@@ -41,7 +41,7 @@ const Drop = observer(({ surveyid, typeEncoded, manager }) => {
       sx={{
         display: "flex",
         flexDirection: "column",
-        height: "100%",
+        height: window.innerHeight,
         alignItems: "center",
         padding: "10px",
         transition: "padding 5s",

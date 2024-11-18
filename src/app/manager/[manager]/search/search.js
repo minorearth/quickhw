@@ -30,8 +30,13 @@ const style = {
 const SearchCard = observer(({ searchVisible, setSearchVisible, user }) => {
   const [searchRows, setSearchRows] = useState([]);
 
-  const handleSearch = () => {
+  const handleSearchOnClick = () => {
     searchInIndexClient(user, searchString.toUpperCase(), setSearchRows);
+  };
+
+  const handleSearchOnEnter = (e) => {
+    e.key == "Enter" &&
+      searchInIndexClient(user, searchString.toUpperCase(), setSearchRows);
   };
 
   const [searchString, setSearchString] = useState("");
@@ -52,7 +57,7 @@ const SearchCard = observer(({ searchVisible, setSearchVisible, user }) => {
           <IconButton
             aria-label="delete"
             size="small"
-            onClick={() => handleSearch()}
+            onClick={() => handleSearchOnClick()}
           >
             <SearchIcon sx={{ fontSize: 60 }} />
           </IconButton>
@@ -62,6 +67,7 @@ const SearchCard = observer(({ searchVisible, setSearchVisible, user }) => {
             variant="outlined"
             sx={{ margin: "10px" }}
             onChange={(e) => changeSearchString(e)}
+            onKeyDown={(e) => handleSearchOnEnter(e)}
             value={searchString}
             fullWidth
             InputProps={{ sx: { borderRadius: 5 } }}

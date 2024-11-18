@@ -1,9 +1,11 @@
 import { makeObservable, makeAutoObservable } from "mobx";
 class user {
   userid = "";
+  isa = false;
 
-  setUserid(id) {
+  setUserid(id, isadmin) {
     this.userid = id;
+    this.isa = !!isadmin;
   }
 
   constructor() {

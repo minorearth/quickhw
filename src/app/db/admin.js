@@ -22,6 +22,7 @@ import {
 import {
   getDocDataFromCollectionById,
   updateDocFieldsInCollectionById,
+  getAllDocs,
 } from "@/app/db/dataModel";
 
 import { deleteAllFileFromDir, deleteFile } from "@/app/db/storage";
@@ -30,6 +31,18 @@ import {
   deleteAllRecordsFromIndex,
   deleteUserSurveyFromIndex,
 } from "./indexAdmin";
+
+export const backup = async (db) => {
+  const cols = ["surveys", "surveysresults", "usermeta", "indexcurr", "index"];
+  cols.forEach(async (collection) => {
+    const docs = await getAllDocs(db, collection);
+    for (let i = 0; i < docs.docs.length; i++) {
+      const data = docs.docs[i].data();
+      const id = docs.docs[i].id;
+      setDoc(doc(db, collection + "_backup", id), data);
+    }
+  });
+};
 
 export const removeSurvey = async (db, storage, syrveyid, userid) => {
   const surveysColl = "surveys";

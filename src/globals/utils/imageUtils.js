@@ -12,15 +12,6 @@ export async function getImageDimensions(file) {
   });
 }
 
-export const Base64DataUrlToFile = async (imageBase64DataUrl, fileName) => {
-  const preBlob = await fetch(imageBase64DataUrl);
-  const blob = await preBlob.blob();
-  const file = new File([blob], fileName, {
-    type: blob.type,
-  });
-  return file;
-};
-
 export const Base64DataUrlToFile2 = async (imageBase64DataUrl, fileName) => {
   var arr = imageBase64DataUrl.split(","),
     mime = arr[0].match(/:(.*?);/)[1],

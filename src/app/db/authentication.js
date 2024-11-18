@@ -14,7 +14,7 @@ import { login, logout } from "@/server actions/session";
 import { createNewUserClient } from "@/app/domain/domain";
 
 export const setPersistenceDB = async (auth) => {
-  await setPersistence(auth, browserSessionPersistence);
+  await setPersistence(auth, browserLocalPersistence);
 };
 
 export const signInTeacher = async (auth, email, password) => {

@@ -18,6 +18,33 @@ export const fileExtension = (file) => {
   return ext;
 };
 
+export const downloadUrls = (urls) => {
+  console.log(urls);
+  Promise.all(
+    urls.map(async (url) => await UrlToFile(url.url, url.filename))
+  ).then((res) => {
+    console.log(res);
+    compressFiles(res, "allfiles.zip").then((file) => {
+      const url = URL.createObjectURL(file);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "allfiles.zip";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    });
+  });
+};
+export const UrlToFile = async (imageBase64DataUrl, fileName) => {
+  const preBlob = await fetch(imageBase64DataUrl);
+  const blob = await preBlob.blob();
+  const file = new File([blob], fileName, {
+    type: blob.type,
+  });
+  return file;
+};
+
 export const compressFiles = async (files, filename) => {
   var zip = new JSZip();
   files.forEach((file) => zip.file(file.name, file));

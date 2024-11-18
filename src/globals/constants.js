@@ -75,5 +75,198 @@ const stn = {
     NAME_CLEANUP_INTERVAL: 5 * 60 * 1000,
   },
   SPLASH_DURATION: 2000,
+  // grid: {
+  //   // Root
+  //   noRowsLabel: "Нет данных",
+  //   noResultsOverlayLabel: "Ничего не найдено",
+
+  //   // Density selector toolbar button text
+  //   toolbarDensity: "Density",
+  //   toolbarDensityLabel: "Density",
+  //   toolbarDensityCompact: "Compact",
+  //   toolbarDensityStandard: "Standard",
+  //   toolbarDensityComfortable: "Comfortable",
+
+  //   // Columns selector toolbar button text
+  //   toolbarColumns: "Columns",
+  //   toolbarColumnsLabel: "Select columns",
+
+  //   // Filters toolbar button text
+  //   toolbarFilters: "Filters",
+  //   toolbarFiltersLabel: "Show filters",
+  //   toolbarFiltersTooltipHide: "Hide filters",
+  //   toolbarFiltersTooltipShow: "Show filters",
+  //   toolbarFiltersTooltipActive: (count) =>
+  //     count !== 1 ? `${count} активн.` : `${count} авктивн.`,
+
+  //   // Quick filter toolbar field
+  //   toolbarQuickFilterPlaceholder: "Search…",
+  //   toolbarQuickFilterLabel: "Search",
+  //   toolbarQuickFilterDeleteIconLabel: "Clear",
+
+  //   // Export selector toolbar button text
+  //   toolbarExport: "Export",
+  //   toolbarExportLabel: "Export",
+  //   toolbarExportCSV: "Download as CSV",
+  //   toolbarExportPrint: "Print",
+  //   toolbarExportExcel: "Download as Excel",
+
+  //   // Columns management text
+  //   columnsManagementSearchTitle: "Поиск столбца",
+  //   columnsManagementNoColumns: "Без столбцов",
+  //   columnsManagementShowHideAllText: "Показать/скрыть все",
+  //   columnsManagementReset: "Сбросить",
+
+  //   // Filter panel text
+  //   filterPanelAddFilter: "Add filter",
+  //   filterPanelRemoveAll: "Remove all",
+  //   filterPanelDeleteIconLabel: "Delete",
+  //   filterPanelLogicOperator: "Logic operator",
+  //   filterPanelOperator: "Оператор",
+  //   filterPanelOperatorAnd: "And",
+  //   filterPanelOperatorOr: "Or",
+  //   filterPanelColumns: "Столбцы",
+  //   filterPanelInputLabel: "Значение",
+  //   filterPanelInputPlaceholder: "Значение",
+
+  //   // Filter operators text
+  //   filterOperatorContains: "содержит",
+  //   filterOperatorDoesNotContain: "не содержит",
+  //   filterOperatorEquals: "равен",
+  //   filterOperatorDoesNotEqual: "не равен",
+  //   filterOperatorStartsWith: "начинается с",
+  //   filterOperatorEndsWith: "заканчивается на",
+  //   filterOperatorIs: "равен",
+  //   filterOperatorNot: "не равен",
+  //   filterOperatorAfter: "после",
+  //   filterOperatorOnOrAfter: "в эту дату или позже",
+  //   filterOperatorBefore: "до",
+  //   filterOperatorOnOrBefore: "в эту дату или раньше",
+  //   filterOperatorIsEmpty: "пустой",
+  //   filterOperatorIsNotEmpty: "не пустой",
+  //   filterOperatorIsAnyOf: "любой из перечисленных",
+  //   "filterOperator=": "=",
+  //   "filterOperator!=": "!=",
+  //   "filterOperator>": ">",
+  //   "filterOperator>=": ">=",
+  //   "filterOperator<": "<",
+  //   "filterOperator<=": "<=",
+
+  //   // Header filter operators text
+  //   headerFilterOperatorContains: "Contains",
+  //   headerFilterOperatorDoesNotContain: "Does not contain",
+  //   headerFilterOperatorEquals: "Equals",
+  //   headerFilterOperatorDoesNotEqual: "Does not equal",
+  //   headerFilterOperatorStartsWith: "Starts with",
+  //   headerFilterOperatorEndsWith: "Ends with",
+  //   headerFilterOperatorIs: "Is",
+  //   headerFilterOperatorNot: "Is not",
+  //   headerFilterOperatorAfter: "Is after",
+  //   headerFilterOperatorOnOrAfter: "Is on or after",
+  //   headerFilterOperatorBefore: "Is before",
+  //   headerFilterOperatorOnOrBefore: "Is on or before",
+  //   headerFilterOperatorIsEmpty: "Is empty",
+  //   headerFilterOperatorIsNotEmpty: "Is not empty",
+  //   headerFilterOperatorIsAnyOf: "Is any of",
+  //   "headerFilterOperator=": "Equals",
+  //   "headerFilterOperator!=": "Not equals",
+  //   "headerFilterOperator>": "Greater than",
+  //   "headerFilterOperator>=": "Greater than or equal to",
+  //   "headerFilterOperator<": "Less than",
+  //   "headerFilterOperator<=": "Less than or equal to",
+
+  //   // Filter values text
+  //   filterValueAny: "any",
+  //   filterValueTrue: "true",
+  //   filterValueFalse: "false",
+
+  //   // Column menu text
+  //   columnMenuLabel: "Menu",
+  //   columnMenuShowColumns: "Show columns",
+  //   columnMenuManageColumns: "Настроить столбцы",
+  //   columnMenuFilter: "Фильтр",
+  //   columnMenuHideColumn: "Скрыть столбец",
+  //   columnMenuUnsort: "Не сортировать",
+  //   columnMenuSortAsc: "Сортировать по возрастанию",
+  //   columnMenuSortDesc: "Сортировать по убыванию",
+
+  //   // Column header text
+  //   columnHeaderFiltersTooltipActive: (count) =>
+  //     count !== 1 ? `${count} активн.` : `${count} активн.`,
+  //   columnHeaderFiltersLabel: "Показать фильтры",
+  //   columnHeaderSortIconLabel: "Сортировать",
+
+  //   // Rows selected footer text
+  //   footerRowSelected: (count) =>
+  //     count !== 1
+  //       ? `${count.toLocaleString()} rows selected`
+  //       : `${count.toLocaleString()} row selected`,
+
+  //   // Total row amount footer text
+  //   footerTotalRows: "Total Rows:",
+
+  //   // Total visible row amount footer text
+  //   footerTotalVisibleRows: (visibleCount, totalCount) =>
+  //     `${visibleCount.toLocaleString()} из ${totalCount.toLocaleString()}`,
+
+  //   // Checkbox selection text
+  //   checkboxSelectionHeaderName: "Checkbox selection",
+  //   checkboxSelectionSelectAllRows: "Select all rows",
+  //   checkboxSelectionUnselectAllRows: "Unselect all rows",
+  //   checkboxSelectionSelectRow: "Select row",
+  //   checkboxSelectionUnselectRow: "Unselect row",
+
+  //   // Boolean cell text
+  //   booleanCellTrueLabel: "yes",
+  //   booleanCellFalseLabel: "no",
+
+  //   // Actions cell more text
+  //   actionsCellMore: "more",
+
+  //   // Column pinning text
+  //   pinToLeft: "Pin to left",
+  //   pinToRight: "Pin to right",
+  //   unpin: "Unpin",
+
+  //   // Tree Data
+  //   treeDataGroupingHeaderName: "Group",
+  //   treeDataExpand: "see children",
+  //   treeDataCollapse: "hide children",
+
+  //   // Grouping columns
+  //   groupingColumnHeaderName: "Group",
+  //   groupColumn: (name) => `Group by ${name}`,
+  //   unGroupColumn: (name) => `Stop grouping by ${name}`,
+
+  //   // Master/detail
+  //   detailPanelToggle: "Detail panel toggle",
+  //   expandDetailPanel: "Expand",
+  //   collapseDetailPanel: "Collapse",
+
+  //   // Used core components translation keys
+  //   MuiTablePagination: {
+  //     labelDisplayedRows,
+  //   },
+
+  //   // Row reordering text
+  //   rowReorderingHeaderName: "Row reordering",
+
+  //   // Aggregation
+  //   aggregationMenuItemHeader: "Aggregation",
+  //   aggregationFunctionLabelSum: "sum",
+  //   aggregationFunctionLabelAvg: "avg",
+  //   aggregationFunctionLabelMin: "min",
+  //   aggregationFunctionLabelMax: "max",
+  //   aggregationFunctionLabelSize: "size",
+  // },
 };
 export default stn;
+
+// const labelDisplayedRows = ({ from, to, count, estimated }) => {
+//   if (!estimated) {
+//     return `${from}–${to} из ${count !== -1 ? count : `всего ${to}`}`;
+//   }
+//   return `${from}–${to} из ${
+//     count !== -1 ? count : `всего ${estimated > to ? estimated : to}`
+//   }`;
+// };

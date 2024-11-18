@@ -46,7 +46,6 @@ const SurvFilesGrid2 = observer(
           slotProps={{
             pagination: { labelRowsPerPage: "Строчек на странице" },
           }}
-          localeText={{ noRowsLabel: "Нет данных" }}
           rowSelectionModel={state.rowSelectionModel}
         />
       </Box>

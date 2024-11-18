@@ -11,12 +11,22 @@ import Progress from "@/components/progress.js";
 import progress from "@/store/progress.js";
 import { observer } from "mobx-react-lite";
 import survey from "@/store/survey.js";
+import { downloadUrls } from "@/globals/utils/fileUtils.js";
 
 const Content = observer(({ rows, setRowsx, mode }) => {
   const [currRow, setCurrRow] = useState();
   const [qrVisible, setQrVisible] = useState(false);
   const [noteVisible, setNoteVisible] = useState(false);
   const [mediacardVisible, setMediacardVisible] = useState(false);
+
+  const downloadAll = () => {
+    const urls = rows.map((row) => ({
+      url: row.path,
+      filename: row.name,
+    }));
+
+    downloadUrls(urls);
+  };
 
   return (
     <Box
@@ -41,6 +51,14 @@ const Content = observer(({ rows, setRowsx, mode }) => {
           icon="note"
           visible={noteVisible}
           action={() => setNoteVisible((state) => !state)}
+          position={{ bottom: 16, left: 80 }}
+        />
+      )}
+      {mode != "search" && (
+        <FabAnimated
+          icon="downloadall"
+          visible={noteVisible}
+          action={() => downloadAll()}
           position={{ bottom: 16, left: 16 }}
         />
       )}

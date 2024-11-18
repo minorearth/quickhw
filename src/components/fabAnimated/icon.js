@@ -9,6 +9,7 @@ import UndoIcon from "@mui/icons-material/Undo";
 import CropRotateIcon from "@mui/icons-material/CropRotate";
 import { BiCategoryAlt } from "react-icons/bi";
 import { BiExit } from "react-icons/bi";
+import DownloadIcon from "@mui/icons-material/Download";
 
 const Icon2State = ({ visible, icon }) => {
   if (icon == "qr")
@@ -22,6 +23,12 @@ const Icon2State = ({ visible, icon }) => {
       <BiExit style={{ fontSize: 30 }} />
     ) : (
       <BiExit style={{ fontSize: 30 }} />
+    );
+  if (icon == "downloadall")
+    return !visible ? (
+      <DownloadIcon style={{ fontSize: 30 }} />
+    ) : (
+      <DownloadIcon style={{ fontSize: 30 }} />
     );
   if (icon == "pickFileType")
     return !visible ? (

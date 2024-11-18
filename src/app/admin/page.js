@@ -3,6 +3,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import { Button } from "@mui/material";
+import { useEffect } from "react";
 
 import {
   removeSurveyClient,
@@ -10,13 +11,21 @@ import {
   setAllIndexedClient,
   createIndexspealout,
   сopyDocClient,
+  backupClient,
 } from "@/app/domain/domain";
+
+import { setPersistence, browserLocalPersistence } from "firebase/auth";
+import { auth } from "@/app/domain/firebaseapp.js";
 
 import TextField from "@mui/material/TextField";
 
-export default function SurveyGrid() {
+export default function Admin() {
   const migrate = () => {
     setAllIndexedClient(false);
+  };
+
+  const backup = () => {
+    backupClient();
   };
 
   const removeSurveyASAP = () => {
@@ -116,6 +125,9 @@ export default function SurveyGrid() {
           Копировать
         </Button>
       </Box>
+      <Button sx={{ fontSize: 20 }} onClick={() => backup()}>
+        Бэкап
+      </Button>
     </Box>
   );
 }

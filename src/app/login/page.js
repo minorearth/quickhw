@@ -3,9 +3,9 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import authenticationForm from "@/store/authentication";
 import { observer } from "mobx-react-lite";
-import SignIn from "./signin";
-import SignUp from "./signup";
-import PswRest from "./pswreset";
+import SignIn from "./components/signin";
+import SignUp from "./components/signup";
+import PswRest from "./components/pswreset";
 
 const Page = observer(() => {
   return (

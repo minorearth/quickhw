@@ -37,7 +37,7 @@ import {
   createNewUser,
 } from "@/app/db/indexActions";
 
-import { removeSurvey, removeFileFromSurvey } from "@/app/db/admin";
+import { removeSurvey, removeFileFromSurvey, backup } from "@/app/db/admin";
 
 // getAuth(app);
 
@@ -179,4 +179,8 @@ export const SignUpUserClient = async (email, password, name, company) => {
 
 export const signOutUserClient = async () => {
   await signOutUser(auth);
+};
+
+export const backupClient = async () => {
+  await backup(db);
 };
