@@ -1,9 +1,8 @@
 import { GridActionsCellItem } from "@mui/x-data-grid";
 import { RiImageEditFill } from "react-icons/ri";
-import stn from "@/globals/constants";
+import stn from "@/globals/settings";
+import local from "@/globals/local";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import DownloadForOfflineOutlinedIcon from "@mui/icons-material/DownloadForOfflineOutlined";
 import Link from "@mui/material/Link";
 import survey from "@/store/survey";
 import BackupOutlinedIcon from "@mui/icons-material/BackupOutlined";
@@ -20,7 +19,7 @@ export const useColumns = ({ actions, mode }) => {
         <GridActionsCellItem
           label="download"
           icon={
-            <Tooltip title="Скачать файл">
+            <Tooltip title={local.ru.tooltip.GRID_DOWNLOAD_FILE}>
               <BackupOutlinedIcon style={{ fontSize: 40 }} />
             </Tooltip>
           }
@@ -29,12 +28,17 @@ export const useColumns = ({ actions, mode }) => {
       ],
     },
     // { field: "id", headerName: "id", width: 130 },
-    { field: "name", headerName: "Файл", flex: 1, minwidth: 230 },
-    { field: "type", headerName: "Type", flex: 1, minwidth: 230 },
-    { field: "surveytype", headerName: "Type", flex: 1, minwidth: 230 },
+    {
+      field: "name",
+      headerName: local.ru.gridcols.FILES_FILENAME,
+      flex: 1,
+      minwidth: 230,
+    },
+    { field: "type", headerName: "FileType", flex: 1, minwidth: 230 },
+    { field: "surveytype", headerName: "SurveyType", flex: 1, minwidth: 230 },
 
     {
-      field: "view",
+      field: "View",
       type: "actions",
       width: 40,
       getActions: (params) => [
@@ -43,15 +47,19 @@ export const useColumns = ({ actions, mode }) => {
           sx={{
             display: params.row.type != "img" ? "none" : "inherit",
           }}
-          label="View"
-          icon={<RiImageEditFill style={{ fontSize: 40 }} />}
+          label="View2"
+          icon={
+            <Tooltip title={local.ru.tooltip.GRID_VIEW_IMG}>
+              <RiImageEditFill style={{ fontSize: 40 }} />
+            </Tooltip>
+          }
           onClick={() => actions.setCardVisible(params.row)}
         />,
       ],
     },
     {
       field: "datetime",
-      headerName: "Дата изменения",
+      headerName: local.ru.gridcols.FILES_DATE,
       width: 200,
       type: "dateTime",
     },
@@ -62,7 +70,7 @@ export const useColumns = ({ actions, mode }) => {
       ...columns,
       {
         field: "tasknumber",
-        headerName: "Вариант",
+        headerName: local.ru.gridcols.FILES_VARIANT,
         width: 250,
         editable: true,
       },
@@ -74,7 +82,7 @@ export const useColumns = ({ actions, mode }) => {
       ...columns,
       {
         field: "surveyname",
-        headerName: "Опрос",
+        headerName: local.ru.gridcols.FILES_SURVEYNAME,
         width: 450,
         renderCell: (params) => (
           <Link

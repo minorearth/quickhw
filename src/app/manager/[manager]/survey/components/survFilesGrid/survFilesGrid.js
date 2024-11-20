@@ -5,7 +5,6 @@ import { Box } from "@mui/material";
 import useSurvFilesGrid2VC from "./survFilesGridVC";
 import { useColumns } from "./useColumns";
 import { observer } from "mobx-react-lite";
-import { useState } from "react";
 
 const SurvFilesGrid2 = observer(
   ({ setCurrRow, rows, setMediacardVisible, mode }) => {
@@ -43,9 +42,6 @@ const SurvFilesGrid2 = observer(
             actions.processEdit(updatedRow)
           }
           onProcessRowUpdateError={() => {}}
-          slotProps={{
-            pagination: { labelRowsPerPage: "Строчек на странице" },
-          }}
           rowSelectionModel={state.rowSelectionModel}
         />
       </Box>

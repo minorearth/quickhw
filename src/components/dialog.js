@@ -7,12 +7,12 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { observer } from "mobx-react-lite";
 import alertdialog from "@/store/dialog";
+import local from "@/globals/local";
 
 const AlertDialog = observer(() => {
   return (
     <Dialog
       open={alertdialog.dialogState.visible}
-      // open={true}
       onClose={() => alertdialog.closeDialog()}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
@@ -27,7 +27,7 @@ const AlertDialog = observer(() => {
       </DialogContent>
       <DialogActions>
         <Button onClick={() => alertdialog.closeDialog()} autoFocus>
-          Понятно
+          {local.ru.caption.ALERT_OK}
         </Button>
       </DialogActions>
     </Dialog>

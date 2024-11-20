@@ -2,7 +2,8 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import useSurveyGridVM from "./useMySurveysGridVM";
-import stn from "@/globals/constants";
+import stn from "@/globals/settings";
+import local from "@/globals/local";
 import survey from "@/store/survey";
 
 export default function useSurveyGridVC({ setSearchVisible, user }) {
@@ -22,12 +23,12 @@ export default function useSurveyGridVC({ setSearchVisible, user }) {
     addDocInCollection("surveysresults", {
       files: {},
       manager: user,
-      surveyname: stn.defaults.NEW_SURVEY,
+      surveyname: local.ru.defaults.NEW_SURVEY,
       indexed: false,
       type,
     }).then((id) => {
       const data = {
-        title: stn.defaults.NEW_SURVEY,
+        title: local.ru.defaults.NEW_SURVEY,
         datetime: today,
         type,
       };
@@ -50,9 +51,6 @@ export default function useSurveyGridVC({ setSearchVisible, user }) {
   }, []);
 
   const showSurvey = (surveyid, surveyname, surveytype, filetype) => {
-    // setModalVisible(true);
-    // setSurveyid(surveyid);
-    // setSurveyname(surveyname);
     survey.setSurveySelected({
       surveySelectedId: surveyid,
       surveySelectedName: surveyname,

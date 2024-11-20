@@ -10,6 +10,8 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import { useRouter } from "next/navigation";
+import stn from "@/globals/settings";
+import local from "@/globals/local";
 
 function Copyright(props) {
   return (
@@ -20,8 +22,8 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://bestdr.vercel.app/">
-        Быстрёнок
+      <Link color="inherit" href={process.env.NEXT_PUBLIC_DOMAIN}>
+        {local.ru.text.APP_NAME}
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}

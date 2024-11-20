@@ -1,8 +1,8 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import FabAnimated from "@/components/fabAnimated/fabAnimated";
 import Drawer from "./drawer/drawer";
 import useMediaCardVC from "./mediaCardVC";
+import Floatmenu from "./floatmenu";
 const MediaCard = ({
   currRow,
   surveyid,
@@ -29,30 +29,7 @@ const MediaCard = ({
       }}
       id="signInButton"
     >
-      <FabAnimated
-        icon="saveImage"
-        visible={true}
-        action={() => actions.saveImage()}
-        position={{ top: 16, left: 16 }}
-      />
-      <FabAnimated
-        icon="hideImage"
-        visible={true}
-        action={() => setMediacardVisible(false)}
-        position={{ top: 16, left: 88 }}
-      />
-      <FabAnimated
-        icon="undo"
-        visible={true}
-        action={() => actions.redo()}
-        position={{ top: 16, left: 160 }}
-      />
-      <FabAnimated
-        icon="rotate"
-        visible={true}
-        action={() => actions.rotate()}
-        position={{ top: 16, left: 232 }}
-      />
+      <Floatmenu actions={{ ...actions, setMediacardVisible }} />
       <Box
         sx={{
           flex: 1,

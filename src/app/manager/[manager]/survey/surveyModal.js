@@ -3,7 +3,8 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import MuiToggleButton from "@mui/material/ToggleButton";
 import { styled } from "@mui/material/styles";
-import stn from "@/globals/constants";
+import stn from "@/globals/settings";
+import local from "@/globals/local";
 import Survey from "./survey";
 import ModalBar from "@/components/modalBar";
 import { observer } from "mobx-react-lite";
@@ -33,9 +34,10 @@ const ToggleButton = styled(MuiToggleButton)({
 });
 
 const ModalForm = observer(({ mode }) => {
-  const { rows, setRowsx } = useSurvFilesGrid2VC({
+  const { rows, setRowsx, saveNote, note, setNote } = useSurvFilesGrid2VC({
     surveyid: survey.surveySelectedId,
   });
+
   const handleClose = () => {
     survey.setShowSurvey(false);
     setRowsx([]);
@@ -53,7 +55,14 @@ const ModalForm = observer(({ mode }) => {
           closeAction={handleClose}
           caption={survey.surveySelectedName}
         />
-        <Survey rows={rows} setRowsx={setRowsx} mode={mode} />
+        <Survey
+          rows={rows}
+          setRowsx={setRowsx}
+          mode={mode}
+          note={note}
+          setNote={setNote}
+          saveNote={saveNote}
+        />
       </Box>
     </Modal>
   );

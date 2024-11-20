@@ -4,13 +4,10 @@ import { getImageDimensions } from "@/globals/utils/imageUtils";
 import useMeasure from "react-use-measure";
 import progress from "@/store/progress";
 import useMediaCardVM from "./mediaCardVM";
-// import { getAuth } from "firebase/auth";
 import user from "@/store/user";
 
 const useMediaCardVC = ({ currRow, surveyid, setRowsx, setCurrRow }) => {
   const [imgDim, setImgDim] = useState({ w: 0, h: 0 });
-  // const auth = getAuth(app);
-
   const { rotateAndRefresh, saveImageDB } = useMediaCardVM();
 
   useEffect(() => {

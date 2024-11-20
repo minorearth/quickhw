@@ -2,7 +2,7 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
+import Link from "./link";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { useRouter } from "next/navigation";
@@ -14,6 +14,8 @@ import user from "@/store/user";
 import Snack from "@/components/snackbar";
 import { observer } from "mobx-react-lite";
 import authenticationForm from "@/store/authentication";
+import stn from "@/globals/settings";
+import local from "@/globals/local";
 
 const SignIn = observer(() => {
   const router = useRouter();
@@ -51,7 +53,7 @@ const SignIn = observer(() => {
           required
           fullWidth
           id="email"
-          label="Введите email"
+          label={local.ru.caption.AUTH_ENTER_EMAIL}
           name="email"
           autoComplete="email"
           autoFocus
@@ -62,7 +64,7 @@ const SignIn = observer(() => {
           required
           fullWidth
           name="password"
-          label="Введите пароль"
+          label={local.ru.caption.AUTH_ENTER_PSW}
           type="password"
           id="password"
           autoComplete="current-password"
@@ -74,49 +76,28 @@ const SignIn = observer(() => {
           variant="contained"
           sx={{ mt: 3, mb: 2 }}
         >
-          Войти
+          {local.ru.caption.AUTH_SIGNIN}
         </Button>
         <Grid container>
           <Grid item xs>
             <Link
-              style={{ cursor: "pointer" }}
-              onClick={() => {
+              action={() => {
                 authenticationForm.showResetPsw(
                   document.getElementById("email").value
                 );
               }}
-              sx={{ alignSelf: "center" }}
-            >
-              Забыли пароль?
-            </Link>
-
-            {/* <Link
-              style={{ cursor: "pointer" }}
-              onClick={() =>
-                router.push(`/login/${document.getElementById("email").value}`)
-              }
-            >
-              Забыли пароль?
-            </Link> */}
+              title={local.ru.text.AUTH_FORGOT}
+            />
           </Grid>
           <Grid item>
             <Typography sx={{ textAlign: "center" }}>
-              Нет аккаунта?{" "}
-              <span>
-                {/* <Link href="/login/signup" sx={{ alignSelf: "center" }}>
-                  Зарегистрироваться
-                </Link> */}
-
-                <Link
-                  style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    authenticationForm.showSignUp();
-                  }}
-                  sx={{ alignSelf: "center" }}
-                >
-                  Зарегистрироваться2
-                </Link>
-              </span>
+              {local.ru.text.AUTH_HAVE_NOACCOUNT + " "}
+              <Link
+                action={() => {
+                  authenticationForm.showSignUp();
+                }}
+                title={local.ru.caption.AUTH_SIGNUP}
+              />
             </Typography>
           </Grid>
         </Grid>

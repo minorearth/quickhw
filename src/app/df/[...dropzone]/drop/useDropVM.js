@@ -1,6 +1,7 @@
 import { mergeAllImages } from "../../../../globals/utils/imageUtils";
 import { compressFiles } from "../../../../globals/utils/fileUtils";
-import stn from "@/globals/constants";
+import stn from "@/globals/settings";
+import local from "@/globals/local";
 import { UploadFileClient } from "@/app/domain/domain";
 import { updateDocFieldsInCollectionByIdClient } from "@/app/domain/domain";
 import { fileExtension } from "@/globals/utils/fileUtils";
@@ -13,14 +14,11 @@ const useDropVM = () => {
     username,
     manager,
     taskNumber,
-    // surveyname,
   }) => {
     const path = await UploadFileClient({
       file,
       folder: `${manager}/${surveyid}`,
     });
-    // const fileMeta = await getMetadata(fileDB);
-    // const dateFormatted = formatDate(fileMeta.updated);
     var today = new Date();
     await updateDocFieldsInCollectionByIdClient("surveysresults", surveyid, {
       [`files.${username}`]: {
@@ -48,7 +46,6 @@ const useDropVM = () => {
 
   const getFile = async (type, files, username) => {
     const extension = stn.surveys.filetypes[type].save_ext;
-    console.log("type", type);
 
     switch (true) {
       case type == "img":

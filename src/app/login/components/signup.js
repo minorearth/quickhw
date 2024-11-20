@@ -2,17 +2,16 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-
 import FormControl from "@mui/material/FormControl";
-import Link from "@mui/material/Link";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { SignUpUserClient } from "@/app/domain/domain";
 import AlertDialog from "@/components/dialog";
-import { useRouter } from "next/navigation";
 import dialog from "@/store/dialog";
-import stn from "@/globals/constants";
+import stn from "@/globals/settings";
+import local from "@/globals/local";
 import authenticationForm from "@/store/authentication";
+import Link from "./link";
 
 const SignUp = () => {
   const [emailError, setEmailError] = React.useState(false);
@@ -23,7 +22,6 @@ const SignUp = () => {
   const [nameErrorMessage, setNameErrorMessage] = React.useState("");
   const [companyError, setCompanyError] = React.useState(false);
   const [companyErrorMessage, setCompanyErrorMessage] = React.useState("");
-  const router = useRouter();
 
   const handleRegister = async () => {
     const email = document.getElementById("email").value;
@@ -35,8 +33,8 @@ const SignUp = () => {
     if (isValid) {
       const userC = await SignUpUserClient(email, password, name, company);
       dialog.showDialog(
-        stn.msg.alert.PSW_ACOUNT_CREATED_TITLE,
-        stn.msg.alert.PSW_ACOUNT_CREATED_TEXT,
+        local.ru.msg.alert.PSW_ACOUNT_CREATED_TITLE,
+        local.ru.msg.alert.PSW_ACOUNT_CREATED_TEXT,
         () => {
           authenticationForm.showSignIn();
         }
@@ -49,7 +47,7 @@ const SignUp = () => {
 
     if (!email || !/\S+@\S+\.\S+/.test(email)) {
       setEmailError(true);
-      setEmailErrorMessage("Please enter a valid email address.");
+      setEmailErrorMessage(local.ru.msg.snack.AUTH_ENTER_VALID_EMAIL);
       isValid = false;
     } else {
       setEmailError(false);
@@ -58,7 +56,7 @@ const SignUp = () => {
 
     if (!password || password.length < 6) {
       setPasswordError(true);
-      setPasswordErrorMessage("Password must be at least 6 characters long.");
+      setPasswordErrorMessage(local.ru.msg.snack.AUTH_ENTER_VALID_PSW);
       isValid = false;
     } else {
       setPasswordError(false);
@@ -67,7 +65,7 @@ const SignUp = () => {
 
     if (!name || name.length < 1) {
       setNameError(true);
-      setNameErrorMessage("Name is required.");
+      setNameErrorMessage(local.ru.msg.snack.AUTH_ENTER_VALID_NAME);
       isValid = false;
     } else {
       setNameError(false);
@@ -76,7 +74,7 @@ const SignUp = () => {
 
     if (!company || company.length < 1) {
       setCompanyError(true);
-      setCompanyErrorMessage("Company is required.");
+      setCompanyErrorMessage(local.ru.msg.snack.AUTH_ENTER_VALID_COMPANY);
       isValid = false;
     } else {
       setCompanyError(false);
@@ -108,7 +106,7 @@ const SignUp = () => {
         <TextField
           autoComplete="name"
           name="name"
-          label="Введите имя"
+          label={local.ru.caption.AUTH_ENTER_NAME}
           defaultValue="Roman"
           required
           fullWidth
@@ -121,9 +119,8 @@ const SignUp = () => {
       </FormControl>
       <FormControl>
         <TextField
-          autoComplete="Организация"
           name="company"
-          label="Введите организацию"
+          label={local.ru.caption.AUTH_ENTER_COMPANY}
           defaultValue="Roman"
           required
           fullWidth
@@ -138,7 +135,7 @@ const SignUp = () => {
         <TextField
           required
           fullWidth
-          label="Введите email"
+          label={local.ru.caption.AUTH_ENTER_EMAIL}
           defaultValue="dayfireacad@gmail.com"
           id="email"
           // placeholder="your@email.com"
@@ -157,7 +154,7 @@ const SignUp = () => {
           name="password"
           // placeholder="••••••"
           defaultValue="1234567"
-          label="Пароль"
+          label={local.ru.caption.AUTH_ENTER_PSW}
           type="password"
           id="password"
           autoComplete="new-password"
@@ -175,19 +172,16 @@ const SignUp = () => {
         onClick={() => handleRegister()}
         // onClick={validateInputs}
       >
-        СОЗДАТЬ АККАУНТ
+        {local.ru.caption.AUTH_SIGNUP}
       </Button>
       <Typography sx={{ textAlign: "center" }}>
-        Уже есть аккаунт?{" "}
+        {local.ru.text.AUTH_HAVE_ACCOUNT + " "}
         <Link
-          style={{ cursor: "pointer" }}
-          onClick={() => {
+          action={() => {
             authenticationForm.showSignIn();
           }}
-          sx={{ alignSelf: "center" }}
-        >
-          Войти
-        </Link>
+          title={local.ru.caption.AUTH_SIGNIN}
+        />
       </Typography>
     </Box>
   );

@@ -2,7 +2,8 @@
 import { useState, useEffect } from "react";
 import { Box } from "@mui/material";
 import { observer } from "mobx-react-lite";
-import stn from "@/globals/constants.js";
+import stn from "@/globals/settings.js";
+import local from "@/globals/local";
 import * as React from "react";
 import Modal from "@mui/material/Modal";
 import IconButton from "@mui/material/IconButton";
@@ -63,7 +64,7 @@ const SearchCard = observer(({ searchVisible, setSearchVisible, user }) => {
           </IconButton>
           <TextField
             id="outlined-basic"
-            label={stn.caption.ENTER_NAME}
+            label={local.ru.caption.DROP_ENTER_NAME}
             variant="outlined"
             sx={{ margin: "10px" }}
             onChange={(e) => changeSearchString(e)}

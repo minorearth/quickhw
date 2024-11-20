@@ -1,18 +1,16 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
-
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-
 import IconButton from "@mui/material/IconButton";
-
 import useSurveyGridVC from "./useMySurveysGridVC";
 import SearchIcon from "@mui/icons-material/Search";
-import Picktype from "@/components/typepicker/typepicker";
-import stn from "@/globals/constants";
+import Picktype from "@/components/typepicker";
+import stn from "@/globals/settings";
+import local from "@/globals/local";
 import { useColumns } from "./useColumns";
 import { getSubKeyValues } from "@/globals/utils/objectUtils";
-import Tooltip from "@/components/tooltop";
+import Tooltip from "@/components/tooltip";
 
 export default function SurveysGrid({ user, setSearchVisible }) {
   const [pickTypeModalVisible, setPickTypeModalVisible] = React.useState(false);
@@ -28,7 +26,7 @@ export default function SurveysGrid({ user, setSearchVisible }) {
     <Box sx={{ width: "100%" }}>
       {pickTypeModalVisible && (
         <Picktype
-          caption={"Что будем делать?"}
+          caption={local.ru.text.PICK_SURVEY_TYPE}
           modalVisible={pickTypeModalVisible}
           setModalVisible={setPickTypeModalVisible}
           action={(type) => {
@@ -37,7 +35,7 @@ export default function SurveysGrid({ user, setSearchVisible }) {
           variants={getSubKeyValues(stn.surveys.surveytypes)}
         />
       )}
-      <Tooltip title="Добавить новый опрос">
+      <Tooltip title={local.ru.tooltip.TOOLBAR_ADD_NEW_SYRVEY}>
         <IconButton
           aria-label="delete"
           size="small"
@@ -48,7 +46,7 @@ export default function SurveysGrid({ user, setSearchVisible }) {
           <AddCircleIcon sx={{ fontSize: 60 }} />
         </IconButton>
       </Tooltip>
-      <Tooltip title="Поиск файлов по имени опрашиваемого">
+      <Tooltip title={local.ru.tooltip.TOOLBAR_SEARCH_FILE}>
         <IconButton
           aria-label="search"
           size="small"
@@ -58,7 +56,6 @@ export default function SurveysGrid({ user, setSearchVisible }) {
         </IconButton>
       </Tooltip>
       <DataGrid
-        // localeText={stn.grid}
         initialState={{
           sorting: {
             sortModel: [{ field: "datetime", sort: "desc" }],
@@ -71,9 +68,6 @@ export default function SurveysGrid({ user, setSearchVisible }) {
           actions.processEdit(updatedRow)
         }
         onProcessRowUpdateError={() => {}}
-        slotProps={{
-          pagination: { labelRowsPerPage: "Строчек на странице" },
-        }}
       />
     </Box>
   );

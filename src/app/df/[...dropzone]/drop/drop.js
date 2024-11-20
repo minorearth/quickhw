@@ -1,39 +1,22 @@
 import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
 import Snack from "../../../../components/snackbar";
-import DropZone from "./dropzone/dropzone";
+import DropZone from "./components/dropzone/dropzone";
 import TextField from "@mui/material/TextField";
 import EmailIcon from "@mui/icons-material/Email";
 import useDropZone from "./useDropVC";
 import { observer } from "mobx-react-lite";
-import stn from "@/globals/constants";
-import { flipObject, getKeyBySubKeyValue } from "@/globals/utils/objectUtils";
+import stn from "@/globals/settings";
+import local from "@/globals/local";
+import { getKeyBySubKeyValue } from "@/globals/utils/objectUtils";
 import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
+import Text from "./components/text";
 
 const Drop = observer(({ surveyid, typeEncoded, manager }) => {
-  const [surveytype, setSurveytype] = useState("img");
-  const [fileType, setFileType] = useState("img");
-  const [note, setNote] = useState("");
-  const changeNote = (e) => {
-    setNote(e.target.value);
-  };
-
-  useEffect(() => {
-    setSurveytype(
-      getKeyBySubKeyValue(stn.surveys.surveytypes, "SHORTNAME", typeEncoded[1])
-    );
-    setFileType(
-      getKeyBySubKeyValue(stn.surveys.filetypes, "SHORTNAME", typeEncoded[0])
-    );
-  }, []);
-
   const { actions, state } = useDropZone({
     surveyid,
-    type: fileType,
     manager,
-    surveytype,
-    note,
+    typeEncoded,
   });
 
   return (
@@ -53,10 +36,9 @@ const Drop = observer(({ surveyid, typeEncoded, manager }) => {
           display: "flex",
           flexDirection: "row",
           width: "100%",
-          height: surveytype == "task" ? "200px" : "100px",
+          height: state.surveytype == "task" ? "200px" : "100px",
           alignItems: "center",
           alignContent: "center",
-          // backgroundColor: "green",
         }}
       >
         <Box
@@ -72,7 +54,7 @@ const Drop = observer(({ surveyid, typeEncoded, manager }) => {
         >
           <TextField
             id="outlined-basic"
-            label={stn.caption.ENTER_NAME}
+            label={local.ru.caption.DROP_ENTER_NAME}
             variant="outlined"
             sx={{ margin: "10px" }}
             onChange={(e) => actions.changeName(e)}
@@ -80,10 +62,10 @@ const Drop = observer(({ surveyid, typeEncoded, manager }) => {
             fullWidth
             InputProps={{ sx: { borderRadius: 5 } }}
           />
-          {surveytype == "task" && (
+          {state.surveytype == "task" && (
             <TextField
               id="outlined-basic"
-              label={"Введи номер задания или вариант"}
+              label={local.ru.caption.DROP_ENTER_TASKID}
               variant="outlined"
               sx={{ margin: "10px" }}
               onChange={(e) => actions.changeTaskNumber(e)}
@@ -93,24 +75,6 @@ const Drop = observer(({ surveyid, typeEncoded, manager }) => {
             />
           )}
         </Box>
-        {/* <Box
-          sx={{
-            // backgroundColor: "red",
-            display: "flex",
-            width: surveytype == "task" ? "200px" : "100px",
-            height: "100%",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <IconButton
-            sx={{ display: "block" }}
-            aria-label="delete"
-            onClick={actions.sendFiles}
-          >
-            
-          </IconButton>
-        </Box> */}
       </Box>
       <Box
         sx={{
@@ -122,74 +86,14 @@ const Drop = observer(({ surveyid, typeEncoded, manager }) => {
           height: "auto",
         }}
       >
-        {fileType != "text" ? (
+        {state.fileType != "text" ? (
           <DropZone
             files={state.files}
             setFiles={actions.setFiles}
-            type={fileType}
+            type={state.fileType}
           />
         ) : (
-          <TextField
-            id="plainText"
-            onCut={(e) => {
-              e.preventDefault();
-            }}
-            onCopy={(e) => {
-              e.preventDefault();
-            }}
-            onPaste={(e) => {
-              e.preventDefault();
-            }}
-            onKeyDown={(e) => {
-              const { value } = e.target;
-
-              if (e.key === "Tab") {
-                e.preventDefault();
-
-                const cursorPosition = e.target.selectionStart;
-                const cursorEndPosition = e.target.selectionEnd;
-                const tab = "\t";
-
-                e.target.value =
-                  value.substring(0, cursorPosition) +
-                  tab +
-                  value.substring(cursorEndPosition);
-                e.target.selectionStart = cursorPosition + 1;
-                e.target.selectionEnd = cursorPosition + 1;
-              }
-            }}
-            inputProps={{
-              style: {
-                color: "#BDBDBD",
-                fontSize: 20,
-                flex: 5,
-                // fontStyle: "italic",
-                // fontWeight: "bold",
-                // fontFamily: myFont.style.fontFamily,
-              },
-            }}
-            sx={{
-              m: "10px",
-              backgroundColor: "#f4f2f1",
-              borderRadius: "20px",
-              flex: 1,
-
-              "& .MuiOutlinedInput-root": {
-                borderRadius: "20px",
-                borderWidth: "10px",
-              },
-              "& .MuiInputBase-root": {
-                borderRadius: "20px",
-                borderWidth: "10px",
-                height: "100%",
-                alignItems: "start",
-              },
-            }}
-            multiline
-            value={note}
-            // rows={20}
-            onChange={(e) => changeNote(e)}
-          />
+          <Text saveNote={actions.saveNote} />
         )}
       </Box>
       <Button
@@ -197,13 +101,9 @@ const Drop = observer(({ surveyid, typeEncoded, manager }) => {
         variant="contained"
         aria-label="delete"
         onClick={actions.sendFiles}
-        endIcon={
-          <EmailIcon
-          // sx={{ fontSize: surveytype == "task" ? 100 : 80 }}
-          />
-        }
+        endIcon={<EmailIcon />}
       >
-        Отправить
+        {local.ru.caption.DROP_SEND_BTN}
       </Button>
     </Box>
   );

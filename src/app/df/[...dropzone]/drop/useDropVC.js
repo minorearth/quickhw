@@ -2,51 +2,63 @@ import { useEffect } from "react";
 import { useState } from "react";
 import progress from "@/store/progress";
 import snack from "@/store/snack";
-import stn from "@/globals/constants";
+import stn from "@/globals/settings";
+import local from "@/globals/local";
 import useDropVM from "./useDropVM";
+import { getKeyBySubKeyValue } from "@/globals/utils/objectUtils";
 
-const useDropVC = ({ surveyid, type, manager, surveytype, note }) => {
+const useDropVC = ({ surveyid, manager, typeEncoded }) => {
   const [files, setFiles] = useState([]);
   const [username, setUserName] = useState("");
   const [taskNumber, setTaskNumber] = useState("");
+  const [surveytype, setSurveytype] = useState("task");
+  const [fileType, setFileType] = useState("img");
+  const [note, setNote] = useState("");
+
   const { sendFilesDB } = useDropVM();
 
   useEffect(() => {
     setInterval(() => setUserName(""), stn.files.NAME_CLEANUP_INTERVAL);
+    setSurveytype(
+      getKeyBySubKeyValue(stn.surveys.surveytypes, "SHORTNAME", typeEncoded[1])
+    );
+    setFileType(
+      getKeyBySubKeyValue(stn.surveys.filetypes, "SHORTNAME", typeEncoded[0])
+    );
   }, []);
 
   const validateFields = () => {
     switch (true) {
       case surveytype == "task":
-        if (!note && type == "text") {
-          snack.showSnack("вбей любой текст");
+        if (!note && fileType == "text") {
+          snack.showSnack(local.ru.msg.snack.INPUT_TEXT);
           return false;
         }
-        if (!files.length && type != "text") {
-          snack.showSnack(stn.msg.snack.PICK_FILES);
+        if (!files.length && fileType != "text") {
+          snack.showSnack(local.ru.msg.snack.PICK_FILES);
           return false;
         }
         if (!username) {
-          snack.showSnack(stn.msg.snack.PICK_NAME);
+          snack.showSnack(local.ru.msg.snack.PICK_NAME);
           return false;
         }
         if (!taskNumber) {
-          snack.showSnack("Введи номер варианта или теста");
+          snack.showSnack(local.ru.msg.snack.PICK_TASKID);
           return false;
         }
         return true;
 
       case surveytype == "collection":
-        if (!note && type == "text") {
-          snack.showSnack("вбей любой текст");
+        if (!note && fileType == "text") {
+          snack.showSnack(local.ru.msg.snack.INPUT_TEXT);
           return false;
         }
-        if (!files.length && type != "text") {
-          snack.showSnack(stn.msg.snack.PICK_FILES);
+        if (!files.length && fileType != "text") {
+          snack.showSnack(local.ru.msg.snack.PICK_FILES);
           return false;
         }
         if (!username) {
-          snack.showSnack(stn.msg.snack.PICK_NAME);
+          snack.showSnack(local.ru.msg.snack.PICK_NAME);
           return false;
         }
         return true;
@@ -64,17 +76,17 @@ const useDropVC = ({ surveyid, type, manager, surveytype, note }) => {
   const sendFiles = async () => {
     if (validateFields()) {
       progress.setShowProgress(true);
-      const filesToSend = type != "text" ? files : makeTextFile();
+      const filesToSend = fileType != "text" ? files : makeTextFile();
       await sendFilesDB({
         files: filesToSend,
         username,
         surveyid,
-        type,
+        type: fileType,
         manager,
         taskNumber,
       });
       progress.setShowProgress(false);
-      snack.showSnack(stn.msg.snack.JOB_DONE);
+      snack.showSnack(local.ru.msg.snack.JOB_DONE);
     }
   };
 
@@ -87,8 +99,14 @@ const useDropVC = ({ surveyid, type, manager, surveytype, note }) => {
   };
 
   return {
-    actions: { changeName, changeTaskNumber, sendFiles, setFiles },
-    state: { name: username, tasknum: taskNumber, files },
+    actions: {
+      changeName,
+      changeTaskNumber,
+      sendFiles,
+      setFiles,
+      saveNote: setNote,
+    },
+    state: { name: username, tasknum: taskNumber, files, surveytype, fileType },
   };
 };
 

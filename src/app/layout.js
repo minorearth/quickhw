@@ -1,11 +1,13 @@
 import { Inter } from "next/font/google";
 import "../globals/globals.css";
+import stn from "@/globals/settings";
+import local from "@/globals/local";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Быстрёнок",
-  description: "Быстрёнок-самый быстрый способ собрать фото и файлы",
+  title: local.ru.text.APP_NAME,
+  description: local.ru.text.APP_DESCRIPTION,
 };
 
 export default function RootLayout({ children }) {

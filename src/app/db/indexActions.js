@@ -101,16 +101,6 @@ export const createIndex = async (db) => {
     const surveyid = notIndexedDocs.docs[i].id;
     const surveyname = !!data?.surveyname ? data?.surveyname : false;
     const type = !!data?.type ? data?.type : false;
-
-    if (!surveyname) {
-      console.log(surveyid, "Не указан опрос");
-      break;
-    }
-    const manager = !!data?.manager ? data?.manager : false;
-    if (!surveyname) {
-      console.log(surveyid, "Не указан менеджер");
-      break;
-    }
     const keys = Object.keys(data.files);
     let res = [];
     for (let j = 0; j < keys.length; j++) {

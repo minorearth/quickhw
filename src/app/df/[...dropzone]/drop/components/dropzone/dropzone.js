@@ -9,8 +9,8 @@ import ListItemText from "@mui/material/ListItemText";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import Progress from "@/components/progress";
 import progress from "@/store/progress";
-import stn from "@/globals/constants";
-import stnd from "@/globals/constantsDyn";
+import stn from "@/globals/settings";
+import local from "@/globals/local";
 import { observer } from "mobx-react-lite";
 import snack from "@/store/snack";
 import { fileExtension } from "@/globals/utils/fileUtils";
@@ -60,9 +60,7 @@ const DropZone = observer(({ setFiles, files, type }) => {
         if (type == "anyfile") {
           const ext = fileExtension(acceptedFiles[0]);
           if (!ext) {
-            snack.showSnack(
-              "файл не поддерживается, возможно нужно добавить расширение"
-            );
+            snack.showSnack(local.ru.msg.snack.WRONG_EXT);
             setFiles([]);
             return;
           }
@@ -93,14 +91,15 @@ const DropZone = observer(({ setFiles, files, type }) => {
         gutterBottom
         style={{ textAlign: "center", fontSize: "large" }}
       >
-        {stnd.FILES_UPLOAD_GUIDE(type)}
+        {stn.surveys.filetypes[type].drop_message}
+        {/* {stnd.FILES_UPLOAD_GUIDE(type)} */}
       </Typography>
       <Typography
         variant="body1"
         gutterBottom
         style={{ textAlign: "center", fontSize: "medium" }}
       >
-        {stn.files.UPLOAD_TEXT}
+        {local.ru.text.UPLOAD_TEXT}
       </Typography>
       <List dense={true}>
         {files.map((file, id) => (
@@ -108,7 +107,9 @@ const DropZone = observer(({ setFiles, files, type }) => {
             {/* <ListItemIcon>
               <UploadFileIcon />
             </ListItemIcon> */}
-            <ListItemText primary={`${file.path} - ${file.size} байт>`} />
+            <ListItemText
+              primary={`${file.path} - ${file.size} ${local.ru.text.DROP_UNITS}`}
+            />
           </ListItem>
         ))}
       </List>

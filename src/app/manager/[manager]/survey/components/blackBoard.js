@@ -1,63 +1,21 @@
 import TextField from "@mui/material/TextField";
-import FabAnimated from "../../../../../components/fabAnimated/fabAnimated";
-import { Roboto } from "next/font/google";
-import localFont from "next/font/local";
-import { useEffect, useState } from "react";
 
-import {
-  updateDocFieldsInCollectionByIdClient,
-  getDocFromCollectionByIdClient,
-} from "@/app/domain/domain";
+import stn from "@/globals/settings";
+import local from "@/globals/local";
 
-import stn from "@/globals/constants";
-
-const roboto = Roboto({
-  weight: "900",
-  subsets: ["latin"],
-});
-
-const BlackBoard = ({ surveyid }) => {
-  const handleSaveNote = async () => {
-    console.log(surveyid);
-
-    await updateDocFieldsInCollectionByIdClient("surveysresults", surveyid, {
-      note: note,
-    });
-  };
-
-  const [note, setNote] = useState(stn.defaults.BLACKBOARD_TEXT);
-
-  useEffect(() => {
-    getDocFromCollectionByIdClient("surveysresults", surveyid).then(
-      (docData) => {
-        console.log(docData?.note, surveyid);
-        !!docData?.note && setNote(docData?.note);
-      }
-    );
-  }, []);
-
+const BlackBoard = ({ note, setNote }) => {
   const changeNote = (e) => {
     setNote(e.target.value);
   };
 
   return (
     <>
-      <FabAnimated
-        icon="saveNote"
-        visible={true}
-        action={() => handleSaveNote()}
-        position={{ bottom: 16, left: 98 }}
-      />
-
       <TextField
         id="outlined-multiline-static"
         inputProps={{
           style: {
             color: "#405D72",
             fontSize: 20,
-            // fontStyle: "italic",
-            // fontWeight: "bold",
-            // fontFamily: myFont.style.fontFamily,
           },
         }}
         sx={{

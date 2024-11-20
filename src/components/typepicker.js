@@ -1,12 +1,12 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-// import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import MuiToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { styled } from "@mui/material/styles";
-import stn from "@/globals/constants";
+import stn from "@/globals/settings";
+import local from "@/globals/local";
 import { useState } from "react";
 
 const style = {
@@ -41,7 +41,7 @@ const ModalForm = ({
 
   const handleClose = () => setModalVisible(false);
 
-  const handleChange = (event, nextView) => {
+  const handleChange = (e, nextView) => {
     if (nextView !== null) {
       console.log("nextView", nextView);
       action(nextView);
@@ -49,10 +49,10 @@ const ModalForm = ({
     }
   };
 
-  const handleClick = (event, nextView) => {
+  const handleClick = () => {
     setTimeout(() => {
       setModalVisible(false);
-    }, 500);
+    }, stn.typepicker.TYPE_PICKER_TIMEOUT);
   };
 
   return (

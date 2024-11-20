@@ -14,10 +14,11 @@ import { useRouter } from "next/navigation";
 import { signOutUserClient } from "@/app/domain/domain.js";
 import { observer } from "mobx-react-lite";
 import user from "@/store/user.js";
-import { setPersistence, browserLocalPersistence } from "firebase/auth";
 import { auth } from "@/app/domain/firebaseapp.js";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { getDocDataFromCollectionByIdClient } from "@/app/domain/domain";
+import stn from "@/globals/settings";
+import local from "@/globals/local";
 
 const Layout = observer(({ children }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -65,22 +66,20 @@ const Layout = observer(({ children }) => {
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2, width: "60px", height: "60px" }}
-            // onClick={() => {
-            //   router.push(`/manager/${user.userid}`);
-            // }}
           >
             <Logo />
           </IconButton>
           <Typography
+            // cursor="default"
             variant="h6"
             noWrap
-            component="a"
+            // component="a"
             // href="#app-bar-with-responsive-menu"
             sx={{
               mr: 2,
               flexGrow: 1,
-
-              display: { xs: "none", md: "flex" },
+              cursor: "pointer",
+              display: { md: "flex" },
               fontFamily: "monospace",
               fontWeight: 700,
               letterSpacing: ".3rem",
@@ -88,7 +87,7 @@ const Layout = observer(({ children }) => {
               textDecoration: "none",
             }}
           >
-            БЫСТРЁНОК
+            {local.ru.text.APP_NAME}
           </Typography>
           <div>
             <IconButton
@@ -135,8 +134,9 @@ const Layout = observer(({ children }) => {
                 setAnchorEl(null);
               }}
             >
-              <MenuItem onClick={() => handleClose()}>Выйти</MenuItem>
-              {/* <MenuItem onClick={handleClose}>My account</MenuItem> */}
+              <MenuItem onClick={() => handleClose()}>
+                {local.ru.caption.AUTH_LOGOUT}
+              </MenuItem>
             </Menu>
           </div>
         </Toolbar>
