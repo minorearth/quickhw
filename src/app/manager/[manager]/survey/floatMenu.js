@@ -31,13 +31,22 @@ const FloatMenu = ({ mode, actions, state }) => {
       )}
       {mode != "search" && state.qrVisible && (
         <FabAnimated
+          tooltip={local.ru.tooltip.FAB_PREVIEW_DROP_FORM}
+          icon="openDropWindow"
+          visible={true}
+          action={actions.openDropWindow}
+          position={{ top: TOP, right: RIGHT + 2 * stn.ui.FLOAT_BTN_PADDING }}
+        />
+      )}
+      {mode != "search" && state.qrVisible && (
+        <FabAnimated
           tooltip={local.ru.tooltip.FAB_PICK_FILE_TYPE}
           icon="pickFileType"
           visible={true}
           action={() => {
             actions.setPickTypeModalVisible(true);
           }}
-          position={{ top: TOP, right: RIGHT + 2 * stn.ui.FLOAT_BTN_PADDING }}
+          position={{ top: TOP, right: RIGHT + 3 * stn.ui.FLOAT_BTN_PADDING }}
         />
       )}
       {mode != "search" && (

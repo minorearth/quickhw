@@ -24,6 +24,7 @@ const local = {
     tooltip: {
       FAB_SHOWQR: "Показать QR-код",
       FAB_COPY_TO_CLIPBOARD: "Копировать ссылку на опрос в буфер",
+      FAB_PREVIEW_DROP_FORM: "Открыть форму сбора данных",
       FAB_PICK_FILE_TYPE: "Выбрать тип файлов, которые вы будете собирать",
       FAB_SHOW_NOTE: "Показать заметки к опросу",
       FAB_DOWNLOD_ALL: "Скачать все файлы опроса в одном архиве",

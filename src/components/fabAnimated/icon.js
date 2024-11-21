@@ -10,6 +10,7 @@ import CropRotateIcon from "@mui/icons-material/CropRotate";
 import { BiCategoryAlt } from "react-icons/bi";
 import { BiExit } from "react-icons/bi";
 import DownloadIcon from "@mui/icons-material/Download";
+import LaunchIcon from "@mui/icons-material/Launch";
 
 const Icon2State = ({ visible, icon }) => {
   if (icon == "qr")
@@ -47,6 +48,8 @@ const Icon2State = ({ visible, icon }) => {
   if (icon == "saveImage") return <SaveIcon style={{ fontSize: 30 }} />;
   if (icon == "hideImage") return <HideImageIcon style={{ fontSize: 30 }} />;
   if (icon == "copyClipboard") return <LinkIcon style={{ fontSize: 30 }} />;
+  if (icon == "openDropWindow") return <LaunchIcon style={{ fontSize: 30 }} />;
+
   if (icon == "undo") return <UndoIcon style={{ fontSize: 30 }} />;
   if (icon == "rotate") return <CropRotateIcon style={{ fontSize: 30 }} />;
 };

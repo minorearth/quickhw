@@ -3,9 +3,7 @@ import { motion } from "framer-motion";
 import Icon2State from "./icon";
 import { Tooltip } from "@mui/material";
 
-const FabAnimated = (props) => {
-  const { visible, action, icon, position, tooltip } = props;
-
+const FabAnimated = ({ visible, action, icon, position, tooltip }) => {
   return (
     <Tooltip title={tooltip}>
       <Fab

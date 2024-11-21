@@ -50,6 +50,7 @@ const Content = observer(
             setPickTypeModalVisible,
             saveNote,
             copyCB: () => navigator.clipboard.writeText(qrLink),
+            openDropWindow: () => window.open(qrLink, "_blank"),
           }}
         />
         <Box
