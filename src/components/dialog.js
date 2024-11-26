@@ -14,16 +14,10 @@ const AlertDialog = observer(() => {
     <Dialog
       open={alertdialog.dialogState.visible}
       onClose={() => alertdialog.closeDialog()}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">
-        {alertdialog.dialogState.title}
-      </DialogTitle>
+      <DialogTitle>{alertdialog.dialogState.title}</DialogTitle>
       <DialogContent>
-        <DialogContentText id="alert-dialog-description">
-          {alertdialog.dialogState.text}
-        </DialogContentText>
+        <DialogContentText>{alertdialog.dialogState.text}</DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button onClick={() => alertdialog.closeDialog()} autoFocus>

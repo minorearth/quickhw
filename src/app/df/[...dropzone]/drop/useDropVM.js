@@ -1,7 +1,6 @@
 import { mergeAllImages } from "../../../../globals/utils/imageUtils";
 import { compressFiles } from "../../../../globals/utils/fileUtils";
 import stn from "@/globals/settings";
-import local from "@/globals/local";
 import { UploadFileClient } from "@/app/domain/domain";
 import { updateDocFieldsInCollectionByIdClient } from "@/app/domain/domain";
 import { fileExtension } from "@/globals/utils/fileUtils";
@@ -20,48 +19,39 @@ const useDropVM = () => {
       folder: `${manager}/${surveyid}`,
     });
     var today = new Date();
-    await updateDocFieldsInCollectionByIdClient("surveysresults", surveyid, {
-      [`files.${username}`]: {
-        path,
-        id: file.name,
-        name: file.name,
-        type,
-        datetime: today,
-        tasknumber: taskNumber,
-      },
-      indexed: false,
-    });
-
-    // await addDataToIndex(manager, username.toUpperCase(), {
-    //   path,
-    //   id: file.name,
-    //   name: file.name,
-    //   type,
-    //   datetime: today,
-    //   surveyid,
-    //   surveyname,
-    //   username,
-    // });
+    await updateDocFieldsInCollectionByIdClient(
+      stn.collections.SURVEY_RESULTS,
+      surveyid,
+      {
+        [`files.${username}`]: {
+          path,
+          id: file.name,
+          name: file.name,
+          type,
+          datetime: today,
+          tasknumber: taskNumber,
+        },
+        indexed: false,
+      }
+    );
   };
 
   const getFile = async (type, files, username) => {
     const extension = stn.surveys.filetypes[type].save_ext;
 
     switch (true) {
-      case type == "img":
+      case type == stn.surveys.filetypes.img.name:
         return await mergeAllImages(files, `${username}${extension}`);
-      case type == "zip":
+      case type == stn.surveys.filetypes.zip.name:
         return await compressFiles(files, `${username}${extension}`);
-      case type == "text":
+      case type == stn.surveys.filetypes.text.name:
         return new File([files[0]], `${username}${extension}`, {
           type: files[0].type,
-          // lastModified: originalFile.lastModified,
         });
-      case type == "anyfile":
+      case type == stn.surveys.filetypes.anyfile.name:
         function renameFile(originalFile, newName) {
           return new File([originalFile], newName, {
             type: originalFile.type,
-            // lastModified: originalFile.lastModified,
           });
         }
         const ext = fileExtension(files[0]);

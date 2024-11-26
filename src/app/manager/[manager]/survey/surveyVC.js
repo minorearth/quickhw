@@ -17,7 +17,7 @@ const useSurvFilesGrid2VC = ({ surveyid }) => {
     if (!surveyid) return;
     if (!survey.showSurvey) return;
     getDocFromCollectionByIdRealtimeClient(
-      "surveysresults",
+      stn.collections.SURVEY_RESULTS,
       surveyid,
       (data) => {
         !!data?.note && setNote(data?.note);
@@ -35,9 +35,13 @@ const useSurvFilesGrid2VC = ({ surveyid }) => {
   }, [surveyid, survey.showSurvey]);
 
   const saveNote = async () => {
-    await updateDocFieldsInCollectionByIdClient("surveysresults", surveyid, {
-      note: note,
-    });
+    await updateDocFieldsInCollectionByIdClient(
+      stn.collections.SURVEY_RESULTS,
+      surveyid,
+      {
+        note: note,
+      }
+    );
   };
 
   return { rows, setRowsx, saveNote, note, setNote };

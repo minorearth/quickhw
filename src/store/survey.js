@@ -1,11 +1,12 @@
 import { makeAutoObservable, makeObservable } from "mobx";
+import stn from "@/globals/settings";
 
 class survey {
   showSurvey = false;
   surveySelectedId = 0;
   surveySelectedName = "";
   surveySelectedType = "";
-  filetype = "img";
+  filetype = stn.surveys.filetypes.img.name;
 
   constructor() {
     makeAutoObservable(this);
@@ -16,7 +17,6 @@ class survey {
   }
 
   setSurveyFileType(filetype) {
-    console.log("changed", filetype);
     this.filetype = filetype;
   }
 

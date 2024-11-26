@@ -17,6 +17,8 @@ import {
 import { setPersistence, browserLocalPersistence } from "firebase/auth";
 import { auth } from "@/app/domain/firebaseapp.js";
 
+import stn from "@/globals/settings";
+
 import TextField from "@mui/material/TextField";
 
 export default function Admin() {
@@ -50,7 +52,7 @@ export default function Admin() {
   const сopyIndexASAP = () => {
     const oldindex = document.getElementById("index").value;
     const newindex = document.getElementById("newIndex").value;
-    сopyDocClient("index", oldindex, newindex);
+    сopyDocClient(stn.collections.INDEX, oldindex, newindex);
   };
 
   return (

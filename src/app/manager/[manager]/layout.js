@@ -30,7 +30,7 @@ const Layout = observer(({ children }) => {
         router.push(`/login/`);
       } else {
         const usermeta = await getDocDataFromCollectionByIdClient(
-          "usermeta",
+          stn.collections.USER_META,
           auth.currentUser.uid
         );
         const isa = usermeta.data.isadmin;

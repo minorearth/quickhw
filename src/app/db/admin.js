@@ -26,6 +26,7 @@ import {
 } from "@/app/db/dataModel";
 
 import { deleteAllFileFromDir, deleteFile } from "@/app/db/storage";
+import stn from "@/globals/settings";
 
 import {
   deleteAllRecordsFromIndex,
@@ -33,7 +34,13 @@ import {
 } from "./indexAdmin";
 
 export const backup = async (db) => {
-  const cols = ["surveys", "surveysresults", "usermeta", "indexcurr", "index"];
+  const cols = [
+    stn.collections.SURVEYS,
+    stn.collections.SURVEY_RESULTS,
+    stn.collections.USER_META,
+    stn.collections.INDEX_CURR,
+    stn.collections.INDEX,
+  ];
   cols.forEach(async (collection) => {
     const docs = await getAllDocs(db, collection);
     for (let i = 0; i < docs.docs.length; i++) {
@@ -45,13 +52,20 @@ export const backup = async (db) => {
 };
 
 export const removeSurvey = async (db, storage, syrveyid, userid) => {
-  const surveysColl = "surveys";
-  const surveysresultsColl = "surveysresults";
-  const dc = await getDocDataFromCollectionById(db, surveysColl, userid);
+  const dc = await getDocDataFromCollectionById(
+    db,
+    stn.collections.SURVEYS,
+    userid
+  );
   const managerSurv = dc.data;
   delete managerSurv.surveys[syrveyid];
-  updateDocFieldsInCollectionById(db, surveysColl, userid, managerSurv);
-  deleteDoc(doc(db, surveysresultsColl, syrveyid));
+  updateDocFieldsInCollectionById(
+    db,
+    stn.collections.SURVEYS,
+    userid,
+    managerSurv
+  );
+  deleteDoc(doc(db, stn.collections.SURVEY_RESULTS, syrveyid));
   deleteAllFileFromDir(storage, `/capture/${userid}/${syrveyid}`);
   deleteAllRecordsFromIndex(db, userid, syrveyid);
 };
@@ -67,18 +81,17 @@ export const removeFileFromSurvey = async (
   syrveyid,
   filename
 ) => {
-  const surveysresultsColl = "surveysresults";
   const username = extractusername(filename);
   const survveyRessult = await getDocDataFromCollectionById(
     db,
-    surveysresultsColl,
+    stn.collections.SURVEY_RESULTS,
     syrveyid
   );
 
   delete survveyRessult.data.files[username];
   updateDocFieldsInCollectionById(
     db,
-    surveysresultsColl,
+    stn.collections.SURVEY_RESULTS,
     syrveyid,
     survveyRessult.data
   );

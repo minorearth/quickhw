@@ -15,7 +15,8 @@ const encodeTypes = (fileType, type) => {
 
   return (
     stn.surveys.filetypes[fileType].SHORTNAME +
-    stn.surveys.surveytypes[!type ? "task" : type].SHORTNAME
+    stn.surveys.surveytypes[!type ? stn.surveys.surveytypes.task.name : type]
+      .SHORTNAME
   );
 };
 

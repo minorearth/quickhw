@@ -14,7 +14,6 @@ import user from "@/store/user";
 import Snack from "@/components/snackbar";
 import { observer } from "mobx-react-lite";
 import authenticationForm from "@/store/authentication";
-import stn from "@/globals/settings";
 import local from "@/globals/local";
 
 const SignIn = observer(() => {
@@ -57,7 +56,7 @@ const SignIn = observer(() => {
           name="email"
           autoComplete="email"
           autoFocus
-          defaultValue="dayfireacad@gmail.com"
+          defaultValue={process.env.NEXT_DEFAULT_EMAIL}
         />
         <TextField
           margin="normal"
@@ -68,7 +67,7 @@ const SignIn = observer(() => {
           type="password"
           id="password"
           autoComplete="current-password"
-          defaultValue="1234567"
+          defaultValue={process.env.NEXT_DEFAULT_PSW}
         />
         <Button
           type="submit"

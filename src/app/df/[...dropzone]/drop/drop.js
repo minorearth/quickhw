@@ -7,8 +7,6 @@ import useDropZone from "./useDropVC";
 import { observer } from "mobx-react-lite";
 import stn from "@/globals/settings";
 import local from "@/globals/local";
-import { getKeyBySubKeyValue } from "@/globals/utils/objectUtils";
-import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import Text from "./components/text";
 
@@ -36,7 +34,10 @@ const Drop = observer(({ surveyid, typeEncoded, manager }) => {
           display: "flex",
           flexDirection: "row",
           width: "100%",
-          height: state.surveytype == "task" ? "200px" : "100px",
+          height:
+            state.surveytype == stn.surveys.surveytypes.task.name
+              ? "200px"
+              : "100px",
           alignItems: "center",
           alignContent: "center",
         }}
@@ -62,7 +63,7 @@ const Drop = observer(({ surveyid, typeEncoded, manager }) => {
             fullWidth
             InputProps={{ sx: { borderRadius: 5 } }}
           />
-          {state.surveytype == "task" && (
+          {state.surveytype == stn.surveys.surveytypes.task.name && (
             <TextField
               id="outlined-basic"
               label={local.ru.caption.DROP_ENTER_TASKID}
@@ -86,7 +87,7 @@ const Drop = observer(({ surveyid, typeEncoded, manager }) => {
           height: "auto",
         }}
       >
-        {state.fileType != "text" ? (
+        {state.fileType != stn.surveys.filetypes.text.name ? (
           <DropZone
             files={state.files}
             setFiles={actions.setFiles}

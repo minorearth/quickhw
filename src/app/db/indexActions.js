@@ -26,69 +26,76 @@ import {
 } from "./dataModel";
 
 import { deleteAllRecordsFromSpecificIndex } from "@/app/db/indexAdmin";
-
-// const db = initializeFirestore(app, {
-//   experimentalForceLongPolling: true,
-//   useFetchStreams: false,
-// });
-
-// getAuth(app);
-
-const INDEX_COL = "index";
-const INDEXCURR_COL = "indexcurr";
+import stn from "@/globals/settings";
 
 //New user
 export const createNewUser = async (db, userId, name, company) => {
-  await setDocInCollection(db, "surveys", { surveys: {} }, userId);
-  await setDocInCollection(db, "usermeta", { company, name }, userId);
-  await setDoc(doc(db, INDEX_COL, userId + "_0"), {});
-  await setDoc(doc(db, INDEXCURR_COL, userId), { currindex: 0 });
+  await setDocInCollection(
+    db,
+    stn.collections.SURVEYS,
+    { surveys: {} },
+    userId
+  );
+  await setDocInCollection(
+    db,
+    stn.collections.USER_META,
+    { company, name },
+    userId
+  );
+  await setDoc(doc(db, stn.collections.INDEX, userId + "_0"), {});
+  await setDoc(doc(db, stn.collections.INDEX_CURR, userId), { currindex: 0 });
   return doc.id;
 };
 
 //exceed error
 export const increaseIndexCurrInCollection = async (db, userId) => {
-  const docSnap = await getDoc(doc(db, INDEXCURR_COL, userId));
+  const docSnap = await getDoc(doc(db, stn.collections.INDEX_CURR, userId));
   const data = docSnap.data();
   const ci = data.currindex;
-  await updateDoc(doc(db, INDEXCURR_COL, userId), { currindex: ci + 1 });
-  await setDoc(doc(db, INDEX_COL, userId + `_${ci + 1}`), {
+  await updateDoc(doc(db, stn.collections.INDEX_CURR, userId), {
+    currindex: ci + 1,
+  });
+  await setDoc(doc(db, stn.collections.INDEX, userId + `_${ci + 1}`), {
     results: [],
   });
   return userId + `_${ci + 1}`;
 };
 
 export const getCurrIndexDocID = async (db, userId) => {
-  const docSnap = await getDoc(doc(db, INDEXCURR_COL, userId));
+  const docSnap = await getDoc(doc(db, stn.collections.INDEX_CURR, userId));
   const data = docSnap.data();
   const ci = data?.currindex;
-  const docSnap2 = await getDoc(doc(db, INDEX_COL, userId + `_${ci}`));
+  const docSnap2 = await getDoc(
+    doc(db, stn.collections.INDEX, userId + `_${ci}`)
+  );
   return docSnap2?.id;
 };
 
 export const getCurrIndex = async (db, userId) => {
-  const docSnap = await getDoc(doc(db, INDEXCURR_COL, userId));
+  const docSnap = await getDoc(doc(db, stn.collections.INDEX_CURR, userId));
   const data = docSnap.data();
   const ci = data.currindex;
   return ci;
 };
 
 const addDataToIndex = async (db, currindex, surveyid, res) => {
-  await updateDocFieldsInCollectionById(db, "index", currindex, {
+  await updateDocFieldsInCollectionById(db, stn.collections.INDEX, currindex, {
     results: arrayUnion(...res),
   });
-  await updateDocFieldsInCollectionById(db, "surveysresults", surveyid, {
-    indexed: true,
-  });
+  await updateDocFieldsInCollectionById(
+    db,
+    stn.collections.SURVEY_RESULTS,
+    surveyid,
+    {
+      indexed: true,
+    }
+  );
 };
 
 export const createIndex = async (db) => {
-  console.log("d", "notIndexedDocs.docs.length");
-
-  const surveysresultsColl = "surveysresults";
   const notIndexedDocs = await getDocsKeyValue(
     db,
-    surveysresultsColl,
+    stn.collections.SURVEY_RESULTS,
     "indexed",
     false
   );
@@ -108,7 +115,6 @@ export const createIndex = async (db) => {
       const userData = data.files[keys[j]];
       const newUserData = {
         datetime: userData.datetime,
-        // datetime: data.datetime,
         id: userData.id,
         path: !userData.path ? "" : userData.path,
         name: userData.name,
@@ -136,7 +142,7 @@ export const createIndex = async (db) => {
 
         // await setDocInCollection(
         //   db,
-        //   "index",
+        //   stn.collections.INDEX,
         //   {
         //     results: { [user]: newUserData },
         //   },
@@ -164,7 +170,7 @@ export const searchInIndex = async (
   for (let i = 0; i <= maxindex; i++) {
     const doc = await getDocDataFromCollectionById(
       db,
-      "index",
+      stn.collections.INDEX,
       `${manager}_${i}`
     );
     const data = doc.data;

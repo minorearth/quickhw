@@ -9,8 +9,6 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
-import { useRouter } from "next/navigation";
-import stn from "@/globals/settings";
 import local from "@/globals/local";
 
 function Copyright(props) {
@@ -32,8 +30,6 @@ function Copyright(props) {
 }
 
 const Layout = ({ children }) => {
-  const router = useRouter();
-
   return (
     <Grid container component="main" sx={{ height: "100vh" }}>
       <CssBaseline />

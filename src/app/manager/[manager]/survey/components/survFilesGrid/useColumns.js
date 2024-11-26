@@ -7,6 +7,7 @@ import Link from "@mui/material/Link";
 import survey from "@/store/survey";
 import BackupOutlinedIcon from "@mui/icons-material/BackupOutlined";
 import Tooltip from "@mui/material/Tooltip";
+import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 
 export const useColumns = ({ actions, mode }) => {
   let columns = [
@@ -45,12 +46,15 @@ export const useColumns = ({ actions, mode }) => {
         // eslint-disable-next-line react/jsx-key
         <GridActionsCellItem
           sx={{
-            display: params.row.type != "img" ? "none" : "inherit",
+            display:
+              params.row.type != stn.surveys.filetypes.img.name
+                ? "none"
+                : "inherit",
           }}
           label="View2"
           icon={
             <Tooltip title={local.ru.tooltip.GRID_VIEW_IMG}>
-              <RiImageEditFill style={{ fontSize: 40 }} />
+              <InsertPhotoIcon style={{ fontSize: 40 }} />
             </Tooltip>
           }
           onClick={() => actions.setCardVisible(params.row)}
@@ -65,7 +69,7 @@ export const useColumns = ({ actions, mode }) => {
     },
   ];
 
-  if (survey.surveySelectedType == "task") {
+  if (survey.surveySelectedType == stn.surveys.surveytypes.task.name) {
     columns = [
       ...columns,
       {
@@ -88,7 +92,7 @@ export const useColumns = ({ actions, mode }) => {
           <Link
             sx={{ cursor: "default" }}
             onClick={() => {
-              survey.setSurveyFileType("img");
+              survey.setSurveyFileType(stn.surveys.filetypes.img.name);
               survey.setSurveySelected({
                 surveySelectedId: params.row.surveyid,
                 surveySelectedName: params.row.surveyname,

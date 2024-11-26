@@ -57,7 +57,7 @@ const DropZone = observer(({ setFiles, files, type }) => {
       multiple: stn.surveys.filetypes[type].multiple,
       maxSize: stn.files.MAX_SIZE,
       onDrop: (acceptedFiles) => {
-        if (type == "anyfile") {
+        if (type == stn.surveys.filetypes.anyfile.name) {
           const ext = fileExtension(acceptedFiles[0]);
           if (!ext) {
             snack.showSnack(local.ru.msg.snack.WRONG_EXT);

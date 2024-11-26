@@ -11,8 +11,10 @@ const useDropVC = ({ surveyid, manager, typeEncoded }) => {
   const [files, setFiles] = useState([]);
   const [username, setUserName] = useState("");
   const [taskNumber, setTaskNumber] = useState("");
-  const [surveytype, setSurveytype] = useState("task");
-  const [fileType, setFileType] = useState("img");
+  const [surveytype, setSurveytype] = useState(
+    stn.surveys.surveytypes.task.name
+  );
+  const [fileType, setFileType] = useState(stn.surveys.filetypes.img.name);
   const [note, setNote] = useState("");
 
   const { sendFilesDB } = useDropVM();
@@ -29,12 +31,12 @@ const useDropVC = ({ surveyid, manager, typeEncoded }) => {
 
   const validateFields = () => {
     switch (true) {
-      case surveytype == "task":
-        if (!note && fileType == "text") {
+      case surveytype == stn.surveys.surveytypes.task.name:
+        if (!note && fileType == stn.surveys.filetypes.text.name) {
           snack.showSnack(local.ru.msg.snack.INPUT_TEXT);
           return false;
         }
-        if (!files.length && fileType != "text") {
+        if (!files.length && fileType != stn.surveys.filetypes.text.name) {
           snack.showSnack(local.ru.msg.snack.PICK_FILES);
           return false;
         }
@@ -48,12 +50,12 @@ const useDropVC = ({ surveyid, manager, typeEncoded }) => {
         }
         return true;
 
-      case surveytype == "collection":
-        if (!note && fileType == "text") {
+      case surveytype == stn.surveys.surveytypes.collection.name:
+        if (!note && fileType == stn.surveys.filetypes.text.name) {
           snack.showSnack(local.ru.msg.snack.INPUT_TEXT);
           return false;
         }
-        if (!files.length && fileType != "text") {
+        if (!files.length && fileType != stn.surveys.filetypes.text.name) {
           snack.showSnack(local.ru.msg.snack.PICK_FILES);
           return false;
         }
@@ -76,7 +78,8 @@ const useDropVC = ({ surveyid, manager, typeEncoded }) => {
   const sendFiles = async () => {
     if (validateFields()) {
       progress.setShowProgress(true);
-      const filesToSend = fileType != "text" ? files : makeTextFile();
+      const filesToSend =
+        fileType != stn.surveys.filetypes.text.name ? files : makeTextFile();
       await sendFilesDB({
         files: filesToSend,
         username,

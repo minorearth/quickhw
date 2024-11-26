@@ -3,14 +3,12 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Link from "./link";
-
 import Typography from "@mui/material/Typography";
 import AlertDialog from "@/components/dialog";
 import { useRouter } from "next/navigation";
 import { resetPswClient } from "@/app/domain/domain";
 import { observer } from "mobx-react-lite";
 import alertdialog from "@/store/dialog";
-import stn from "@/globals/settings";
 import local from "@/globals/local";
 import authenticationForm from "@/store/authentication";
 

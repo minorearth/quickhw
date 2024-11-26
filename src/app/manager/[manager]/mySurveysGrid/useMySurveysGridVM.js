@@ -3,6 +3,7 @@ import {
   getDocFromCollectionByIdClient,
   updateDocFieldsInCollectionByIdClient,
 } from "@/app/domain/domain";
+import stn from "@/globals/settings";
 
 const ETL = (doc) => {
   const data = doc.surveys;
@@ -20,7 +21,10 @@ const ETL = (doc) => {
 
 export default function useSurveyGridVM() {
   const getGridData = async (user) => {
-    const doc = await getDocFromCollectionByIdClient("surveys", user);
+    const doc = await getDocFromCollectionByIdClient(
+      stn.collections.SURVEYS,
+      user
+    );
     return ETL(doc);
   };
 

@@ -1,5 +1,12 @@
 import local from "./local";
 const stn = {
+  collections: {
+    SURVEY_RESULTS: "surveysresults",
+    SURVEYS: "surveys",
+    INDEX: "index",
+    INDEX_CURR: "indexcurr",
+    USER_META: "usermeta",
+  },
   typepicker: { TYPE_PICKER_TIMEOUT: 400 },
   ui: { FLOAT_BTN_PADDING: 80 },
   surveys: {
@@ -14,6 +21,7 @@ const stn = {
         save_ext: ".jpg",
         multiple: true,
         drop_message: local.ru.text.DROP_GUIDE_IMG,
+        TOOLTIP: local.ru.tooltip.TYPE_IMG,
       },
       zip: {
         name: "zip",
@@ -23,6 +31,7 @@ const stn = {
         save_ext: ".zip",
         multiple: true,
         drop_message: local.ru.text.DROP_GUIDE_FILES,
+        TOOLTIP: local.ru.tooltip.TYPE_ZIP,
       },
       anyfile: {
         name: "anyfile",
@@ -32,6 +41,7 @@ const stn = {
         save_ext: "",
         multiple: false,
         drop_message: local.ru.text.DROP_GUIDE_SINGLEFILE,
+        TOOLTIP: local.ru.tooltip.TYPE_FILE,
       },
       text: {
         name: "text",
@@ -41,6 +51,7 @@ const stn = {
         save_ext: ".txt",
         multiple: false,
         drop_message: "",
+        TOOLTIP: local.ru.tooltip.TYPE_TEXT,
       },
     },
     surveytypes: {
@@ -48,11 +59,13 @@ const stn = {
         name: "task",
         caption: local.ru.caption.SURVEY_TYPE_TASK,
         SHORTNAME: "t",
+        TOOLTIP: local.ru.tooltip.TYPE_TASK,
       },
       collection: {
         name: "collection",
         caption: local.ru.caption.SURVEY_TYPE_COLLECTION,
         SHORTNAME: "c",
+        TOOLTIP: local.ru.tooltip.TYPE_COLLECTION,
       },
     },
   },

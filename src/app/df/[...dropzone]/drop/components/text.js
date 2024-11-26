@@ -21,14 +21,11 @@ const Text = ({ saveNote }) => {
       }}
       onKeyDown={(e) => {
         const { value } = e.target;
-
         if (e.key === "Tab") {
           e.preventDefault();
-
           const cursorPosition = e.target.selectionStart;
           const cursorEndPosition = e.target.selectionEnd;
           const tab = "\t";
-
           e.target.value =
             value.substring(0, cursorPosition) +
             tab +

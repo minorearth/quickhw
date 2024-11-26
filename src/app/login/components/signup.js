@@ -170,7 +170,6 @@ const SignUp = () => {
         fullWidth
         variant="contained"
         onClick={() => handleRegister()}
-        // onClick={validateInputs}
       >
         {local.ru.caption.AUTH_SIGNUP}
       </Button>

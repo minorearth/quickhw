@@ -2,6 +2,7 @@
 import { updateDocFieldsInCollectionByIdClient } from "@/app/domain/domain";
 import survey from "@/store/survey";
 import { useState } from "react";
+import stn from "@/globals/settings";
 
 const useSurvFilesGrid2VC = ({ setCurrRow, setMediacardVisible, rows }) => {
   const [rowSelectionModel, setRowSelectionModel] = useState([]);
@@ -15,7 +16,7 @@ const useSurvFilesGrid2VC = ({ setCurrRow, setMediacardVisible, rows }) => {
   const processEdit = (newRow) => {
     console.log(newRow);
     updateDocFieldsInCollectionByIdClient(
-      "surveysresults",
+      stn.collections.SURVEY_RESULTS,
       survey.surveySelectedId,
       {
         [`files.${newRow.id}.tasknumber`]: newRow.tasknumber,

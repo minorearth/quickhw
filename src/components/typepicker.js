@@ -8,18 +8,7 @@ import { styled } from "@mui/material/styles";
 import stn from "@/globals/settings";
 import local from "@/globals/local";
 import { useState } from "react";
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
+import Tooltip from "@/components/tooltip";
 
 const ToggleButton = styled(MuiToggleButton)({
   "&.Mui-selected, &.Mui-selected:hover": {
@@ -28,7 +17,7 @@ const ToggleButton = styled(MuiToggleButton)({
   },
 });
 
-const ModalForm = ({
+const TypePicker = ({
   modalVisible,
   setModalVisible,
   children,
@@ -62,7 +51,19 @@ const ModalForm = ({
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={style}>
+      <Box
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: 400,
+          bgcolor: "background.paper",
+          border: "2px solid #000",
+          boxShadow: 24,
+          p: 4,
+        }}
+      >
         <Typography
           id="modal-modal-title"
           variant="h6"
@@ -80,9 +81,11 @@ const ModalForm = ({
           sx={{ width: "100%" }}
         >
           {variants.map((variant, id) => (
-            <ToggleButton key={id} aria-label="list" value={variant.name}>
-              {variant.caption}
-            </ToggleButton>
+            <Tooltip title={variant.TOOLTIP} key={id}>
+              <ToggleButton key={id} aria-label="list" value={variant.name}>
+                {variant.caption}
+              </ToggleButton>
+            </Tooltip>
           ))}
         </ToggleButtonGroup>
         {children}
@@ -91,4 +94,4 @@ const ModalForm = ({
   );
 };
 
-export default ModalForm;
+export default TypePicker;
