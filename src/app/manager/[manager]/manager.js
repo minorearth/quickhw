@@ -1,7 +1,7 @@
 "use client";
 import MySurveysGrid from "@/app/manager/[manager]/mySurveysGrid/mySurveysGrid.js";
 import { useState } from "react";
-import Splash from "../../../components/splash/splash.js";
+import Splash from "@/components/splash/splash.js";
 import stn from "@/globals/settings.js";
 import SurveyModal from "./survey/surveyModal.js";
 import SearchCard from "@/app/manager/[manager]/search/search.js";

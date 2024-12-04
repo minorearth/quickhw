@@ -24,7 +24,6 @@ export const updateDocFieldsInCollectionById = async (
   id,
   data
 ) => {
-  console.log("here i am");
   await updateDoc(doc(db, collectionName, id), data);
 };
 

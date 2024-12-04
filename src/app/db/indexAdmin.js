@@ -47,7 +47,6 @@ export const createIndexspealout2 = async (db, manager, slice) => {
       index,
       data
     );
-    console.log("ok");
   } catch (e) {
     if (e.message.includes("exceeds the maximum allowed size")) {
       console.log("speal");
@@ -74,7 +73,6 @@ export const deleteAllRecordsFromIndex = async (db, manager, surveyid) => {
       data
     );
   }
-  console.log(rows);
 };
 
 export const deleteAllRecordsFromSpecificIndex = async (

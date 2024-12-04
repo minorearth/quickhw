@@ -1,12 +1,10 @@
 import mergeImages from "merge-images";
 
 import "jimp";
-// import Jimp from "jimp";
 
 export async function getImageDimensions(file) {
   return new Promise(function (resolved, rejected) {
     new Jimp(file, (err, image) => {
-      console.log(err);
       resolved({ w: image.bitmap.width, h: image.bitmap.height });
     });
   });
@@ -132,7 +130,7 @@ export const getJimpFileByUrl = async (file, filename) => {
           resolved(file);
         });
       } catch (e) {
-        throw rejected("User not found");
+        throw rejected("get image error");
       }
     });
   });
@@ -157,13 +155,6 @@ export const mergeAllImages = async (files, filename) => {
           });
           resolved(file);
         });
-
-        // image.getBase64(Jimp.AUTO, (err, res) => {
-        //   const filename = `${username}.jpg`;
-        //   b64URItoFile(res, filename).then((file) => {
-        //     resolved(file);
-        //   });
-        // });
       }
     );
   });

@@ -107,7 +107,7 @@ const SignUp = () => {
           autoComplete="name"
           name="name"
           label={local.ru.caption.AUTH_ENTER_NAME}
-          defaultValue="Roman"
+          defaultValue=""
           required
           fullWidth
           id="name"
@@ -121,7 +121,7 @@ const SignUp = () => {
         <TextField
           name="company"
           label={local.ru.caption.AUTH_ENTER_COMPANY}
-          defaultValue="Roman"
+          defaultValue=""
           required
           fullWidth
           id="company"
@@ -136,9 +136,8 @@ const SignUp = () => {
           required
           fullWidth
           label={local.ru.caption.AUTH_ENTER_EMAIL}
-          defaultValue="dayfireacad@gmail.com"
+          defaultValue=""
           id="email"
-          // placeholder="your@email.com"
           name="email"
           autoComplete="email"
           variant="outlined"
@@ -153,7 +152,7 @@ const SignUp = () => {
           fullWidth
           name="password"
           // placeholder="••••••"
-          defaultValue="1234567"
+          defaultValue=""
           label={local.ru.caption.AUTH_ENTER_PSW}
           type="password"
           id="password"

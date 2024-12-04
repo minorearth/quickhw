@@ -6,7 +6,7 @@ import Link from "./link";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { useRouter } from "next/navigation";
-import { logout } from "../../../server actions/session";
+import { logout } from "@/server actions/session";
 import { signInTeacherClient } from "@/app/domain/domain";
 import Typography from "@mui/material/Typography";
 import AlertDialog from "@/components/dialog";
@@ -31,7 +31,6 @@ const SignIn = observer(() => {
 
     const authNow = async (email, password) => {
       const uid = await signInTeacherClient(email, password);
-      console.log(uid, email, password);
       user.setUserid(uid);
       if (uid == "notVerified") {
         setDialogVisible(true);

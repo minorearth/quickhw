@@ -1,5 +1,5 @@
 import { Inter } from "next/font/google";
-import "../globals/globals.css";
+import "@/globals/globals.css";
 import stn from "@/globals/settings";
 import local from "@/globals/local";
 

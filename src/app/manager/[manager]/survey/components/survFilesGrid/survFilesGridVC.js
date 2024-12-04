@@ -14,7 +14,6 @@ const useSurvFilesGrid2VC = ({ setCurrRow, setMediacardVisible, rows }) => {
   };
 
   const processEdit = (newRow) => {
-    console.log(newRow);
     updateDocFieldsInCollectionByIdClient(
       stn.collections.SURVEY_RESULTS,
       survey.surveySelectedId,

@@ -1,5 +1,5 @@
 import Box from "@mui/material/Box";
-import Snack from "../../../../components/snackbar";
+import Snack from "@/components/snackbar";
 import DropZone from "./components/dropzone/dropzone";
 import TextField from "@mui/material/TextField";
 import EmailIcon from "@mui/icons-material/Email";

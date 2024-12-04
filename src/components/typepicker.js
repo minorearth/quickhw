@@ -32,7 +32,6 @@ const TypePicker = ({
 
   const handleChange = (e, nextView) => {
     if (nextView !== null) {
-      console.log("nextView", nextView);
       action(nextView);
       setState(nextView);
     }

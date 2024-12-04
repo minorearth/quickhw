@@ -1,5 +1,5 @@
-import { mergeAllImages } from "../../../../globals/utils/imageUtils";
-import { compressFiles } from "../../../../globals/utils/fileUtils";
+import { mergeAllImages } from "@/globals/utils/imageUtils";
+import { compressFiles } from "@/globals/utils/fileUtils";
 import stn from "@/globals/settings";
 import { UploadFileClient } from "@/app/domain/domain";
 import { updateDocFieldsInCollectionByIdClient } from "@/app/domain/domain";

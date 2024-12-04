@@ -8,6 +8,5 @@ import { createIndexAPI } from "./domain";
 export async function GET() {
   await createIndexAPI();
   const res = { job: "done" };
-  console.log("API executed");
   return NextResponse.json(res);
 }

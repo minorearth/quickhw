@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import QRCode from "react-qr-code";
 import { Box } from "@mui/material";
 import user from "@/store/user";
-import Picktype from "../../../../../components/typepicker.js";
+import Picktype from "@/components/typepicker.js";
 import stn from "@/globals/settings.js";
 import local from "@/globals/local";
 import survey from "@/store/survey.js";
@@ -11,8 +11,6 @@ import { autorun } from "mobx";
 import { getSubKeyValues } from "@/globals/utils/objectUtils.js";
 
 const encodeTypes = (fileType, type) => {
-  console.log("zxxz", fileType, type);
-
   return (
     stn.surveys.filetypes[fileType].SHORTNAME +
     stn.surveys.surveytypes[!type ? stn.surveys.surveytypes.task.name : type]
@@ -35,13 +33,10 @@ const Qr = observer(
 
     useEffect(() => {
       const dropType = encodeTypes(survey.filetype, survey.surveySelectedType);
-      console.log(dropType);
       setQrLink(
         `${process.env.NEXT_PUBLIC_DOMAIN}/df/${dropType}/${surveyid}/${user.userid}`
       );
-      return () => {
-        console.log("qr unmounted");
-      };
+      return () => {};
     }, [survey.filetype, survey.surveySelectedType, surveyid]);
 
     useEffect(() => {

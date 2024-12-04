@@ -126,20 +126,15 @@ export const createIndex = async (db) => {
       };
       res.push(newUserData);
     }
-    console.log(res);
     try {
       await addDataToIndex(db, currindex, surveyid, res);
-      console.log("success");
     } catch (e) {
-      console.log(e, e.message);
       if (e.message.includes("exceeds the maximum allowed size")) {
         await deleteAllRecordsFromSpecificIndex(db, surveyid, currindex);
         const newindexId = await increaseIndexCurrInCollection(db, manager);
         await addDataToIndex(db, newindexId, surveyid, res);
       }
       if (e.code == "not-found") {
-        console.log(e, e.message);
-
         // await setDocInCollection(
         //   db,
         //   stn.collections.INDEX,

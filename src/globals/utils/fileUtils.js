@@ -6,7 +6,6 @@ export const extractFileExtension = (filename) => {
 };
 
 export const mimeExtension = (file) => {
-  console.log(file);
   const fileExtension = mime.extension(file.type);
   return fileExtension;
 };
@@ -19,11 +18,9 @@ export const fileExtension = (file) => {
 };
 
 export const downloadUrls = (urls) => {
-  console.log(urls);
   Promise.all(
     urls.map(async (url) => await UrlToFile(url.url, url.filename))
   ).then((res) => {
-    console.log(res);
     compressFiles(res, "allfiles.zip").then((file) => {
       const url = URL.createObjectURL(file);
       const link = document.createElement("a");
