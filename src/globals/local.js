@@ -62,6 +62,7 @@ const local = {
       DROP_ENTER_NAME: "Укажи фамилию",
       DROP_ENTER_TASKID: "Введи номер задания или вариант",
       DROP_SEND_BTN: "Отправить",
+      DROP_SEND_CONGRAT: "Отправить еще раз",
       AUTH_RESETPSW: "ВОССТАНОВИТЬ ПАРОЛЬ",
       AUTH_SIGNIN: "Войти",
       AUTH_ENTER_EMAIL: "Введите email",

@@ -35,8 +35,8 @@ export const useColumns = ({ actions, mode }) => {
       flex: 1,
       minwidth: 230,
     },
-    { field: "type", headerName: "FileType", flex: 1, minwidth: 230 },
-    { field: "surveytype", headerName: "SurveyType", flex: 1, minwidth: 230 },
+    // { field: "type", headerName: "FileType", flex: 1, minwidth: 230 },
+    // { field: "surveytype", headerName: "SurveyType", flex: 1, minwidth: 230 },
 
     {
       field: "View",

@@ -7,7 +7,7 @@ import local from "@/globals/local";
 import useDropVM from "./useDropVM";
 import { getKeyBySubKeyValue } from "@/globals/utils/objectUtils";
 
-const useDropVC = ({ surveyid, manager, typeEncoded }) => {
+const useDropVC = ({ surveyid, manager, typeEncoded, setCongratVisible }) => {
   const [files, setFiles] = useState([]);
   const [username, setUserName] = useState("");
   const [taskNumber, setTaskNumber] = useState("");
@@ -89,7 +89,8 @@ const useDropVC = ({ surveyid, manager, typeEncoded }) => {
         taskNumber,
       });
       progress.setShowProgress(false);
-      snack.showSnack(local.ru.msg.snack.JOB_DONE);
+      setCongratVisible(true);
+      // snack.showSnack(local.ru.msg.snack.JOB_DONE);
     }
   };
 
