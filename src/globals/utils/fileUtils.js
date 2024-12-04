@@ -17,8 +17,8 @@ export const fileExtension = (file) => {
   return ext;
 };
 
-export const downloadUrls = (urls) => {
-  Promise.all(
+export const downloadUrls = async (urls) => {
+  await Promise.all(
     urls.map(async (url) => await UrlToFile(url.url, url.filename))
   ).then((res) => {
     compressFiles(res, "allfiles.zip").then((file) => {

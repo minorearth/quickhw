@@ -22,13 +22,15 @@ const Content = observer(
     const [pickTypeModalVisible, setPickTypeModalVisible] = useState(false);
     const [qrLink, setQrLink] = useState([]);
 
-    const downloadAll = () => {
+    const downloadAll = async () => {
       const urls = rows.map((row) => ({
         url: row.path,
         filename: row.name,
       }));
 
-      downloadUrls(urls);
+      progress.setShowProgress(true);
+      await downloadUrls(urls);
+      progress.setShowProgress(false);
     };
 
     return (
