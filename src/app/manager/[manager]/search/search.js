@@ -12,21 +12,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
 import ModalBar from "@/components/modalBar.js";
 import Survey from "@/app/manager/[manager]/survey/survey.js";
-const style = {
-  position: "absolute",
-  display: "flex",
-  flexDirection: "column",
-  top: "3px",
-  left: "3px",
-  bottom: "3px",
-  right: "3px",
-  // transform: "translate(-3%, -3%)",
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: "none",
-  flex: 1,
-  borderRadius: "10px 10px 0px 0px",
-};
 
 const SearchCard = observer(({ searchVisible, setSearchVisible, user }) => {
   const [searchRows, setSearchRows] = useState([]);
@@ -52,7 +37,23 @@ const SearchCard = observer(({ searchVisible, setSearchVisible, user }) => {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={style}>
+      <Box
+        sx={{
+          position: "absolute",
+          display: "flex",
+          flexDirection: "column",
+          top: "3px",
+          left: "3px",
+          bottom: "3px",
+          right: "3px",
+          // transform: "translate(-3%, -3%)",
+          bgcolor: "background.paper",
+          border: "2px solid #000",
+          boxShadow: "none",
+          flex: 1,
+          borderRadius: "10px 10px 0px 0px",
+        }}
+      >
         <ModalBar closeAction={() => setSearchVisible(false)} />
         <Box sx={{ display: "flex", flexDirection: "row" }}>
           <IconButton

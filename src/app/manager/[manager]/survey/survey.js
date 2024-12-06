@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import MediaCard from "./components/mediacard/mediaCard.js";
 import SurvFilesGrid from "./components/survFilesGrid/survFilesGrid.js";
