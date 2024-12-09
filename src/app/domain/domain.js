@@ -23,7 +23,7 @@ import {
 import { setAllIndexed, createIndexspealout2 } from "@/app/db/indexAdmin";
 import {
   setPersistenceDB,
-  signInTeacher,
+  signIn,
   resetPsw,
   SignUpUser,
   signOutUser,
@@ -165,8 +165,8 @@ export const setPersistenceClient = async () => {
   await setPersistenceDB(auth);
 };
 
-export const signInTeacherClient = async (email, password) => {
-  return await signInTeacher(auth, email, password);
+export const signInClient = async (email, password) => {
+  return await signIn(auth, email, password);
 };
 
 export const resetPswClient = (email) => {

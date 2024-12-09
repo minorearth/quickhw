@@ -7,15 +7,9 @@ import {
   where,
   addDoc,
   deleteDoc,
-  getFirestore,
-  documentId,
   getDoc,
   updateDoc,
-  writeBatch,
-  getAll,
-  initializeFirestore,
   onSnapshot,
-  arrayUnion,
 } from "firebase/firestore";
 
 export const updateDocFieldsInCollectionById = async (

@@ -17,7 +17,7 @@ export const setPersistenceDB = async (auth) => {
   await setPersistence(auth, browserLocalPersistence);
 };
 
-export const signInTeacher = async (auth, email, password) => {
+export const signIn = async (auth, email, password) => {
   await logout();
   await setPersistenceDB(auth);
   await signInWithEmailAndPassword(auth, email, password);

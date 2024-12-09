@@ -49,7 +49,7 @@ export const createIndexspealout2 = async (db, manager, slice) => {
     );
   } catch (e) {
     if (e.message.includes("exceeds the maximum allowed size")) {
-      console.log("speal");
+      console.log("exceeds the maximum allowed size");
     }
   }
 };

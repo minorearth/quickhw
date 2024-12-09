@@ -1,15 +1,10 @@
 import Box from "@mui/material/Box";
-import Snack from "@/components/snackbar";
-import DropZone from "./components/dropzone/dropzone";
-import TextField from "@mui/material/TextField";
-import EmailIcon from "@mui/icons-material/Email";
-import useDropZone from "./useDropVC";
 import { observer } from "mobx-react-lite";
 import stn from "@/globals/settings";
 import local from "@/globals/local";
 import Button from "@mui/material/Button";
-import Text from "./components/text";
 import CongratAnimation from "@/components/congratulation/congratAnimation";
+import ReplayIcon from "@mui/icons-material/Replay";
 
 const Congrat = observer(({ setCongratVisible }) => {
   return (
@@ -29,7 +24,7 @@ const Congrat = observer(({ setCongratVisible }) => {
         variant="contained"
         aria-label="repeat"
         onClick={() => setCongratVisible(false)}
-        // endIcon={<EmailIcon />}
+        endIcon={<ReplayIcon />}
       >
         {local.ru.caption.DROP_SEND_CONGRAT}
       </Button>

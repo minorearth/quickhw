@@ -5,7 +5,6 @@ import Button from "@mui/material/Button";
 import Link from "./link";
 import Typography from "@mui/material/Typography";
 import AlertDialog from "@/components/dialog";
-import { useRouter } from "next/navigation";
 import { resetPswClient } from "@/app/domain/domain";
 import { observer } from "mobx-react-lite";
 import alertdialog from "@/store/dialog";
@@ -13,7 +12,6 @@ import local from "@/globals/local";
 import authenticationForm from "@/store/authentication";
 
 const PswReset = observer(() => {
-  const router = useRouter();
   const handleForgetPswSubmit = () => {
     resetPswClient(authenticationForm.email);
     alertdialog.showDialog(
@@ -36,7 +34,6 @@ const PswReset = observer(() => {
       }}
     >
       <AlertDialog />
-
       <Button
         fullWidth
         variant="contained"

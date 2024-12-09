@@ -9,7 +9,6 @@ const useMediaCardVM = () => {
     userid,
   }) => {
     const file = await rotateImage(imagePath, filename);
-    // const buffer = await fileToBuffer(file);
     const path = await UploadFileClient({
       file,
       folder: `${userid}/${surveyid}`,
@@ -24,7 +23,6 @@ const useMediaCardVM = () => {
     userid,
   }) => {
     const file = await Base64DataUrlToFile2(imageBase64DataUrl, filename);
-    // const buffer = await fileToBuffer(file);
     const path = await UploadFileClient({
       file,
       folder: `${userid}/${surveyid}`,

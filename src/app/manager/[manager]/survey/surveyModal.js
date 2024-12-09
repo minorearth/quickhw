@@ -1,8 +1,6 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import MuiToggleButton from "@mui/material/ToggleButton";
-import { styled } from "@mui/material/styles";
 import stn from "@/globals/settings";
 import local from "@/globals/local";
 import Survey from "./survey";
@@ -10,28 +8,6 @@ import ModalBar from "@/components/modalBar";
 import { observer } from "mobx-react-lite";
 import survey from "@/store/survey";
 import useSurvFilesGrid2VC from "./surveyVC";
-
-const style = {
-  position: "absolute",
-  display: "flex",
-  flexDirection: "column",
-  top: "3px",
-  left: "3px",
-  bottom: "3px",
-  right: "3px",
-  // transform: "translate(-3%, -3%)",
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 0,
-  borderRadius: "10px 10px 0px 0px",
-};
-
-const ToggleButton = styled(MuiToggleButton)({
-  "&.Mui-selected, &.Mui-selected:hover": {
-    color: "white",
-    backgroundColor: "#AE4E9B",
-  },
-});
 
 const ModalForm = observer(({ mode }) => {
   const { rows, setRowsx, saveNote, note, setNote } = useSurvFilesGrid2VC({
@@ -50,7 +26,21 @@ const ModalForm = observer(({ mode }) => {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={style}>
+      <Box
+        sx={{
+          position: "absolute",
+          display: "flex",
+          flexDirection: "column",
+          top: "3px",
+          left: "3px",
+          bottom: "3px",
+          right: "3px",
+          bgcolor: "background.paper",
+          border: "2px solid #000",
+          boxShadow: 0,
+          borderRadius: "10px 10px 0px 0px",
+        }}
+      >
         <ModalBar
           closeAction={handleClose}
           caption={survey.surveySelectedName}

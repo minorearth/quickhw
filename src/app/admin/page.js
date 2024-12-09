@@ -1,10 +1,7 @@
 "use client";
-
 import * as React from "react";
 import Box from "@mui/material/Box";
 import { Button } from "@mui/material";
-import { useEffect } from "react";
-
 import {
   removeSurveyClient,
   removeFileFromSurveyClient,
@@ -14,11 +11,7 @@ import {
   backupClient,
 } from "@/app/domain/domain";
 
-import { setPersistence, browserLocalPersistence } from "firebase/auth";
-import { auth } from "@/app/domain/firebaseapp.js";
-
 import stn from "@/globals/settings";
-
 import TextField from "@mui/material/TextField";
 
 export default function Admin() {

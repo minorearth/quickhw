@@ -24,6 +24,7 @@ const Layout = observer(({ children }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const router = useRouter();
 
+  //TODO:
   React.useEffect(() => {
     const getProfile = async () => {
       if (auth.currentUser === null) {
@@ -101,7 +102,7 @@ const Layout = observer(({ children }) => {
             >
               <AccountCircle sx={{ fontSize: 40 }} />
             </IconButton>
-            {user.isa && (
+            {/* {user.isa && (
               <IconButton
                 size="large"
                 aria-label="account of current user"
@@ -115,7 +116,7 @@ const Layout = observer(({ children }) => {
               >
                 <SettingsIcon sx={{ fontSize: 40 }} />
               </IconButton>
-            )}
+            )} */}
             <Menu
               sx={{ mt: "45px" }}
               id="menu-appbar"

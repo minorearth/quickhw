@@ -90,7 +90,6 @@ const useDropVC = ({ surveyid, manager, typeEncoded, setCongratVisible }) => {
       });
       progress.setShowProgress(false);
       setCongratVisible(true);
-      // snack.showSnack(local.ru.msg.snack.JOB_DONE);
     }
   };
 

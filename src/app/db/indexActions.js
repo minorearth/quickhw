@@ -1,22 +1,4 @@
-import {
-  collection,
-  getDocs,
-  setDoc,
-  doc,
-  query,
-  where,
-  addDoc,
-  deleteDoc,
-  getFirestore,
-  documentId,
-  getDoc,
-  updateDoc,
-  writeBatch,
-  getAll,
-  initializeFirestore,
-  onSnapshot,
-  arrayUnion,
-} from "firebase/firestore";
+import { setDoc, doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
 
 import {
   updateDocFieldsInCollectionById,
